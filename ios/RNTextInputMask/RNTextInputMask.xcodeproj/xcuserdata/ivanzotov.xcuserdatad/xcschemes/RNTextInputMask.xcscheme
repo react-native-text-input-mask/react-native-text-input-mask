@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "003DD2851F2D18DF004461D9"
+               BlueprintIdentifier = "00F5121C1F2D385500E9D13D"
                BuildableName = "libRNTextInputMask.a"
                BlueprintName = "RNTextInputMask"
                ReferencedContainer = "container:RNTextInputMask.xcodeproj">
@@ -45,7 +45,7 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "003DD2851F2D18DF004461D9"
+            BlueprintIdentifier = "00F5121C1F2D385500E9D13D"
             BuildableName = "libRNTextInputMask.a"
             BlueprintName = "RNTextInputMask"
             ReferencedContainer = "container:RNTextInputMask.xcodeproj">
@@ -63,7 +63,7 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "003DD2851F2D18DF004461D9"
+            BlueprintIdentifier = "00F5121C1F2D385500E9D13D"
             BuildableName = "libRNTextInputMask.a"
             BlueprintName = "RNTextInputMask"
             ReferencedContainer = "container:RNTextInputMask.xcodeproj">
