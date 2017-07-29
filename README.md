@@ -1,6 +1,8 @@
 # react-native-text-input-mask
 Text input mask for React Native on iOS and Android.
 
+![React Native Text Input Mask Android](https://s3.amazonaws.com/react-native-text-input-mask/react-native-text-input-mask-android.gif)
+
 ## Setup
 
 ```bash
