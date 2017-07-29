@@ -6,8 +6,25 @@ import {
   NativeModules
 } from 'react-native'
 
+const mask = NativeModules.RNTextInputMask.mask
+export { mask }
+
 export default class TextInputMask extends Component {
+  static defaultProps = {
+    maskDefaultValue: true,
+  }
+
   masked = false
+
+  componentDidMount() {
+    if (this.props.maskDefaultValue &&
+        this.props.mask &&
+        this.props.value) {
+      mask(this.props.mask, '' + this.props.value, text =>
+        this.input.setNativeProps({ text }),
+      )
+    }
+  }
 
   onLayout = () => {
     if (this.props.mask && !this.masked) {

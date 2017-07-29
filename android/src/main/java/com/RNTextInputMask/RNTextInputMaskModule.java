@@ -7,9 +7,13 @@ import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.ReadableMap;
+import com.facebook.react.bridge.Callback;
 
 import com.redmadrobot.inputmask.MaskedTextChangedListener;
 import com.redmadrobot.inputmask.PolyMaskTextChangedListener;
+
+import com.redmadrobot.inputmask.model.CaretString;
+import com.redmadrobot.inputmask.helper.Mask;
 import android.support.annotation.NonNull;
 
 public class RNTextInputMaskModule extends ReactContextBaseJavaModule {
@@ -23,6 +27,23 @@ public class RNTextInputMaskModule extends ReactContextBaseJavaModule {
     @Override
     public String getName() {
         return "RNTextInputMask";
+    }
+
+    @ReactMethod
+    public void mask(final String maskString,
+                     final String inputValue,
+                     final Callback onResult) {
+      final Mask mask = new Mask(maskString);
+      final String input = inputValue;
+      final Mask.Result result = mask.apply(
+          new CaretString(
+              input,
+              input.length()
+          ),
+          true
+      );
+      final String output = result.getFormattedText().getString();
+      onResult.invoke(output);
     }
 
     @ReactMethod
