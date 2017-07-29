@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		00F512221F2D385500E9D13D /* RNTextInputMask.m in Sources */ = {isa = PBXBuildFile; fileRef = 00F512211F2D385500E9D13D /* RNTextInputMask.m */; };
 		00F512231F2D385500E9D13D /* RNTextInputMask.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 00F512201F2D385500E9D13D /* RNTextInputMask.h */; };
+		F054CFB6001942E1BD51997A /* Pods_RNTextInputMask.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 219E9DE52BA58E5C150BEC01 /* Pods_RNTextInputMask.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -28,6 +29,9 @@
 		00F5121D1F2D385500E9D13D /* libRNTextInputMask.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libRNTextInputMask.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		00F512201F2D385500E9D13D /* RNTextInputMask.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RNTextInputMask.h; sourceTree = "<group>"; };
 		00F512211F2D385500E9D13D /* RNTextInputMask.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RNTextInputMask.m; sourceTree = "<group>"; };
+		219E9DE52BA58E5C150BEC01 /* Pods_RNTextInputMask.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_RNTextInputMask.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		30F6A1F75FF9466F9C4485BC /* Pods-RNTextInputMask.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RNTextInputMask.debug.xcconfig"; path = "Pods/Target Support Files/Pods-RNTextInputMask/Pods-RNTextInputMask.debug.xcconfig"; sourceTree = "<group>"; };
+		C7E24FD9278285DA1D68F3B5 /* Pods-RNTextInputMask.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RNTextInputMask.release.xcconfig"; path = "Pods/Target Support Files/Pods-RNTextInputMask/Pods-RNTextInputMask.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -35,6 +39,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F054CFB6001942E1BD51997A /* Pods_RNTextInputMask.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -46,6 +51,8 @@
 			children = (
 				00F5121F1F2D385500E9D13D /* RNTextInputMask */,
 				00F5121E1F2D385500E9D13D /* Products */,
+				D6C95429CDE005C6430AA8B1 /* Pods */,
+				95FCD654F8B3EE0F729CE614 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -66,6 +73,23 @@
 			path = RNTextInputMask;
 			sourceTree = "<group>";
 		};
+		95FCD654F8B3EE0F729CE614 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				219E9DE52BA58E5C150BEC01 /* Pods_RNTextInputMask.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		D6C95429CDE005C6430AA8B1 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				30F6A1F75FF9466F9C4485BC /* Pods-RNTextInputMask.debug.xcconfig */,
+				C7E24FD9278285DA1D68F3B5 /* Pods-RNTextInputMask.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -73,9 +97,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 00F512261F2D385500E9D13D /* Build configuration list for PBXNativeTarget "RNTextInputMask" */;
 			buildPhases = (
+				B365CEC7901E7FA920EAE933 /* [CP] Check Pods Manifest.lock */,
 				00F512191F2D385500E9D13D /* Sources */,
 				00F5121A1F2D385500E9D13D /* Frameworks */,
 				00F5121B1F2D385500E9D13D /* CopyFiles */,
+				D6D1F4CA95E2DBDE8EBD1C42 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -118,6 +144,39 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		B365CEC7901E7FA920EAE933 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		D6D1F4CA95E2DBDE8EBD1C42 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-RNTextInputMask/Pods-RNTextInputMask-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		00F512191F2D385500E9D13D /* Sources */ = {
@@ -223,6 +282,7 @@
 		};
 		00F512271F2D385500E9D13D /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 30F6A1F75FF9466F9C4485BC /* Pods-RNTextInputMask.debug.xcconfig */;
 			buildSettings = {
 				DEVELOPMENT_TEAM = YRYY3MUZEK;
 				OTHER_LDFLAGS = "-ObjC";
@@ -233,6 +293,7 @@
 		};
 		00F512281F2D385500E9D13D /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = C7E24FD9278285DA1D68F3B5 /* Pods-RNTextInputMask.release.xcconfig */;
 			buildSettings = {
 				DEVELOPMENT_TEAM = YRYY3MUZEK;
 				OTHER_LDFLAGS = "-ObjC";
