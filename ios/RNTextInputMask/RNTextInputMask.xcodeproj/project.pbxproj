@@ -1,0 +1,74 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXFileReference section */
+		00431DC81F2D12530017A0B5 /* RNTextInputMask.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RNTextInputMask.m; sourceTree = "<group>"; };
+		00431DC91F2D12C50017A0B5 /* RNTextInputMask.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RNTextInputMask.h; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXGroup section */
+		00431DC11F2D12070017A0B5 = {
+			isa = PBXGroup;
+			children = (
+				00431DC91F2D12C50017A0B5 /* RNTextInputMask.h */,
+				00431DC81F2D12530017A0B5 /* RNTextInputMask.m */,
+			);
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXProject section */
+		00431DC21F2D12070017A0B5 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0830;
+			};
+			buildConfigurationList = 00431DC51F2D12070017A0B5 /* Build configuration list for PBXProject "RNTextInputMask" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 00431DC11F2D12070017A0B5;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+			);
+		};
+/* End PBXProject section */
+
+/* Begin XCBuildConfiguration section */
+		00431DC61F2D12070017A0B5 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+			};
+			name = Debug;
+		};
+		00431DC71F2D12070017A0B5 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		00431DC51F2D12070017A0B5 /* Build configuration list for PBXProject "RNTextInputMask" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				00431DC61F2D12070017A0B5 /* Debug */,
+				00431DC71F2D12070017A0B5 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 00431DC21F2D12070017A0B5 /* Project object */;
+}
