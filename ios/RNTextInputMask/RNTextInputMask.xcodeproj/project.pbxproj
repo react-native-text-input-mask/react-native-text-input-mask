@@ -6,27 +6,130 @@
 	objectVersion = 46;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		003DD28B1F2D18DF004461D9 /* RNTextInputMask.m in Sources */ = {isa = PBXBuildFile; fileRef = 003DD28A1F2D18DF004461D9 /* RNTextInputMask.m */; };
+		003DD28C1F2D18DF004461D9 /* RNTextInputMask.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 003DD2891F2D18DF004461D9 /* RNTextInputMask.h */; };
+		962476EADFC2F71414573A6C /* Pods_RNTextInputMask.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A38833B21A5149B3AD7CF6DB /* Pods_RNTextInputMask.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		003DD2841F2D18DF004461D9 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "include/$(PRODUCT_NAME)";
+			dstSubfolderSpec = 16;
+			files = (
+				003DD28C1F2D18DF004461D9 /* RNTextInputMask.h in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
+		003DD2861F2D18DF004461D9 /* libRNTextInputMask.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libRNTextInputMask.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		003DD2891F2D18DF004461D9 /* RNTextInputMask.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RNTextInputMask.h; sourceTree = "<group>"; };
+		003DD28A1F2D18DF004461D9 /* RNTextInputMask.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RNTextInputMask.m; sourceTree = "<group>"; };
 		00431DC81F2D12530017A0B5 /* RNTextInputMask.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RNTextInputMask.m; sourceTree = "<group>"; };
 		00431DC91F2D12C50017A0B5 /* RNTextInputMask.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RNTextInputMask.h; sourceTree = "<group>"; };
+		636C069C730356575716B697 /* Pods-RNTextInputMask.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RNTextInputMask.debug.xcconfig"; path = "../Pods/Target Support Files/Pods-RNTextInputMask/Pods-RNTextInputMask.debug.xcconfig"; sourceTree = "<group>"; };
+		86C3D71F1186381B91C0DBB3 /* Pods-RNTextInputMask.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RNTextInputMask.release.xcconfig"; path = "../Pods/Target Support Files/Pods-RNTextInputMask/Pods-RNTextInputMask.release.xcconfig"; sourceTree = "<group>"; };
+		A38833B21A5149B3AD7CF6DB /* Pods_RNTextInputMask.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_RNTextInputMask.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFrameworksBuildPhase section */
+		003DD2831F2D18DF004461D9 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				962476EADFC2F71414573A6C /* Pods_RNTextInputMask.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
 /* Begin PBXGroup section */
+		003DD2871F2D18DF004461D9 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				003DD2861F2D18DF004461D9 /* libRNTextInputMask.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		003DD2881F2D18DF004461D9 /* RNTextInputMask */ = {
+			isa = PBXGroup;
+			children = (
+				003DD2891F2D18DF004461D9 /* RNTextInputMask.h */,
+				003DD28A1F2D18DF004461D9 /* RNTextInputMask.m */,
+			);
+			path = RNTextInputMask;
+			sourceTree = "<group>";
+		};
 		00431DC11F2D12070017A0B5 = {
 			isa = PBXGroup;
 			children = (
 				00431DC91F2D12C50017A0B5 /* RNTextInputMask.h */,
 				00431DC81F2D12530017A0B5 /* RNTextInputMask.m */,
+				003DD2881F2D18DF004461D9 /* RNTextInputMask */,
+				003DD2871F2D18DF004461D9 /* Products */,
+				E92408E014FE334F6463207E /* Pods */,
+				FBD5E8A7347914EC55939AEB /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
+		E92408E014FE334F6463207E /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				636C069C730356575716B697 /* Pods-RNTextInputMask.debug.xcconfig */,
+				86C3D71F1186381B91C0DBB3 /* Pods-RNTextInputMask.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		FBD5E8A7347914EC55939AEB /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				A38833B21A5149B3AD7CF6DB /* Pods_RNTextInputMask.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		003DD2851F2D18DF004461D9 /* RNTextInputMask */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 003DD28F1F2D18DF004461D9 /* Build configuration list for PBXNativeTarget "RNTextInputMask" */;
+			buildPhases = (
+				41E492C97580EEDDF883C62A /* [CP] Check Pods Manifest.lock */,
+				003DD2821F2D18DF004461D9 /* Sources */,
+				003DD2831F2D18DF004461D9 /* Frameworks */,
+				003DD2841F2D18DF004461D9 /* CopyFiles */,
+				1D6E32219E79B5D81EF2487D /* [CP] Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = RNTextInputMask;
+			productName = RNTextInputMask;
+			productReference = 003DD2861F2D18DF004461D9 /* libRNTextInputMask.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+/* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
 		00431DC21F2D12070017A0B5 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
 				LastUpgradeCheck = 0830;
+				TargetAttributes = {
+					003DD2851F2D18DF004461D9 = {
+						CreatedOnToolsVersion = 8.3.3;
+						DevelopmentTeam = YRYY3MUZEK;
+						ProvisioningStyle = Automatic;
+					};
+				};
 			};
 			buildConfigurationList = 00431DC51F2D12070017A0B5 /* Build configuration list for PBXProject "RNTextInputMask" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -36,14 +139,160 @@
 				en,
 			);
 			mainGroup = 00431DC11F2D12070017A0B5;
+			productRefGroup = 003DD2871F2D18DF004461D9 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
+				003DD2851F2D18DF004461D9 /* RNTextInputMask */,
 			);
 		};
 /* End PBXProject section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		1D6E32219E79B5D81EF2487D /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/../Pods/Target Support Files/Pods-RNTextInputMask/Pods-RNTextInputMask-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		41E492C97580EEDDF883C62A /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		003DD2821F2D18DF004461D9 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				003DD28B1F2D18DF004461D9 /* RNTextInputMask.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
 /* Begin XCBuildConfiguration section */
+		003DD28D1F2D18DF004461D9 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 636C069C730356575716B697 /* Pods-RNTextInputMask.debug.xcconfig */;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = YRYY3MUZEK;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		003DD28E1F2D18DF004461D9 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 86C3D71F1186381B91C0DBB3 /* Pods-RNTextInputMask.release.xcconfig */;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = YRYY3MUZEK;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
 		00431DC61F2D12070017A0B5 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -59,6 +308,14 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		003DD28F1F2D18DF004461D9 /* Build configuration list for PBXNativeTarget "RNTextInputMask" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				003DD28D1F2D18DF004461D9 /* Debug */,
+				003DD28E1F2D18DF004461D9 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
 		00431DC51F2D12070017A0B5 /* Build configuration list for PBXProject "RNTextInputMask" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

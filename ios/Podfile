@@ -1,0 +1,8 @@
+platform :ios, '9.0'
+use_frameworks!
+
+project 'RNTextInputMask/RNTextInputMask.xcodeproj'
+
+target 'RNTextInputMask' do
+  pod 'InputMask'
+end

@@ -1,0 +1,12 @@
+PODS:
+  - InputMask (2.2.5)
+
+DEPENDENCIES:
+  - InputMask
+
+SPEC CHECKSUMS:
+  InputMask: fe1da1c6bf39133d88c1f79c507bcb0bf7728d51
+
+PODFILE CHECKSUM: 30cbce77b69d25e0f7c841823f6c0b5b6a1af427
+
+COCOAPODS: 1.2.0
