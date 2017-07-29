@@ -1,0 +1,26 @@
+{
+  "name": "react-native-text-input-mask",
+  "version": "0.1.0",
+  "description": "Text input mask for React Native on iOS and Android.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ivanzotov/react-native-text-input-mask"
+  },
+  "keywords": [
+    "react",
+    "native",
+    "mask",
+    "text input",
+    "android",
+    "ios"
+  ],
+  "author": "Ivan Zotov",
+  "bugs": {
+    "url": "https://github.com/ivanzotov/react-native-text-input-mask/issues"
+  },
+  "homepage": "http://ivanzotov.com"
+}
