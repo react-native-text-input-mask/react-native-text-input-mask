@@ -1,0 +1,30 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "FD4D1DD9ED94882CDE2BBFBA505170F3AD6F47D8",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "FD4D1DD9ED94882CDE2BBFBA505170F3AD6F47D8" : 9223372036854775807,
+    "ED15D557B9B333C8B7761924B3DBF02994584ED6" : 9223372036854775807
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "860C39D2-D628-4EE8-A783-177E89BDA83B",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "FD4D1DD9ED94882CDE2BBFBA505170F3AD6F47D8" : "react-native-text-input-mask\/",
+    "ED15D557B9B333C8B7761924B3DBF02994584ED6" : "input-mask-ios\/"
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "RNTextInputMask",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "ios\/RNTextInputMask\/RNTextInputMask.xcodeproj",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/RedMadRobot\/input-mask-ios.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "ED15D557B9B333C8B7761924B3DBF02994584ED6"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "github.com:ivanzotov\/react-native-text-input-mask.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "FD4D1DD9ED94882CDE2BBFBA505170F3AD6F47D8"
+    }
+  ]
+}
