@@ -30,9 +30,8 @@ RCT_EXPORT_METHOD(setMask:(nonnull NSNumber *)reactNode mask:(NSString *)mask) {
         RCTUITextField *textView = ((RCTUITextField *)view);
 
         dispatch_async(dispatch_get_main_queue(), ^{
-            MaskedTextFieldDelegate *maskedDelegate = [[MaskedTextFieldDelegate alloc] initWithFormat:mask];
-            maskedDelegate.listener = self;
-            textView.delegate = maskedDelegate;
+            _maskedDelegate = [[MaskedTextFieldDelegate alloc] initWithFormat:mask];
+            textView.delegate = _maskedDelegate;
         });
     }];
 }
