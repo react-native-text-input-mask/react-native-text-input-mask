@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		00037D451F30732D008B5389 /* InputMask.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0031887C1F2F2D1500755291 /* InputMask.framework */; };
 		00278A051F2F25CE0023E794 /* RNTextInputMask.m in Sources */ = {isa = PBXBuildFile; fileRef = 00278A041F2F25CE0023E794 /* RNTextInputMask.m */; };
 		00278A061F2F25CE0023E794 /* RNTextInputMask.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 00278A031F2F25CE0023E794 /* RNTextInputMask.h */; };
 /* End PBXBuildFile section */
@@ -53,6 +54,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				00037D451F30732D008B5389 /* InputMask.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

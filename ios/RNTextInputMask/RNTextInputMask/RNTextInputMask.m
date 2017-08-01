@@ -27,7 +27,7 @@ RCT_EXPORT_MODULE();
 RCT_EXPORT_METHOD(setMask:(nonnull NSNumber *)reactNode mask:(NSString *)mask) {
     [self.bridge.uiManager addUIBlock:^(RCTUIManager *uiManager, NSDictionary<NSNumber *, UIView *> *viewRegistry ) {
         UIView *view = viewRegistry[reactNode];
-        RCTUITextField *textView = ((RCTUITextField *)view);
+        RCTUITextField *textView = [view.subviews objectAtIndex:0];
 
         dispatch_async(dispatch_get_main_queue(), ^{
             _maskedDelegate = [[MaskedTextFieldDelegate alloc] initWithFormat:mask];
