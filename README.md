@@ -21,6 +21,11 @@ import TextInputMask from 'react-native-text-input-mask';
 ...
 ```
 
+# More info
+
+![RedMadRobot Input Mask Android](https://github.com/RedMadRobot/input-mask-android)
+![RedMadRobot Input Mask IOS](https://github.com/RedMadRobot/input-mask-ios)
+
 ## Versioning
 
 This project uses semantic versioning: MAJOR.MINOR.PATCH.
