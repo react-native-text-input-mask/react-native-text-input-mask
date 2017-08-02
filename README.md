@@ -21,7 +21,7 @@ import TextInputMask from 'react-native-text-input-mask';
 ...
 ```
 
-# More info
+## More info
 
 [RedMadRobot Input Mask Android](https://github.com/RedMadRobot/input-mask-android)
 
