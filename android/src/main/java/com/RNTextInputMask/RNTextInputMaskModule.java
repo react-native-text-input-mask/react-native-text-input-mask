@@ -2,7 +2,9 @@ package com.RNTextInputMask;
 
 import android.app.Activity;
 import android.widget.EditText;
-
+import com.facebook.react.uimanager.UIManagerModule;
+import com.facebook.react.uimanager.UIBlock;
+import com.facebook.react.uimanager.NativeViewHierarchyManager;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
@@ -49,25 +51,32 @@ public class RNTextInputMaskModule extends ReactContextBaseJavaModule {
     @ReactMethod
     public void setMask(final int view, final String mask) {
       final Activity currentActivity = this.reactContext.getCurrentActivity();
+      final ReactApplicationContext rctx = this.reactContext;
 
       currentActivity.runOnUiThread(new Runnable() {
         @Override
         public void run() {
-          EditText editText = (EditText)currentActivity.findViewById(view);
+          UIManagerModule uiManager = rctx.getNativeModule(UIManagerModule.class);
+          uiManager.addUIBlock(new UIBlock() {
+              @Override
+              public void execute(NativeViewHierarchyManager nativeViewHierarchyManager) {
+                  EditText editText = (EditText)nativeViewHierarchyManager.resolveView(view);
 
-          final MaskedTextChangedListener listener = new MaskedTextChangedListener(
-            mask,
-            true,
-            editText,
-            null,
-            new MaskedTextChangedListener.ValueListener() {
-                @Override
-                public void onTextChanged(boolean maskFilled, @NonNull final String extractedValue) {
-                }
-            }
-          );
+                  final MaskedTextChangedListener listener = new MaskedTextChangedListener(
+                    mask,
+                    true,
+                    editText,
+                    null,
+                    new MaskedTextChangedListener.ValueListener() {
+                        @Override
+                        public void onTextChanged(boolean maskFilled, @NonNull final String extractedValue) {
+                        }
+                    }
+                  );
 
-          editText.addTextChangedListener(listener);
+                  editText.addTextChangedListener(listener);
+              }
+          });
         }
       });
     }
