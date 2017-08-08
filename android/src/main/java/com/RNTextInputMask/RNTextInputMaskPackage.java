@@ -9,7 +9,6 @@ import com.facebook.react.ReactPackage;
 import com.facebook.react.bridge.NativeModule;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.uimanager.ViewManager;
-import com.facebook.react.bridge.JavaScriptModule;
 
 public class RNTextInputMaskPackage implements ReactPackage {
   @Override
@@ -17,11 +16,6 @@ public class RNTextInputMaskPackage implements ReactPackage {
     List<NativeModule> modules = new ArrayList<>();
     modules.add(new RNTextInputMaskModule(reactContext));
     return modules;
-  }
-
-  @Override
-  public List<Class<? extends JavaScriptModule>> createJSModules() {
-    return Collections.emptyList();
   }
 
   @Override
