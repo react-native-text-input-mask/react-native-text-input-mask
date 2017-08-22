@@ -12,7 +12,4 @@
 @import InputMask;
 
 @interface RNTextInputMask : NSObject <RCTBridgeModule, MaskedTextFieldDelegateListener>
-@property MaskedTextFieldDelegate *maskedDelegate;
-@property RCTTextField *view;
-@property NSNumber *reactTag;
 @end

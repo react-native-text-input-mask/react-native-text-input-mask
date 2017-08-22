@@ -16,7 +16,10 @@
 
 @import InputMask;
 
-@implementation RNTextInputMask
+@implementation RNTextInputMask {
+    NSMutableDictionary *masks;
+}
+
 @synthesize bridge = _bridge;
 
 RCT_EXPORT_MODULE();
@@ -31,16 +34,19 @@ RCT_EXPORT_METHOD(mask:(NSString *)maskString inputValue:(NSString *)inputValue 
 }
 
 RCT_EXPORT_METHOD(setMask:(nonnull NSNumber *)reactNode mask:(NSString *)mask) {
-    _reactTag = reactNode;
-
     [self.bridge.uiManager addUIBlock:^(RCTUIManager *uiManager, NSDictionary<NSNumber *, RCTTextField *> *viewRegistry ) {
-        _view = viewRegistry[reactNode];
-        RCTUITextField *textView = [_view textField];
-
         dispatch_async(dispatch_get_main_queue(), ^{
-            _maskedDelegate = [[MaskedTextFieldDelegate alloc] initWithFormat:mask];
-            _maskedDelegate.listener = self;
-            textView.delegate = _maskedDelegate;
+            RCTTextField *view = viewRegistry[reactNode];
+            RCTUITextField *textView = [view textField];
+
+            if (!masks) {
+                masks = [[NSMutableDictionary alloc] init];
+            }
+
+            NSString *key = [NSString stringWithFormat:@"%@", reactNode];
+            masks[key] = [[MaskedTextFieldDelegate alloc] initWithFormat:mask];
+            [masks[key] setListener:self];
+            textView.delegate = masks[key];
         });
     }];
 }
@@ -48,7 +54,7 @@ RCT_EXPORT_METHOD(setMask:(nonnull NSNumber *)reactNode mask:(NSString *)mask) {
 - (void)textField:(RCTUITextField *)textField didFillMandatoryCharacters:(BOOL)complete didExtractValue:(NSString *)value
 {
     [self.bridge.eventDispatcher sendTextEventWithType:RCTTextEventTypeChange
-                                   reactTag:_reactTag
+                                   reactTag:[[textField reactSuperview] reactTag]
                                        text:textField.text
                                         key:nil
                                  eventCount:1];
