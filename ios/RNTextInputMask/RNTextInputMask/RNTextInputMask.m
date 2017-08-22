@@ -10,6 +10,7 @@
 #import <React/RCTConvert.h>
 #import <React/RCTUIManager.h>
 #import <React/RCTEventDispatcher.h>
+#import "RCTTextField.h"
 #import "RCTUITextField.h"
 #import "RNTextInputMask.h"
 
@@ -30,14 +31,27 @@ RCT_EXPORT_METHOD(mask:(NSString *)maskString inputValue:(NSString *)inputValue 
 }
 
 RCT_EXPORT_METHOD(setMask:(nonnull NSNumber *)reactNode mask:(NSString *)mask) {
-    [self.bridge.uiManager addUIBlock:^(RCTUIManager *uiManager, NSDictionary<NSNumber *, UIView *> *viewRegistry ) {
-        UIView *view = viewRegistry[reactNode];
-        RCTUITextField *textView = [view.subviews objectAtIndex:0];
+    _reactTag = reactNode;
+
+    [self.bridge.uiManager addUIBlock:^(RCTUIManager *uiManager, NSDictionary<NSNumber *, RCTTextField *> *viewRegistry ) {
+        _view = viewRegistry[reactNode];
+        RCTUITextField *textView = [_view textField];
 
         dispatch_async(dispatch_get_main_queue(), ^{
             _maskedDelegate = [[MaskedTextFieldDelegate alloc] initWithFormat:mask];
+            _maskedDelegate.listener = self;
             textView.delegate = _maskedDelegate;
         });
     }];
 }
+
+- (void)textField:(RCTUITextField *)textField didFillMandatoryCharacters:(BOOL)complete didExtractValue:(NSString *)value
+{
+    [self.bridge.eventDispatcher sendTextEventWithType:RCTTextEventTypeChange
+                                   reactTag:_reactTag
+                                       text:textField.text
+                                        key:nil
+                                 eventCount:1];
+}
+
 @end
