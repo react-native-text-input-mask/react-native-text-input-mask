@@ -1,8 +1,6 @@
 # react-native-text-input-mask
 Text input mask for React Native on iOS and Android.
 
-#### 0.47+ version of React Native is required
-
 ## Examples
 
 ![React Native Text Input Mask iOS](https://s3.amazonaws.com/react-native-text-input-mask/react-native-text-input-mask-ios.gif)
@@ -14,6 +12,8 @@ Text input mask for React Native on iOS and Android.
 npm install --save react-native-text-input-mask
 react-native link react-native-text-input-mask
 ```
+
+For RN 0.47 use 0.3.2 version – `npm install --save react-native-text-input-mask@0.3.2`
 
 ## Usage
 
