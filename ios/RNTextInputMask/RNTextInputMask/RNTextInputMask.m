@@ -60,4 +60,14 @@ RCT_EXPORT_METHOD(setMask:(nonnull NSNumber *)reactNode mask:(NSString *)mask) {
                                  eventCount:1];
 }
 
+
+- (void)textFieldDidEndEditing:(RCTUITextField *)textField
+{
+    [self.bridge.eventDispatcher sendTextEventWithType:RCTTextEventTypeBlur
+                                              reactTag:[[textField reactSuperview] reactTag]
+                                                  text:textField.text
+                                                   key:nil
+                                            eventCount:1];
+}
+
 @end
