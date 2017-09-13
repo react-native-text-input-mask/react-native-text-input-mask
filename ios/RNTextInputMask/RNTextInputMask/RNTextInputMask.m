@@ -39,11 +39,11 @@ RCT_EXPORT_METHOD(setMask:(nonnull NSNumber *)reactNode mask:(NSString *)mask) {
         dispatch_async(dispatch_get_main_queue(), ^{
             RCTTextField *view = viewRegistry[reactNode];
             RCTUITextField *textView = [view backedTextInputView];
-            
+
             if (!masks) {
                 masks = [[NSMutableDictionary alloc] init];
             }
-            
+
             NSString *key = [NSString stringWithFormat:@"%@", reactNode];
             masks[key] = [[MaskedTextFieldDelegate alloc] initWithFormat:mask];
             [masks[key] setListener:self];
