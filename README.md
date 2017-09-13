@@ -24,6 +24,28 @@ import TextInputMask from 'react-native-text-input-mask';
 ...
 ```
 
+In the following example, the masked value will be returned when `onChangeText` is fired:
+
+```
+<TextInputMask
+    mask={"+1 ([000]) [000] [00] [00]"}
+    onChangeText={(value) => { console.log(value); }
+/>
+// will log `+1 (000) 000 00 00` to the console
+```
+
+If you would like the un-masked value to be returned, you should set the `returnUnmasked`
+prop to `true` as in the following example:
+
+ ```
+<TextInputMask
+    returnUnmasked
+    mask={"+1 ([000]) [000] [00] [00]"}
+    onChangeText={(value) => { console.log(value); }
+/>
+// will log `0000000000` to the console
+```
+
 ## More info
 
 [RedMadRobot Input Mask Android](https://github.com/RedMadRobot/input-mask-android)
