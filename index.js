@@ -11,6 +11,7 @@ export { mask }
 
 export default class TextInputMask extends Component {
   static defaultProps = {
+    returnMasked: true,
     maskDefaultValue: true,
   }
 
@@ -28,6 +29,7 @@ export default class TextInputMask extends Component {
     if (this.props.mask && !this.masked) {
       this.masked = true
       NativeModules.RNTextInputMask.setMask(findNodeHandle(this.input), this.props.mask)
+      NativeModules.RNTextInputMask.returnMasked(this.props.returnMasked);
     }
   }
 

@@ -18,11 +18,20 @@
 
 @implementation RNTextInputMask {
     NSMutableDictionary *masks;
+    BOOL returnMaskedValue;
 }
 
 @synthesize bridge = _bridge;
 
 RCT_EXPORT_MODULE();
+
+- (instancetype)init {
+    if (self = [super init]) {
+        returnMaskedValue = YES;
+    }
+
+    return self;
+}
 
 - (dispatch_queue_t)methodQueue {
     return self.bridge.uiManager.methodQueue;
@@ -51,11 +60,21 @@ RCT_EXPORT_METHOD(setMask:(nonnull NSNumber *)reactNode mask:(NSString *)mask) {
     }];
 }
 
+RCT_EXPORT_METHOD(returnMasked:(BOOL)shouldReturnMasked) {
+    returnMaskedValue = shouldReturnMasked;
+}
+
 - (void)textField:(RCTUITextField *)textField didFillMandatoryCharacters:(BOOL)complete didExtractValue:(NSString *)value
 {
+    NSString *returnValue = textField.text;
+
+    if (!returnMaskedValue) {
+        returnValue = value;
+    }
+
     [self.bridge.eventDispatcher sendTextEventWithType:RCTTextEventTypeChange
                                    reactTag:[[textField reactSuperview] reactTag]
-                                       text:textField.text
+                                       text:returnValue
                                         key:nil
                                  eventCount:1];
 }
