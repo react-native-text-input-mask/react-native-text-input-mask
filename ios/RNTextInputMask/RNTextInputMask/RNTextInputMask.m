@@ -18,20 +18,12 @@
 
 @implementation RNTextInputMask {
     NSMutableDictionary *masks;
-    BOOL returnMaskedValue;
+    BOOL returnUnmaskedValue;
 }
 
 @synthesize bridge = _bridge;
 
 RCT_EXPORT_MODULE();
-
-- (instancetype)init {
-    if (self = [super init]) {
-        returnMaskedValue = YES;
-    }
-
-    return self;
-}
 
 - (dispatch_queue_t)methodQueue {
     return self.bridge.uiManager.methodQueue;
@@ -47,11 +39,11 @@ RCT_EXPORT_METHOD(setMask:(nonnull NSNumber *)reactNode mask:(NSString *)mask) {
         dispatch_async(dispatch_get_main_queue(), ^{
             RCTTextField *view = viewRegistry[reactNode];
             RCTUITextField *textView = [view backedTextInputView];
-
+            
             if (!masks) {
                 masks = [[NSMutableDictionary alloc] init];
             }
-
+            
             NSString *key = [NSString stringWithFormat:@"%@", reactNode];
             masks[key] = [[MaskedTextFieldDelegate alloc] initWithFormat:mask];
             [masks[key] setListener:self];
@@ -60,23 +52,23 @@ RCT_EXPORT_METHOD(setMask:(nonnull NSNumber *)reactNode mask:(NSString *)mask) {
     }];
 }
 
-RCT_EXPORT_METHOD(returnMasked:(BOOL)shouldReturnMasked) {
-    returnMaskedValue = shouldReturnMasked;
+RCT_EXPORT_METHOD(returnUnmasked:(BOOL)shouldReturnUnmasked) {
+    returnUnmaskedValue = shouldReturnUnmasked;
 }
 
 - (void)textField:(RCTUITextField *)textField didFillMandatoryCharacters:(BOOL)complete didExtractValue:(NSString *)value
 {
     NSString *returnValue = textField.text;
-
-    if (!returnMaskedValue) {
+    
+    if (returnUnmaskedValue) {
         returnValue = value;
     }
-
+    
     [self.bridge.eventDispatcher sendTextEventWithType:RCTTextEventTypeChange
-                                   reactTag:[[textField reactSuperview] reactTag]
-                                       text:returnValue
-                                        key:nil
-                                 eventCount:1];
+                                              reactTag:[[textField reactSuperview] reactTag]
+                                                  text:returnValue
+                                                   key:nil
+                                            eventCount:1];
 }
 
 
