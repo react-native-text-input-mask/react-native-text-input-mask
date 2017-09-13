@@ -33,7 +33,12 @@ export default class TextInputMask extends Component {
 
   render() {
     return (<TextInput
-      ref={ref => (this.input = ref)}
+      ref={ref => {
+        this.input = ref
+        if (typeof this.props.refInput === 'function') {
+          this.props.refInput(ref)
+        }
+      }}
       {...this.props}
     />);
   }

@@ -20,7 +20,10 @@ For RN 0.47 use 0.3.2 version – `npm install --save react-native-text-input-ma
 ```javascript
 import TextInputMask from 'react-native-text-input-mask';
 ...
-<TextInputMask mask={"+1 ([000]) [000] [00] [00]"} />
+<TextInputMask
+  refInput={ref => { this.input = ref }}
+  mask={"+1 ([000]) [000] [00] [00]"}
+/>
 ...
 ```
 
