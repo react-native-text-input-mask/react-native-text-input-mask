@@ -33,6 +33,11 @@ RCT_EXPORT_METHOD(mask:(NSString *)maskString inputValue:(NSString *)inputValue 
     onResult(@[output]);
 }
 
+RCT_EXPORT_METHOD(unmask:(NSString *)maskString inputValue:(NSString *)inputValue onResult:(RCTResponseSenderBlock)onResult) {
+    NSString *output = [RNMask unmaskValueWithText:inputValue format:maskString];
+    onResult(@[output]);
+}
+
 RCT_EXPORT_METHOD(setMask:(nonnull NSNumber *)reactNode mask:(NSString *)mask) {
     [self.bridge.uiManager addUIBlock:^(RCTUIManager *uiManager, NSDictionary<NSNumber *, RCTTextField *> *viewRegistry ) {
         dispatch_async(dispatch_get_main_queue(), ^{

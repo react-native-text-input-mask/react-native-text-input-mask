@@ -22,4 +22,18 @@ open class RNMask : NSObject {
 
         return result.formattedText.string
     }
+    
+    public static func unmaskValue(text: String, format: String) -> String {
+        let mask : Mask = try! Mask.getOrCreate(withFormat: format)
+
+        let result: Mask.Result = mask.apply(
+            toText: CaretString(
+                string: text,
+                caretPosition: text.endIndex
+            ),
+            autocomplete: true
+        )
+
+        return result.extractedValue
+    }
 }
