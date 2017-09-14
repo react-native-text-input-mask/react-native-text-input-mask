@@ -123,6 +123,11 @@ public struct Result: CustomDebugStringConvertible, CustomStringConvertible {
      - returns: Formatted text with extracted value an adjusted cursor position.
      */
     public func apply(toText text: CaretString, autocomplete: Bool = false) -> Result {
+        
+        if("$ -> EOL" == self.debugDescription) {
+            return applyFormat(toText: text.string);
+        }
+        
         let iterator: CaretStringIterator = CaretStringIterator(caretString: text)
         
         var affinity:               Int     = 0

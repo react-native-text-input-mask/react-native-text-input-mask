@@ -13,7 +13,7 @@ import XCTest
 class CurrencyCase: MaskTestCase {
     
     override func format() -> String {
-        return "currency"
+        return "$"
     }
     
     func testInit_correctFormat_maskInitialized() {
@@ -54,6 +54,24 @@ class CurrencyCase: MaskTestCase {
         let expectedValue = "$3,000.23";
         let formattedValue: String = try! self.mask().applyFormat(toText: inputValue).formattedText.string;
         XCTAssertEqual(formattedValue, expectedValue);
+        XCTAssertEqual("$ -> EOL", try self.mask().debugDescription);
+    }
+    
+    func testApply_plus7_return_plus7() {
+        let inputString: String         = "300.142"
+        let inputCaret:  String.Index   = inputString.endIndex
+        
+        let expectedValue = "$300.14";
+
+        let result: Mask.Result = try! self.mask().apply(
+            toText: CaretString(
+                string: inputString,
+                caretPosition: inputCaret
+            )
+        )
+        
+        XCTAssertEqual(result.formattedText.string, expectedValue);
+       
     }
     
 //    func testAcceptableTextLength_allSet_returnsCorrectCount() {
