@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		00FED3D91F34AE0400BDB60B /* RNMask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00FED3D81F34AE0400BDB60B /* RNMask.swift */; };
+		72853DEC1F6AC0E300D1C5F1 /* CurrencyCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72853DEB1F6AC0E300D1C5F1 /* CurrencyCase.swift */; };
+		72853DEE1F6AC5A800D1C5F1 /* RNCurrencyMask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72853DED1F6AC5A800D1C5F1 /* RNCurrencyMask.swift */; };
 		8A0185471D6498F9007B5EBD /* FreeState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A0185461D6498F9007B5EBD /* FreeState.swift */; };
 		8A0185481D6498F9007B5EBD /* FreeState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A0185461D6498F9007B5EBD /* FreeState.swift */; };
 		8A01854A1D649BC9007B5EBD /* PhoneCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A0185491D649BC9007B5EBD /* PhoneCase.swift */; };
@@ -66,6 +68,8 @@
 /* Begin PBXFileReference section */
 		00FED3D81F34AE0400BDB60B /* RNMask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RNMask.swift; sourceTree = "<group>"; };
 		5147936F1EB89544009CD671 /* InputMask.podspec */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = InputMask.podspec; path = ../../../../InputMask.podspec; sourceTree = "<group>"; };
+		72853DEB1F6AC0E300D1C5F1 /* CurrencyCase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CurrencyCase.swift; sourceTree = "<group>"; };
+		72853DED1F6AC5A800D1C5F1 /* RNCurrencyMask.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RNCurrencyMask.swift; sourceTree = "<group>"; };
 		8A0185461D6498F9007B5EBD /* FreeState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FreeState.swift; sourceTree = "<group>"; };
 		8A0185491D649BC9007B5EBD /* PhoneCase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhoneCase.swift; sourceTree = "<group>"; };
 		8A01854C1D64ABCC007B5EBD /* MaskedTextFieldDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MaskedTextFieldDelegate.swift; sourceTree = "<group>"; };
@@ -163,6 +167,7 @@
 				8A1E3C531D64807800589799 /* Mask.swift */,
 				8A808EFA1D5B110300A75B9C /* InputMask.h */,
 				00FED3D81F34AE0400BDB60B /* RNMask.swift */,
+				72853DED1F6AC5A800D1C5F1 /* RNCurrencyMask.swift */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -235,6 +240,7 @@
 				8A0185491D649BC9007B5EBD /* PhoneCase.swift */,
 				8A75D98C1E2392B300F7D244 /* YearACCase.swift */,
 				8AE8CA081E4489B400EDC9C4 /* YearCase.swift */,
+				72853DEB1F6AC0E300D1C5F1 /* CurrencyCase.swift */,
 			);
 			path = Mask;
 			sourceTree = "<group>";
@@ -376,6 +382,7 @@
 				8AB1E8861D63746400892C3B /* CaretString.swift in Sources */,
 				8A83CCB01D5B579800C0184F /* NSCharacterSet.swift in Sources */,
 				8A0185471D6498F9007B5EBD /* FreeState.swift in Sources */,
+				72853DEE1F6AC5A800D1C5F1 /* RNCurrencyMask.swift in Sources */,
 				8ACF16E81D65B9A4004F3374 /* InterfaceBuilderSupport.swift in Sources */,
 				8A1E3C601D648C9E00589799 /* FormatSanitizer.swift in Sources */,
 				8AB1E88C1D63755300892C3B /* State.swift in Sources */,
@@ -407,6 +414,7 @@
 				8A83CCB41D5B5E1F00C0184F /* String.swift in Sources */,
 				8AB1E8971D6378D400892C3B /* ValueState.swift in Sources */,
 				8A808F091D5B1A8E00A75B9C /* MaskTestCase.swift in Sources */,
+				72853DEC1F6AC0E300D1C5F1 /* CurrencyCase.swift in Sources */,
 				8AB1E8871D63746400892C3B /* CaretString.swift in Sources */,
 				8A1E3C551D64809900589799 /* Mask.swift in Sources */,
 				8A1E3C5E1D648A0F00589799 /* DayMonthYearShortCase.swift in Sources */,

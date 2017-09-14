@@ -47,6 +47,7 @@
 		00278A031F2F25CE0023E794 /* RNTextInputMask.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RNTextInputMask.h; sourceTree = "<group>"; };
 		00278A041F2F25CE0023E794 /* RNTextInputMask.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RNTextInputMask.m; sourceTree = "<group>"; };
 		003188761F2F2D1500755291 /* InputMask.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = InputMask.xcodeproj; path = InputMask/InputMask.xcodeproj; sourceTree = "<group>"; };
+		72853E081F6AE5FA00D1C5F1 /* MyPlayground.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = MyPlayground.playground; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -64,6 +65,7 @@
 		002789F71F2F25CE0023E794 = {
 			isa = PBXGroup;
 			children = (
+				72853E081F6AE5FA00D1C5F1 /* MyPlayground.playground */,
 				00278A0C1F2F260C0023E794 /* Libraries */,
 				00278A021F2F25CE0023E794 /* RNTextInputMask */,
 				00278A011F2F25CE0023E794 /* Products */,

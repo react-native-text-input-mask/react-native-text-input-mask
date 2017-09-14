@@ -25,7 +25,7 @@ public class Mask: CustomDebugStringConvertible, CustomStringConvertible {
      
      The end result of mask application to the user input string.
      */
-    public struct Result: CustomDebugStringConvertible, CustomStringConvertible {
+public struct Result: CustomDebugStringConvertible, CustomStringConvertible {
         
         /**
          Formatted text with updated caret position.
@@ -93,6 +93,26 @@ public class Mask: CustomDebugStringConvertible, CustomStringConvertible {
             cache[format] = mask
             return mask
         }
+    }
+    
+    public func applyFormat(toText: String) -> Result {
+        
+        let toDouble = (toText as NSString).doubleValue
+        
+        let formatter = NumberFormatter()
+        formatter.locale = Locale.current // Change this to another locale if you want to force a specific locale, otherwise this is redundant as the current locale is the default already
+        formatter.numberStyle = .currency
+        let formattedText = formatter.string(from: toDouble as NSNumber)!;
+        
+        return Result(
+            formattedText: CaretString(
+                string: formattedText,
+                caretPosition: formattedText.index(formattedText.startIndex, offsetBy: 0)
+            ),
+            extractedValue: "not sure",
+            affinity: 0,
+            complete: true
+        )
     }
     
     /**
