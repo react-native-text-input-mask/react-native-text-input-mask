@@ -172,7 +172,7 @@ open class MaskedTextFieldDelegate: NSObject, UITextFieldDelegate {
         if isDeletion(
             inRange: range,
             string: string
-        ) {
+            ) {
             (extractedValue, complete) = self.deleteText(inRange: range, inField: textField)
         } else {
             (extractedValue, complete) = self.modifyText(inRange: range, inField: textField, withText: string)
@@ -190,7 +190,74 @@ open class MaskedTextFieldDelegate: NSObject, UITextFieldDelegate {
     open func deleteText(
         inRange range: NSRange,
         inField field: UITextField
-    ) -> (String, Bool) {
+        ) -> (String, Bool) {
+        let text: String = self.replaceCharacters(
+            inText: field.text,
+            range: range,
+            withCharacters: ""
+        )
+        
+        let textMinusMoney = text.replacingOccurrences(of: "$", with: "")
+        var textMinusComma = textMinusMoney.replacingOccurrences(of: ",", with: "")
+        
+        /*let decimalIndex = textMinusComma.index(of: ".");
+         let length = textMinusComma.characters.count;
+         if(decimalIndex != nil) {
+         if(decimalIndex == textMinusComma.characters.count-1) {
+         textMinusComma = textMinusComma + "00";
+         } else if(decimalIndex == textMinusComma.characters.count-2) {
+         textMinusComma = textMinusComma + "0";
+         }
+         } else {
+         textMinusComma = textMinusComma + "00";
+         }*/
+        
+        let result = String(textMinusComma.characters.filter { String($0).rangeOfCharacter(from: CharacterSet(charactersIn: "0123456789")) != nil })
+        
+        
+        let lastIndex: Int = result.characters.count;
+        var decimalEnd = lastIndex - 2;
+        if(decimalEnd < 0) {
+            decimalEnd = 0;
+        }
+        var hundredsEnd = decimalEnd - 3;
+        if(hundredsEnd < 0) {
+            hundredsEnd = 0;
+        }
+        var thousandsEnd = hundredsEnd - 3;
+        if(thousandsEnd < 0) {
+            thousandsEnd = 0;
+        }
+        
+        let decimalGroup = result[decimalEnd..<lastIndex]
+        let hundredsGroup = result[hundredsEnd..<decimalEnd]
+        let thousandsGroup = result[thousandsEnd..<hundredsEnd]
+        
+        let decimal = ".";
+        let currency = "$";
+        var comma = "";
+        if (hundredsGroup.characters.count == 3 && thousandsGroup.characters.count > 0) {
+            comma = ",";
+        }
+        
+        var constructedString = currency + thousandsGroup + comma + hundredsGroup + decimal + decimalGroup;
+        if(constructedString == "$.") {
+            constructedString = "";
+        }
+        
+        field.text = constructedString;
+        var position: Int =
+            constructedString.distance(from: constructedString.startIndex, to: constructedString.endIndex)
+        
+        self.setCaretPosition(position, inField: field)
+        
+        return (constructedString, false)
+    }
+    
+    open func oldDeleteText(
+        inRange range: NSRange,
+        inField field: UITextField
+        ) -> (String, Bool) {
         let text: String = self.replaceCharacters(
             inText: field.text,
             range: range,
@@ -215,7 +282,76 @@ open class MaskedTextFieldDelegate: NSObject, UITextFieldDelegate {
         inRange range: NSRange,
         inField field: UITextField,
         withText text: String
-    ) -> (String, Bool) {
+        ) -> (String, Bool) {
+        
+        var updatedText: String = self.replaceCharacters(
+            inText: field.text,
+            range: range,
+            withCharacters: text
+        )
+        
+        let textMinusMoney = updatedText.replacingOccurrences(of: "$", with: "")
+        var textMinusComma = textMinusMoney.replacingOccurrences(of: ",", with: "")
+        
+        /*let decimalIndex = textMinusComma.index(of: ".");
+         let length = textMinusComma.characters.count;
+         if(decimalIndex != nil) {
+         if(decimalIndex == textMinusComma.characters.count-1) {
+         textMinusComma = textMinusComma + "00";
+         } else if(decimalIndex == textMinusComma.characters.count-2) {
+         textMinusComma = textMinusComma + "0";
+         }
+         } else {
+         textMinusComma = textMinusComma + "00";
+         }*/
+        
+        let result = String(textMinusComma.characters.filter { String($0).rangeOfCharacter(from: CharacterSet(charactersIn: "0123456789")) != nil })
+        
+        
+        let lastIndex: Int = result.characters.count;
+        var decimalEnd = lastIndex - 2;
+        if(decimalEnd < 0) {
+            decimalEnd = 0;
+        }
+        var hundredsEnd = decimalEnd - 3;
+        if(hundredsEnd < 0) {
+            hundredsEnd = 0;
+        }
+        var thousandsEnd = hundredsEnd - 3;
+        if(thousandsEnd < 0) {
+            thousandsEnd = 0;
+        }
+        
+        let decimalGroup = result[decimalEnd..<lastIndex]
+        let hundredsGroup = result[hundredsEnd..<decimalEnd]
+        let thousandsGroup = result[thousandsEnd..<hundredsEnd]
+        
+        let decimal = ".";
+        let currency = "$";
+        var comma = "";
+        if (hundredsGroup.characters.count == 3 && thousandsGroup.characters.count > 0) {
+            comma = ",";
+        }
+        
+        let constructedString = currency + thousandsGroup + comma + hundredsGroup + decimal + decimalGroup;
+        
+        
+        field.text = constructedString;
+        var position: Int =
+            constructedString.distance(from: constructedString.startIndex, to: constructedString.endIndex)
+        
+        self.setCaretPosition(position, inField: field)
+        
+        return (constructedString, false)
+    }
+    
+    
+    open func oldModifyText(
+        inRange range: NSRange,
+        inField field: UITextField,
+        withText text: String
+        ) -> (String, Bool) {
+        
         let updatedText: String = self.replaceCharacters(
             inText: field.text,
             range: range,
@@ -231,8 +367,9 @@ open class MaskedTextFieldDelegate: NSObject, UITextFieldDelegate {
         )
         
         field.text = result.formattedText.string
-        let position: Int =
+        var position: Int =
             result.formattedText.string.distance(from: result.formattedText.string.startIndex, to: result.formattedText.caretPosition)
+        
         self.setCaretPosition(position, inField: field)
         
         return (result.extractedValue, result.complete)
@@ -323,8 +460,8 @@ internal extension MaskedTextFieldDelegate {
     func caretPosition(inField field: UITextField) -> Int {
         // Workaround for non-optional `field.beginningOfDocument`, which could actually be nil if field doesn't have focus
         guard field.isFirstResponder
-        else {
-            return field.text?.characters.count ?? 0
+            else {
+                return field.text?.characters.count ?? 0
         }
         
         if let range: UITextRange = field.selectedTextRange {
@@ -338,10 +475,10 @@ internal extension MaskedTextFieldDelegate {
     func setCaretPosition(_ position: Int, inField field: UITextField) {
         // Workaround for non-optional `field.beginningOfDocument`, which could actually be nil if field doesn't have focus
         guard field.isFirstResponder
-        else {
-            return
+            else {
+                return
         }
-
+        
         if position > field.text!.characters.count {
             return
         }
@@ -352,3 +489,22 @@ internal extension MaskedTextFieldDelegate {
     }
     
 }
+
+extension String {
+    subscript(_ range: CountableRange<Int>) -> String {
+        let idx1 = index(startIndex, offsetBy: range.lowerBound)
+        let idx2 = index(startIndex, offsetBy: range.upperBound)
+        return self[idx1..<idx2]
+    }
+    var count: Int { return characters.count }
+}
+
+extension String {
+    public func index(of char: Character) -> Int? {
+        if let idx = characters.index(of: char) {
+            return characters.distance(from: startIndex, to: idx)
+        }
+        return nil
+    }
+}
+
