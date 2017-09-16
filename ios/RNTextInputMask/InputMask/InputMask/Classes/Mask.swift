@@ -95,26 +95,6 @@ public struct Result: CustomDebugStringConvertible, CustomStringConvertible {
         }
     }
     
-    public func applyFormat(toText: String) -> Result {
-        
-        let toDouble = (toText as NSString).doubleValue
-        
-        let formatter = NumberFormatter()
-        formatter.locale = Locale.current // Change this to another locale if you want to force a specific locale, otherwise this is redundant as the current locale is the default already
-        formatter.numberStyle = .currency
-        let formattedText = formatter.string(from: toDouble as NSNumber)!;
-        
-        return Result(
-            formattedText: CaretString(
-                string: formattedText,
-                caretPosition: formattedText.index(formattedText.startIndex, offsetBy: 0)
-            ),
-            extractedValue: "not sure",
-            affinity: 0,
-            complete: true
-        )
-    }
-    
     /**
      Apply mask to the user input string.
      
@@ -123,10 +103,6 @@ public struct Result: CustomDebugStringConvertible, CustomStringConvertible {
      - returns: Formatted text with extracted value an adjusted cursor position.
      */
     public func apply(toText text: CaretString, autocomplete: Bool = false) -> Result {
-        
-        if("$ -> EOL" == self.debugDescription) {
-            return applyFormat(toText: text.string);
-        }
         
         let iterator: CaretStringIterator = CaretStringIterator(caretString: text)
         
