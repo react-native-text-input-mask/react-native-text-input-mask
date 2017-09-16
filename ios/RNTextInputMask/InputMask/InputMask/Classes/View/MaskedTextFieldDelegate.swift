@@ -426,24 +426,6 @@ internal extension MaskedTextFieldDelegate {
 }
 
 extension String {
-    subscript(_ range: CountableRange<Int>) -> String {
-        let idx1 = index(startIndex, offsetBy: range.lowerBound)
-        let idx2 = index(startIndex, offsetBy: range.upperBound)
-        return self[idx1..<idx2]
-    }
-    var count: Int { return characters.count }
-}
-
-extension String {
-    public func index(of char: Character) -> Int? {
-        if let idx = characters.index(of: char) {
-            return characters.distance(from: startIndex, to: idx)
-        }
-        return nil
-    }
-}
-
-extension String {
     
     // formatting text for currency textField
     func currencyInputFormatting() -> String {
