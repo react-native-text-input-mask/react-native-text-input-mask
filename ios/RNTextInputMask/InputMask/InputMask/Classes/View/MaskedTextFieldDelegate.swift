@@ -187,7 +187,7 @@ open class MaskedTextFieldDelegate: NSObject, UITextFieldDelegate {
         return false
     }
     
-    open func deleteText(
+    open func deleteCurrencyText(
         inRange range: NSRange,
         inField field: UITextField
         ) -> (String, Bool) {
@@ -197,64 +197,18 @@ open class MaskedTextFieldDelegate: NSObject, UITextFieldDelegate {
             withCharacters: ""
         )
         
-        let textMinusMoney = text.replacingOccurrences(of: "$", with: "")
-        var textMinusComma = textMinusMoney.replacingOccurrences(of: ",", with: "")
+        let currencyText = text.currencyInputFormatting()
         
-        /*let decimalIndex = textMinusComma.index(of: ".");
-         let length = textMinusComma.characters.count;
-         if(decimalIndex != nil) {
-         if(decimalIndex == textMinusComma.characters.count-1) {
-         textMinusComma = textMinusComma + "00";
-         } else if(decimalIndex == textMinusComma.characters.count-2) {
-         textMinusComma = textMinusComma + "0";
-         }
-         } else {
-         textMinusComma = textMinusComma + "00";
-         }*/
-        
-        let result = String(textMinusComma.characters.filter { String($0).rangeOfCharacter(from: CharacterSet(charactersIn: "0123456789")) != nil })
-        
-        
-        let lastIndex: Int = result.characters.count;
-        var decimalEnd = lastIndex - 2;
-        if(decimalEnd < 0) {
-            decimalEnd = 0;
-        }
-        var hundredsEnd = decimalEnd - 3;
-        if(hundredsEnd < 0) {
-            hundredsEnd = 0;
-        }
-        var thousandsEnd = hundredsEnd - 3;
-        if(thousandsEnd < 0) {
-            thousandsEnd = 0;
-        }
-        
-        let decimalGroup = result[decimalEnd..<lastIndex]
-        let hundredsGroup = result[hundredsEnd..<decimalEnd]
-        let thousandsGroup = result[thousandsEnd..<hundredsEnd]
-        
-        let decimal = ".";
-        let currency = "$";
-        var comma = "";
-        if (hundredsGroup.characters.count == 3 && thousandsGroup.characters.count > 0) {
-            comma = ",";
-        }
-        
-        var constructedString = currency + thousandsGroup + comma + hundredsGroup + decimal + decimalGroup;
-        if(constructedString == "$.") {
-            constructedString = "";
-        }
-        
-        field.text = constructedString;
-        var position: Int =
-            constructedString.distance(from: constructedString.startIndex, to: constructedString.endIndex)
+        field.text = currencyText
+        let position: Int =
+            currencyText.distance(from: currencyText.startIndex, to: currencyText.endIndex)
         
         self.setCaretPosition(position, inField: field)
         
-        return (constructedString, false)
+        return (currencyText, false)
     }
     
-    open func oldDeleteText(
+    open func deleteMaskedText(
         inRange range: NSRange,
         inField field: UITextField
         ) -> (String, Bool) {
@@ -278,75 +232,42 @@ open class MaskedTextFieldDelegate: NSObject, UITextFieldDelegate {
         return (result.extractedValue, result.complete)
     }
     
-    open func modifyText(
+    open func deleteText(
+        inRange range: NSRange,
+        inField field: UITextField
+        ) -> (String, Bool) {
+        
+        if("currency" == self.maskFormat) {
+            return deleteCurrencyText(inRange: range, inField: field)
+        } else {
+            return deleteMaskedText(inRange: range, inField: field)
+        }
+    }
+    
+    
+    open func modifyCurrencyText(
         inRange range: NSRange,
         inField field: UITextField,
         withText text: String
         ) -> (String, Bool) {
         
-        var updatedText: String = self.replaceCharacters(
+        let updatedText: String = self.replaceCharacters(
             inText: field.text,
             range: range,
             withCharacters: text
         )
         
-        let textMinusMoney = updatedText.replacingOccurrences(of: "$", with: "")
-        var textMinusComma = textMinusMoney.replacingOccurrences(of: ",", with: "")
-        
-        /*let decimalIndex = textMinusComma.index(of: ".");
-         let length = textMinusComma.characters.count;
-         if(decimalIndex != nil) {
-         if(decimalIndex == textMinusComma.characters.count-1) {
-         textMinusComma = textMinusComma + "00";
-         } else if(decimalIndex == textMinusComma.characters.count-2) {
-         textMinusComma = textMinusComma + "0";
-         }
-         } else {
-         textMinusComma = textMinusComma + "00";
-         }*/
-        
-        let result = String(textMinusComma.characters.filter { String($0).rangeOfCharacter(from: CharacterSet(charactersIn: "0123456789")) != nil })
-        
-        
-        let lastIndex: Int = result.characters.count;
-        var decimalEnd = lastIndex - 2;
-        if(decimalEnd < 0) {
-            decimalEnd = 0;
-        }
-        var hundredsEnd = decimalEnd - 3;
-        if(hundredsEnd < 0) {
-            hundredsEnd = 0;
-        }
-        var thousandsEnd = hundredsEnd - 3;
-        if(thousandsEnd < 0) {
-            thousandsEnd = 0;
-        }
-        
-        let decimalGroup = result[decimalEnd..<lastIndex]
-        let hundredsGroup = result[hundredsEnd..<decimalEnd]
-        let thousandsGroup = result[thousandsEnd..<hundredsEnd]
-        
-        let decimal = ".";
-        let currency = "$";
-        var comma = "";
-        if (hundredsGroup.characters.count == 3 && thousandsGroup.characters.count > 0) {
-            comma = ",";
-        }
-        
-        let constructedString = currency + thousandsGroup + comma + hundredsGroup + decimal + decimalGroup;
-        
-        
-        field.text = constructedString;
-        var position: Int =
-            constructedString.distance(from: constructedString.startIndex, to: constructedString.endIndex)
+        let amountString = updatedText.currencyInputFormatting();
+        field.text = amountString
+        let position: Int =
+            amountString.distance(from: amountString.startIndex, to: amountString.endIndex)
         
         self.setCaretPosition(position, inField: field)
         
-        return (constructedString, false)
+        return (amountString, false)
     }
     
-    
-    open func oldModifyText(
+    open func modifyMaskedText(
         inRange range: NSRange,
         inField field: UITextField,
         withText text: String
@@ -367,12 +288,26 @@ open class MaskedTextFieldDelegate: NSObject, UITextFieldDelegate {
         )
         
         field.text = result.formattedText.string
-        var position: Int =
+        let position: Int =
             result.formattedText.string.distance(from: result.formattedText.string.startIndex, to: result.formattedText.caretPosition)
         
         self.setCaretPosition(position, inField: field)
         
         return (result.extractedValue, result.complete)
+    }
+    
+    
+    open func modifyText(
+        inRange range: NSRange,
+        inField field: UITextField,
+        withText text: String
+        ) -> (String, Bool) {
+        
+        if("currency" == self.maskFormat) {
+            return modifyCurrencyText(inRange: range, inField: field, withText: text)
+        } else {
+            return modifyMaskedText(inRange: range, inField: field, withText: text)
+        }
     }
     
     open func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
@@ -508,3 +443,32 @@ extension String {
     }
 }
 
+extension String {
+    
+    // formatting text for currency textField
+    func currencyInputFormatting() -> String {
+        
+        var number: NSNumber!
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .currencyAccounting
+        formatter.currencySymbol = "$"
+        formatter.maximumFractionDigits = 2
+        formatter.minimumFractionDigits = 2
+        
+        var amountWithPrefix = self
+        
+        // remove from String: "$", ".", ","
+        let regex = try! NSRegularExpression(pattern: "[^0-9]", options: .caseInsensitive)
+        amountWithPrefix = regex.stringByReplacingMatches(in: amountWithPrefix, options: NSRegularExpression.MatchingOptions(rawValue: 0), range: NSMakeRange(0, self.characters.count), withTemplate: "")
+        
+        let double = (amountWithPrefix as NSString).doubleValue
+        number = NSNumber(value: (double / 100))
+        
+        // if first number is 0 or all numbers were deleted
+        guard number != 0 as NSNumber else {
+            return ""
+        }
+        
+        return formatter.string(from: number)!
+    }
+}
