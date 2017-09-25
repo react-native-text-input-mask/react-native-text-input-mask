@@ -18,6 +18,8 @@ import com.redmadrobot.inputmask.model.CaretString;
 import com.redmadrobot.inputmask.helper.Mask;
 import android.support.annotation.NonNull;
 
+import java.text.NumberFormat;
+
 public class RNTextInputMaskModule extends ReactContextBaseJavaModule {
     ReactApplicationContext reactContext;
 
@@ -44,9 +46,32 @@ public class RNTextInputMaskModule extends ReactContextBaseJavaModule {
           ),
           true
       );
-      final String output = result.getFormattedText().getString();
+
+      String output = result.getFormattedText().getString();
+      if("currency".equalsIgnoreCase(maskString)) {
+         output = currencyInputFormatting(inputValue);
+      }
+
       onResult.invoke(output);
     }
+
+    private String currencyInputFormatting(String inputString) {
+
+            NumberFormat defaultFormat = NumberFormat.getCurrencyInstance();
+            String dirtyString = inputString;
+            dirtyString = dirtyString.replaceAll("[^0-9]", "");
+            Double dollars = 0.00;
+            String formattedDollars = "";
+            try{
+                Double cents = Double.parseDouble(dirtyString);
+                dollars = cents/100;
+                formattedDollars = defaultFormat.format(dollars);
+            }catch(Exception e){
+                formattedDollars = "";
+            }
+
+            return formattedDollars;
+        }
 
     @ReactMethod
     public void unmask(final String maskString,
@@ -77,9 +102,9 @@ public class RNTextInputMaskModule extends ReactContextBaseJavaModule {
           uiManager.addUIBlock(new UIBlock() {
               @Override
               public void execute(NativeViewHierarchyManager nativeViewHierarchyManager) {
-                  EditText editText = (EditText)nativeViewHierarchyManager.resolveView(view);
+                  final EditText editText = (EditText)nativeViewHierarchyManager.resolveView(view);
 
-                  final MaskedTextChangedListener listener = new MaskedTextChangedListener(
+                   MaskedTextChangedListener listener = new MaskedTextChangedListener(
                     mask,
                     true,
                     editText,
@@ -87,11 +112,16 @@ public class RNTextInputMaskModule extends ReactContextBaseJavaModule {
                     new MaskedTextChangedListener.ValueListener() {
                         @Override
                         public void onTextChanged(boolean maskFilled, @NonNull final String extractedValue) {
+
                         }
                     }
                   );
 
-                  editText.addTextChangedListener(listener);
+                  if("currency".equalsIgnoreCase(mask)) {
+                       editText.addTextChangedListener(new MoneyTextWatcher(editText));
+                    } else {
+                        editText.addTextChangedListener(listener);
+                    }
               }
           });
         }
