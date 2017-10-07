@@ -8,7 +8,8 @@ import {
 
 const mask = NativeModules.RNTextInputMask.mask
 const unmask = NativeModules.RNTextInputMask.unmask
-export { mask, unmask }
+const setMask = NativeModules.RNTextInputMask.setMask
+export { mask, unmask, setMask }
 
 export default class TextInputMask extends Component {
   static defaultProps = {
@@ -28,7 +29,7 @@ export default class TextInputMask extends Component {
 
     if (this.props.mask && !this.masked) {
       this.masked = true
-      NativeModules.RNTextInputMask.setMask(findNodeHandle(this.input), this.props.mask)
+      setMask(findNodeHandle(this.input), this.props.mask)
     }
   }
 
