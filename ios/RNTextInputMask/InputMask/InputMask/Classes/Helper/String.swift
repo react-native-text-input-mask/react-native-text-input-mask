@@ -29,12 +29,15 @@ extension String {
 extension String {
 
     // formatting text for currency textField
-    func currencyInputFormatting() -> String {
+    func currencyInputFormatting(showSymbol: Bool) -> String {
 
         var number: NSNumber!
         let formatter = NumberFormatter()
         formatter.numberStyle = .currencyAccounting
-        formatter.currencySymbol = "$"
+        formatter.currencySymbol = ""
+        if(showSymbol == true) {
+            formatter.currencySymbol = "$"
+        }
         formatter.maximumFractionDigits = 2
         formatter.minimumFractionDigits = 2
 
