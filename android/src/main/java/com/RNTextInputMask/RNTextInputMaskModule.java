@@ -19,6 +19,7 @@ import com.redmadrobot.inputmask.helper.Mask;
 import android.support.annotation.NonNull;
 
 import java.text.NumberFormat;
+import java.util.Locale;
 
 public class RNTextInputMaskModule extends ReactContextBaseJavaModule {
     ReactApplicationContext reactContext;
@@ -48,16 +49,24 @@ public class RNTextInputMaskModule extends ReactContextBaseJavaModule {
       );
 
       String output = result.getFormattedText().getString();
-      if("currency".equalsIgnoreCase(maskString)) {
-         output = currencyInputFormatting(inputValue);
+      if("currency$".equalsIgnoreCase(maskString)) {
+         output = currencyInputFormatting(inputValue, true);
+      } else if("currency".equalsIgnoreCase(maskString)) {
+         output = currencyInputFormatting(inputValue, false);
       }
 
       onResult.invoke(output);
     }
 
-    private String currencyInputFormatting(String inputString) {
+    private String currencyInputFormatting(String inputString, Boolean showCurrency) {
 
-            NumberFormat defaultFormat = NumberFormat.getCurrencyInstance();
+            NumberFormat defaultFormat = null;
+            if(showCurrency == true) {
+                defaultFormat = NumberFormat.getCurrencyInstance();
+            } else {
+                defaultFormat = NumberFormat.getInstance(Locale.US);
+                defaultFormat.setMinimumFractionDigits(2);
+            }
             String dirtyString = inputString;
             dirtyString = dirtyString.replaceAll("[^0-9]", "");
             Double dollars = 0.00;
@@ -117,8 +126,10 @@ public class RNTextInputMaskModule extends ReactContextBaseJavaModule {
                     }
                   );
 
-                  if("currency".equalsIgnoreCase(mask)) {
-                       editText.addTextChangedListener(new MoneyTextWatcher(editText));
+                    if("currency".equalsIgnoreCase(mask)) {
+                       editText.addTextChangedListener(new MoneyTextWatcher(editText, false));
+                    } else if("currency$".equalsIgnoreCase(mask)) {
+                         editText.addTextChangedListener(new MoneyTextWatcher(editText, true));
                     } else {
                         editText.addTextChangedListener(listener);
                     }
