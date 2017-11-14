@@ -36,18 +36,25 @@ public class MoneyTextWatcher implements TextWatcher {
         if (editText == null) return;
         String s = editable.toString();
         editText.removeTextChangedListener(this);
-        String cleanString = s.toString().replaceAll("[$,.]", "");
-        BigDecimal parsed = new BigDecimal(cleanString).setScale(2, BigDecimal.ROUND_FLOOR).divide(new BigDecimal(100), BigDecimal.ROUND_FLOOR);
-        NumberFormat defaultFormat = null;
-        if(showCurrency == true) {
-            defaultFormat = NumberFormat.getCurrencyInstance();
-        } else {
-            defaultFormat = NumberFormat.getInstance(Locale.US);
-            defaultFormat.setMinimumFractionDigits(2);
+
+        try {
+            String cleanString = s.toString().replaceAll("[$,.]", "");
+            cleanString = cleanString.replaceAll("[^\\d.]", "");
+            BigDecimal parsed = new BigDecimal(cleanString).setScale(2, BigDecimal.ROUND_FLOOR).divide(new BigDecimal(100), BigDecimal.ROUND_FLOOR);
+            NumberFormat defaultFormat = null;
+            if(showCurrency == true) {
+                defaultFormat = NumberFormat.getCurrencyInstance();
+            } else {
+                defaultFormat = NumberFormat.getInstance(Locale.US);
+                defaultFormat.setMinimumFractionDigits(2);
+            }
+            String formatted = defaultFormat.format(parsed);
+            editText.setText(formatted);
+            editText.setSelection(formatted.length());
+        } catch (Exception e) {
+            // noop
         }
-        String formatted = defaultFormat.format(parsed);
-        editText.setText(formatted);
-        editText.setSelection(formatted.length());
+
         editText.addTextChangedListener(this);
     }
 }
