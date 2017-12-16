@@ -14,7 +14,7 @@ react-native link react-native-text-input-mask
 ```
 For Android it just works.
 
-For iOS you have to drag and drop InputMask framework to Embedded Binaries in General tab of Target and check ‘Yes’ in ‘Always Embed Swift Standart Libraries’ of Build Settings.
+For iOS you have to drag and drop InputMask framework to Embedded Binaries in General tab of Target and check ‘Yes’ in ‘Always Embed Swift Standard Libraries’ of Build Settings.
 
 ![](https://cdn-images-1.medium.com/max/2000/1*J0TPrRhkAKspVvv-JaZHjA.png)
 ![](https://cdn-images-1.medium.com/max/1600/1*j7VdY3g9_Vz6YTki3T17CQ.png)
