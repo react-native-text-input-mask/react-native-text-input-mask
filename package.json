@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/ivanzotov/react-native-text-input-mask"
+    "url": "https://github.com/mypharmabr/react-native-text-input-mask"
   },
   "keywords": [
     "react",
@@ -20,7 +20,6 @@
   ],
   "author": "Ivan Zotov",
   "bugs": {
-    "url": "https://github.com/ivanzotov/react-native-text-input-mask/issues"
-  },
-  "homepage": "http://ivanzotov.com"
+    "url": "https://github.com/mypharmabr/react-native-text-input-mask/issues"
+  }
 }
