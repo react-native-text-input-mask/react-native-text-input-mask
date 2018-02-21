@@ -45,7 +45,7 @@ public class RNTextInputMaskModule extends ReactContextBaseJavaModule {
               input,
               input.length()
           ),
-          true
+          false
       );
 
       String output = result.getFormattedText().getString();
@@ -115,7 +115,7 @@ public class RNTextInputMaskModule extends ReactContextBaseJavaModule {
 
                    MaskedTextChangedListener listener = new MaskedTextChangedListener(
                     mask,
-                    true,
+                    false,
                     editText,
                     null,
                     new MaskedTextChangedListener.ValueListener() {
