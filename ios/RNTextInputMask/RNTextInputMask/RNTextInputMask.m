@@ -10,8 +10,8 @@
 #import <React/RCTConvert.h>
 #import <React/RCTUIManager.h>
 #import <React/RCTEventDispatcher.h>
-#import "RCTTextField.h"
-#import "RCTUITextField.h"
+#import <RCTText/RCTSinglelineTextInputView.h>
+#import <RCTText/RCTUITextField.h>
 #import "RNTextInputMask.h"
 
 @import InputMask;
@@ -39,9 +39,9 @@ RCT_EXPORT_METHOD(unmask:(NSString *)maskString inputValue:(NSString *)inputValu
 }
 
 RCT_EXPORT_METHOD(setMask:(nonnull NSNumber *)reactNode mask:(NSString *)mask) {
-    [self.bridge.uiManager addUIBlock:^(RCTUIManager *uiManager, NSDictionary<NSNumber *, RCTTextField *> *viewRegistry ) {
+    [self.bridge.uiManager addUIBlock:^(RCTUIManager *uiManager, NSDictionary<NSNumber *, RCTSinglelineTextInputView *> *viewRegistry ) {
         dispatch_async(dispatch_get_main_queue(), ^{
-            RCTTextField *view = viewRegistry[reactNode];
+            RCTSinglelineTextInputView *view = viewRegistry[reactNode];
             RCTUITextField *textView = [view backedTextInputView];
 
             if (!masks) {
