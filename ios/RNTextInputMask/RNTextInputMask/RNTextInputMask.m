@@ -49,9 +49,12 @@ RCT_EXPORT_METHOD(setMask:(nonnull NSNumber *)reactNode mask:(NSString *)mask) {
             }
 
             NSString *key = [NSString stringWithFormat:@"%@", reactNode];
-            masks[key] = [[MaskedTextFieldDelegate alloc] initWithFormat:mask];
+            MaskedTextFieldDelegate* maskedDelegate = [[MaskedTextFieldDelegate alloc] initWithFormat:mask];
+            masks[key] = maskedDelegate;
             [masks[key] setListener:self];
             textView.delegate = masks[key];
+
+            [self updateTextField:maskedDelegate textView:textView];
         });
     }];
 }
@@ -81,6 +84,21 @@ RCT_EXPORT_METHOD(setMask:(nonnull NSNumber *)reactNode mask:(NSString *)mask) {
                                                   text:textField.text
                                                    key:nil
                                             eventCount:1];
+}
+
+
+- (void)updateTextField:(MaskedTextFieldDelegate *)maskedDelegate textView:(RCTUITextField *)textView {
+    if(textView.text.length> 0){
+        NSString *originalString = textView.text;
+        NSString *croppedText = [originalString substringToIndex:[originalString length] -1];
+
+        [textView setText:croppedText];
+        NSString *last = [originalString substringFromIndex:[originalString length] - 1];
+
+        [maskedDelegate textField:(UITextField*)textView
+    shouldChangeCharactersInRange: (NSRange){[textView.text length], 0}
+                replacementString:last];
+    }
 }
 
 @end
