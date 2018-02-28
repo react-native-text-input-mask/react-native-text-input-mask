@@ -23,7 +23,7 @@ export default class TextInputMask extends Component {
         this.props.mask &&
         this.props.value) {
       mask(this.props.mask, '' + this.props.value, text =>
-        this.input.setNativeProps({ text }),
+        this.input && this.input.setNativeProps({ text }),
       )
     }
 
@@ -36,7 +36,7 @@ export default class TextInputMask extends Component {
   componentWillReceiveProps(nextProps) {
     if (this.props.value != nextProps.value) {
       mask(this.props.mask, '' + nextProps.value, text =>
-        this.input.setNativeProps({ text })
+      this.input && this.input.setNativeProps({ text })
       );
     }
 
