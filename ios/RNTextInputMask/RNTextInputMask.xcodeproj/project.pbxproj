@@ -287,7 +287,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				DEVELOPMENT_TEAM = YRYY3MUZEK;
-				HEADER_SEARCH_PATHS = "$(SRCROOT)/../../../react-native/Libraries/Text";
+				HEADER_SEARCH_PATHS = "$(SRCROOT)/../../../react-native/Libraries/Text/**";
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -299,7 +299,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				DEVELOPMENT_TEAM = YRYY3MUZEK;
-				HEADER_SEARCH_PATHS = "$(SRCROOT)/../../../react-native/Libraries/Text";
+				HEADER_SEARCH_PATHS = "$(SRCROOT)/../../../react-native/Libraries/Text/**";
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
