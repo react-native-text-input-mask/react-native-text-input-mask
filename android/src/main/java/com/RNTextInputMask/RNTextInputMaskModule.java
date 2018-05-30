@@ -75,7 +75,10 @@ public class RNTextInputMaskModule extends ReactContextBaseJavaModule {
         @Override
         public void run() {
           UIManagerModule uiManager = rctx.getNativeModule(UIManagerModule.class);
-          uiManager.addUIBlock(new UIBlock() {
+
+          // We need to use prependUIBlock instead of addUIBlock since subsequent UI operations in
+          // the queue might be removing the view we're looking to update.
+          uiManager.prependUIBlock(new UIBlock() {
               @Override
               public void execute(NativeViewHierarchyManager nativeViewHierarchyManager) {
                   EditText editText = (EditText)nativeViewHierarchyManager.resolveView(view);
