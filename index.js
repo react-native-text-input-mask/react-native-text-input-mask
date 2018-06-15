@@ -55,6 +55,7 @@ export default class TextInputMask extends Component {
           this.props.refInput(ref)
         }
       }}
+      multiline={this.props.mask ? false : this.props.multiline}
       onChangeText={masked => {
         if (this.props.mask) {
           const _unmasked = unmask(this.props.mask, masked, unmasked => {
