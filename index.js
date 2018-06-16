@@ -3,7 +3,8 @@ import React, { Component } from 'react'
 import {
   TextInput,
   findNodeHandle,
-  NativeModules
+  NativeModules,
+  Platform
 } from 'react-native'
 
 const mask = NativeModules.RNTextInputMask.mask
@@ -55,7 +56,7 @@ export default class TextInputMask extends Component {
           this.props.refInput(ref)
         }
       }}
-      multiline={this.props.mask ? false : this.props.multiline}
+      multiline={this.props.mask && Platform.OS === 'ios' ? false : this.props.multiline}
       onChangeText={masked => {
         if (this.props.mask) {
           const _unmasked = unmask(this.props.mask, masked, unmasked => {
