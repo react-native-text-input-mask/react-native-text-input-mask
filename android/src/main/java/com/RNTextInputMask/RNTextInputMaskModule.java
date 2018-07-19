@@ -67,43 +67,36 @@ public class RNTextInputMaskModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
-    public void setMask(final int view, final String mask) {
-      final Activity currentActivity = this.reactContext.getCurrentActivity();
-      final ReactApplicationContext rctx = this.reactContext;
+    public void setMask(final int tag, final String mask) {
+        // We need to use prependUIBlock instead of addUIBlock since subsequent UI operations in
+        // the queue might be removing the view we're looking to update.
+        reactContext.getNativeModule(UIManagerModule.class).prependUIBlock(new UIBlock() {
+            @Override
+            public void execute(NativeViewHierarchyManager nativeViewHierarchyManager) {
+                // The view needs to be resolved before running on the UI thread because there's
+                // a delay before the UI queue can pick up the runnable.
+                final EditText editText = (EditText) nativeViewHierarchyManager.resolveView(tag);
 
-      currentActivity.runOnUiThread(new Runnable() {
-        @Override
-        public void run() {
-          UIManagerModule uiManager = rctx.getNativeModule(UIManagerModule.class);
+                reactContext.runOnUiQueueThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        MaskedTextChangedListener listener = new MaskedTextChangedListener(
+                                mask,
+                                true,
+                                editText,
+                                null,
+                                null
+                        );
 
-          // We need to use prependUIBlock instead of addUIBlock since subsequent UI operations in
-          // the queue might be removing the view we're looking to update.
-          uiManager.prependUIBlock(new UIBlock() {
-              @Override
-              public void execute(NativeViewHierarchyManager nativeViewHierarchyManager) {
-                  EditText editText = (EditText)nativeViewHierarchyManager.resolveView(view);
-
-                  final MaskedTextChangedListener listener = new MaskedTextChangedListener(
-                    mask,
-                    true,
-                    editText,
-                    null,
-                    new MaskedTextChangedListener.ValueListener() {
-                        @Override
-                        public void onTextChanged(boolean maskFilled, @NonNull final String extractedValue) {
+                        if (editText.getTag() != null) {
+                            editText.removeTextChangedListener((TextWatcher) editText.getTag());
                         }
+
+                        editText.setTag(listener);
+                        editText.addTextChangedListener(listener);
                     }
-                  );
-
-                  if (editText.getTag() != null) {
-                      editText.removeTextChangedListener((TextWatcher) editText.getTag());
-                  }
-                  editText.setTag(listener);
-
-                  editText.addTextChangedListener(listener);
-              }
-          });
-        }
-      });
+                });
+            }
+        });
     }
 }
