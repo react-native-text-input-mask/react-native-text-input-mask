@@ -79,6 +79,16 @@ RCT_EXPORT_METHOD(setMask:(nonnull NSNumber *)reactNode mask:(NSString *)mask) {
                                             eventCount:1];
 }
 
+- (BOOL)textFieldShouldReturn:(RCTUITextField *)textField
+{
+    [self.bridge.eventDispatcher sendTextEventWithType:RCTTextEventTypeSubmit
+                                              reactTag:[[textField reactSuperview] reactTag]
+                                                  text:textField.attributedText.string
+                                                   key:nil
+                                            eventCount:1];
+    return YES;
+}
+
 
 - (void)updateTextField:(MaskedTextFieldDelegate *)maskedDelegate textView:(RCTUITextField *)textView {
     if(textView.attributedText.string.length> 0){
