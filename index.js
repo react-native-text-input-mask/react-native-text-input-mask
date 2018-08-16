@@ -50,6 +50,7 @@ export default class TextInputMask extends Component {
     return (<TextInput
       {...this.props}
       value={undefined}
+      selectionColor={this.props.selectionColor}
       ref={ref => {
         this.input = ref
         if (typeof this.props.refInput === 'function') {
