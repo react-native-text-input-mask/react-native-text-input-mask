@@ -19,6 +19,9 @@ import com.redmadrobot.inputmask.model.CaretString;
 import com.redmadrobot.inputmask.helper.Mask;
 import android.support.annotation.NonNull;
 
+import java.text.NumberFormat;
+import java.util.Locale;
+
 public class RNTextInputMaskModule extends ReactContextBaseJavaModule {
     ReactApplicationContext reactContext;
 
@@ -43,11 +46,42 @@ public class RNTextInputMaskModule extends ReactContextBaseJavaModule {
               input,
               input.length()
           ),
-          true
+          false
       );
-      final String output = result.getFormattedText().getString();
+
+      String output = result.getFormattedText().getString();
+      if("currency$".equalsIgnoreCase(maskString)) {
+         output = currencyInputFormatting(inputValue, true);
+      } else if("currency".equalsIgnoreCase(maskString)) {
+         output = currencyInputFormatting(inputValue, false);
+      }
+
       onResult.invoke(output);
     }
+
+    private String currencyInputFormatting(String inputString, Boolean showCurrency) {
+
+            NumberFormat defaultFormat = null;
+            if(showCurrency == true) {
+                defaultFormat = NumberFormat.getCurrencyInstance();
+            } else {
+                defaultFormat = NumberFormat.getInstance(Locale.US);
+                defaultFormat.setMinimumFractionDigits(2);
+            }
+            String dirtyString = inputString;
+            dirtyString = dirtyString.replaceAll("[^0-9]", "");
+            Double dollars = 0.00;
+            String formattedDollars = "";
+            try{
+                Double cents = Double.parseDouble(dirtyString);
+                dollars = cents/100;
+                formattedDollars = defaultFormat.format(dollars);
+            }catch(Exception e){
+                formattedDollars = "";
+            }
+
+            return formattedDollars;
+        }
 
     @ReactMethod
     public void unmask(final String maskString,
@@ -67,36 +101,42 @@ public class RNTextInputMaskModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
-    public void setMask(final int tag, final String mask) {
-        // We need to use prependUIBlock instead of addUIBlock since subsequent UI operations in
-        // the queue might be removing the view we're looking to update.
-        reactContext.getNativeModule(UIManagerModule.class).prependUIBlock(new UIBlock() {
-            @Override
-            public void execute(NativeViewHierarchyManager nativeViewHierarchyManager) {
-                // The view needs to be resolved before running on the UI thread because there's
-                // a delay before the UI queue can pick up the runnable.
-                final EditText editText = (EditText) nativeViewHierarchyManager.resolveView(tag);
+    public void setMask(final int view, final String mask) {
+      final Activity currentActivity = this.reactContext.getCurrentActivity();
+      final ReactApplicationContext rctx = this.reactContext;
 
-                reactContext.runOnUiQueueThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        MaskedTextChangedListener listener = new MaskedTextChangedListener(
-                                mask,
-                                true,
-                                editText,
-                                null,
-                                null
-                        );
+      currentActivity.runOnUiThread(new Runnable() {
+        @Override
+        public void run() {
+          UIManagerModule uiManager = rctx.getNativeModule(UIManagerModule.class);
+          uiManager.addUIBlock(new UIBlock() {
+              @Override
+              public void execute(NativeViewHierarchyManager nativeViewHierarchyManager) {
+                  final EditText editText = (EditText)nativeViewHierarchyManager.resolveView(view);
 
-                        if (editText.getTag() != null) {
-                            editText.removeTextChangedListener((TextWatcher) editText.getTag());
+                  MaskedTextChangedListener listener = new MaskedTextChangedListener(
+                    mask,
+                    false,
+                    editText,
+                    null,
+                    new MaskedTextChangedListener.ValueListener() {
+                        @Override
+                        public void onTextChanged(boolean maskFilled, @NonNull final String extractedValue) {
+
                         }
-
-                        editText.setTag(listener);
-                        editText.addTextChangedListener(listener);
                     }
-                });
-            }
-        });
+                  );
+
+                  if("currency".equalsIgnoreCase(mask)) {
+                     editText.addTextChangedListener(new MoneyTextWatcher(editText, false));
+                  } else if("currency$".equalsIgnoreCase(mask)) {
+                       editText.addTextChangedListener(new MoneyTextWatcher(editText, true));
+                  } else {
+                      editText.addTextChangedListener(listener);
+                  }
+              }
+          });
+        }
+      });
     }
 }

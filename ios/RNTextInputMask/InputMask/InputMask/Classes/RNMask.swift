@@ -20,7 +20,14 @@ open class RNMask : NSObject {
             autocomplete: true
         )
 
-        return result.formattedText.string
+        var maskedString = result.formattedText.string;
+                if("currency" == format) {
+                    maskedString = text.currencyInputFormatting(showSymbol: false)
+                } else if("currency$" == format) {
+                    maskedString = text.currencyInputFormatting(showSymbol: true)
+                }
+
+        return maskedString;
     }
     
     public static func unmaskValue(text: String, format: String) -> String {

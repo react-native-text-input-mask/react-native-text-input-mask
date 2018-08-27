@@ -93,7 +93,7 @@ public class Compiler {
 }
 
 private extension Compiler {
-    
+
     func compile(_ string: String, valueable: Bool, fixed: Bool) throws -> State {
         guard
             let char: Character = string.characters.first
@@ -133,7 +133,7 @@ private extension Compiler {
             )
         }
         
-        if valueable {
+if valueable {
             if "0" == char {
                 return ValueState(
                     child: try self.compile(

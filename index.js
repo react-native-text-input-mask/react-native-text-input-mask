@@ -22,9 +22,10 @@ export default class TextInputMask extends Component {
   componentDidMount() {
     if (this.props.maskDefaultValue &&
         this.props.mask &&
-        this.props.value) {
-      mask(this.props.mask, '' + this.props.value, text =>
-        this.input && this.input.setNativeProps({ text }),
+        (this.props.value || this.props.defaultValue)) {
+      const value = this.props.value || this.props.defaultValue;
+      mask(this.props.mask, '' + value, text =>
+        this.input.setNativeProps({ text }),
       )
     }
 

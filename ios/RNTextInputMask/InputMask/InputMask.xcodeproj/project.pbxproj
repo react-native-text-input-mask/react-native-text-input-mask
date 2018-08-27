@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		00FED3D91F34AE0400BDB60B /* RNMask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00FED3D81F34AE0400BDB60B /* RNMask.swift */; };
+		72853DEC1F6AC0E300D1C5F1 /* CurrencyCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72853DEB1F6AC0E300D1C5F1 /* CurrencyCase.swift */; };
 		8A0185471D6498F9007B5EBD /* FreeState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A0185461D6498F9007B5EBD /* FreeState.swift */; };
 		8A0185481D6498F9007B5EBD /* FreeState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A0185461D6498F9007B5EBD /* FreeState.swift */; };
 		8A01854A1D649BC9007B5EBD /* PhoneCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A0185491D649BC9007B5EBD /* PhoneCase.swift */; };
@@ -66,6 +67,7 @@
 /* Begin PBXFileReference section */
 		00FED3D81F34AE0400BDB60B /* RNMask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RNMask.swift; sourceTree = "<group>"; };
 		5147936F1EB89544009CD671 /* InputMask.podspec */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = InputMask.podspec; path = ../../../../InputMask.podspec; sourceTree = "<group>"; };
+		72853DEB1F6AC0E300D1C5F1 /* CurrencyCase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CurrencyCase.swift; sourceTree = "<group>"; };
 		8A0185461D6498F9007B5EBD /* FreeState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FreeState.swift; sourceTree = "<group>"; };
 		8A0185491D649BC9007B5EBD /* PhoneCase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhoneCase.swift; sourceTree = "<group>"; };
 		8A01854C1D64ABCC007B5EBD /* MaskedTextFieldDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MaskedTextFieldDelegate.swift; sourceTree = "<group>"; };
@@ -235,6 +237,7 @@
 				8A0185491D649BC9007B5EBD /* PhoneCase.swift */,
 				8A75D98C1E2392B300F7D244 /* YearACCase.swift */,
 				8AE8CA081E4489B400EDC9C4 /* YearCase.swift */,
+				72853DEB1F6AC0E300D1C5F1 /* CurrencyCase.swift */,
 			);
 			path = Mask;
 			sourceTree = "<group>";
@@ -407,6 +410,7 @@
 				8A83CCB41D5B5E1F00C0184F /* String.swift in Sources */,
 				8AB1E8971D6378D400892C3B /* ValueState.swift in Sources */,
 				8A808F091D5B1A8E00A75B9C /* MaskTestCase.swift in Sources */,
+				72853DEC1F6AC0E300D1C5F1 /* CurrencyCase.swift in Sources */,
 				8AB1E8871D63746400892C3B /* CaretString.swift in Sources */,
 				8A1E3C551D64809900589799 /* Mask.swift in Sources */,
 				8A1E3C5E1D648A0F00589799 /* DayMonthYearShortCase.swift in Sources */,
@@ -522,7 +526,7 @@
 		8A808EE01D5B0FEC00A75B9C /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
 				CLANG_ENABLE_MODULES = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				DEFINES_MODULE = YES;
@@ -544,7 +548,7 @@
 		8A808EE11D5B0FEC00A75B9C /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
 				CLANG_ENABLE_MODULES = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				DEFINES_MODULE = YES;

@@ -25,7 +25,7 @@ public class Mask: CustomDebugStringConvertible, CustomStringConvertible {
      
      The end result of mask application to the user input string.
      */
-    public struct Result: CustomDebugStringConvertible, CustomStringConvertible {
+public struct Result: CustomDebugStringConvertible, CustomStringConvertible {
         
         /**
          Formatted text with updated caret position.
@@ -103,6 +103,7 @@ public class Mask: CustomDebugStringConvertible, CustomStringConvertible {
      - returns: Formatted text with extracted value an adjusted cursor position.
      */
     public func apply(toText text: CaretString, autocomplete: Bool = false) -> Result {
+        
         let iterator: CaretStringIterator = CaretStringIterator(caretString: text)
         
         var affinity:               Int     = 0
