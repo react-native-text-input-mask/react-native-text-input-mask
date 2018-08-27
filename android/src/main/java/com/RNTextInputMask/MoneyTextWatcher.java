@@ -1,60 +1,112 @@
 package com.RNTextInputMask;
 
-import java.text.DecimalFormat;
-import java.text.ParseException;
-
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.widget.EditText;
+
 import java.lang.ref.WeakReference;
 import java.math.BigDecimal;
-import java.text.NumberFormat;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.util.Locale;
-
-
+import java.math.RoundingMode;
 
 public class MoneyTextWatcher implements TextWatcher {
-    private final WeakReference<EditText> editTextWeakReference;
-    private final Boolean showCurrency;
+    private final WeakReference<EditText> editText;
+    private String previousCleanString;
+    private String prefix;
 
-    public MoneyTextWatcher(EditText editText, Boolean showDollaBills) {
-        editTextWeakReference = new WeakReference<EditText>(editText);
-        showCurrency = showDollaBills;
+    private static final int MAX_DECIMAL = 5;
+
+    public MoneyTextWatcher(EditText editText, String prefix) {
+        this.editText = new WeakReference<>(editText);
+        this.prefix = prefix;
+    }
+
+    public MoneyTextWatcher(EditText editText) {
+        this.editText = new WeakReference<>(editText);
+        this.prefix = "";
     }
 
     @Override
     public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+        // do nothing
     }
 
     @Override
     public void onTextChanged(CharSequence s, int start, int before, int count) {
+        // do nothing
     }
 
     @Override
     public void afterTextChanged(Editable editable) {
-        EditText editText = editTextWeakReference.get();
+        EditText editText = this.editText.get();
         if (editText == null) return;
-        String s = editable.toString();
-        editText.removeTextChangedListener(this);
 
-        try {
-            String cleanString = s.toString().replaceAll("[$,.]", "");
-            cleanString = cleanString.replaceAll("[^\\d.]", "");
-            BigDecimal parsed = new BigDecimal(cleanString).setScale(2, BigDecimal.ROUND_FLOOR).divide(new BigDecimal(100), BigDecimal.ROUND_FLOOR);
-            NumberFormat defaultFormat = null;
-            if(showCurrency == true) {
-                defaultFormat = NumberFormat.getCurrencyInstance();
-            } else {
-                defaultFormat = NumberFormat.getInstance(Locale.US);
-                defaultFormat.setMinimumFractionDigits(2);
-            }
-            String formatted = defaultFormat.format(parsed);
-            editText.setText(formatted);
-            editText.setSelection(formatted.length());
-        } catch (Exception e) {
-            // noop
+        String str = editable.toString();
+        if (!TextUtils.isEmpty(prefix) && str.length() < prefix.length()) {
+            editText.setText(prefix);
+            editText.setSelection(prefix.length());
+            return;
+        }
+        if (!TextUtils.isEmpty(prefix) && str.equals(prefix)) {
+            return;
+        }
+        editText.removeTextChangedListener(this); // Remove listener
+        // cleanString this the string which not contain prefix and ,
+        String cleanString = str.replace(prefix, "").replaceAll("[,]", "");
+        // for prevent afterTextChanged recursive call
+        if (cleanString.equals(previousCleanString) || cleanString.isEmpty()) {
+            return;
+        }
+        previousCleanString = cleanString;
+
+        String formattedString;
+        if (cleanString.contains(".")) {
+            formattedString = formatDecimal(cleanString);
+        } else {
+            formattedString = formatInteger(cleanString);
         }
 
-        editText.addTextChangedListener(this);
+        editText.setText(formattedString);
+        handleSelection(editText);
+        editText.addTextChangedListener(this); // Add back the listener
+    }
+
+    private String formatInteger(String str) {
+        BigDecimal parsed = new BigDecimal(str);
+        DecimalFormat formatter =
+                new DecimalFormat(prefix + "#,###", new DecimalFormatSymbols(Locale.getDefault()));
+        return formatter.format(parsed);
+    }
+
+    private String formatDecimal(String str) {
+        if (str.equals(".")) {
+            return prefix + ".";
+        }
+        BigDecimal parsed = new BigDecimal(str);
+        // example pattern VND #,###.00
+        DecimalFormat formatter = new DecimalFormat(prefix + "#,###." + getDecimalPattern(str),
+                new DecimalFormatSymbols(Locale.getDefault()));
+        formatter.setRoundingMode(RoundingMode.DOWN);
+        return formatter.format(parsed);
+    }
+
+    /**
+     * It will return suitable pattern for format decimal
+     * For example: 10.2 -> return 0 | 10.23 -> return 00, | 10.235 -> return 000
+     */
+    private String getDecimalPattern(String str) {
+        int decimalCount = str.length() - str.indexOf(".") - 1;
+        StringBuilder decimalPattern = new StringBuilder();
+        for (int i = 0; i < decimalCount && i < MAX_DECIMAL; i++) {
+            decimalPattern.append("#");
+        }
+        return decimalPattern.toString();
+    }
+
+    private void handleSelection(EditText editText) {
+        editText.setSelection(editText.getText().length());
     }
 }

@@ -15,8 +15,7 @@ public class RNTextInputNumberTextWatcher implements TextWatcher {
 
     private EditText et;
 
-    public RNTextInputNumberTextWatcher(EditText et)
-    {
+    public RNTextInputNumberTextWatcher(EditText et) {
         df = new DecimalFormat("#,###.##");
         df.setDecimalSeparatorAlwaysShown(true);
         dfnd = new DecimalFormat("¤#,###");
@@ -28,8 +27,7 @@ public class RNTextInputNumberTextWatcher implements TextWatcher {
     private static final String TAG = "RNTextInputNumberTextWatcher";
 
     @Override
-    public void afterTextChanged(Editable s)
-    {
+    public void afterTextChanged(Editable s) {
         et.removeTextChangedListener(this);
 
         try {
@@ -62,15 +60,12 @@ public class RNTextInputNumberTextWatcher implements TextWatcher {
     }
 
     @Override
-    public void beforeTextChanged(CharSequence s, int start, int count, int after)
-    {
+    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
     }
 
     @Override
-    public void onTextChanged(CharSequence s, int start, int before, int count)
-    {
-        if (s.toString().contains(String.valueOf(df.getDecimalFormatSymbols().getDecimalSeparator())))
-        {
+    public void onTextChanged(CharSequence s, int start, int before, int count) {
+        if (s.toString().contains(String.valueOf(df.getDecimalFormatSymbols().getDecimalSeparator()))) {
             hasFractionalPart = true;
         } else {
             hasFractionalPart = false;
