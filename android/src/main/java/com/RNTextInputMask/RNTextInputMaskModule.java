@@ -129,8 +129,14 @@ public class RNTextInputMaskModule extends ReactContextBaseJavaModule {
                                 }
                         );
 
-                        if ("currency".equalsIgnoreCase(mask)) {
-                            editText.addTextChangedListener(new MoneyTextWatcher(editText));
+                        String[] strings = mask.split("/");
+
+                        if ("currency".equalsIgnoreCase(strings[0])) {
+                            String currency = "";
+                            if (strings.length > 1) {
+                                currency = strings[1];
+                            }
+                            editText.addTextChangedListener(new MoneyTextWatcher(editText, currency));
                         } else {
                             editText.addTextChangedListener(listener);
                         }

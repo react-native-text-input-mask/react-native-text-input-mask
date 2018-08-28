@@ -44,6 +44,11 @@ public class MoneyTextWatcher implements TextWatcher {
         EditText editText = this.editText.get();
         if (editText == null) return;
 
+        if (editText.getTag() == null) {
+            editText.addTextChangedListener(this); // Add back the listener
+            editText.setTag(0);
+        }
+
         String str = editable.toString();
         if (!TextUtils.isEmpty(prefix) && str.length() < prefix.length()) {
             editText.setText(prefix);
@@ -53,7 +58,7 @@ public class MoneyTextWatcher implements TextWatcher {
         if (!TextUtils.isEmpty(prefix) && str.equals(prefix)) {
             return;
         }
-        editText.removeTextChangedListener(this); // Remove listener
+
         // cleanString this the string which not contain prefix and ,
         String cleanString = str.replace(prefix, "").replaceAll("[,]", "");
         // for prevent afterTextChanged recursive call
@@ -70,8 +75,7 @@ public class MoneyTextWatcher implements TextWatcher {
         }
 
         editText.setText(formattedString);
-        handleSelection(editText);
-        editText.addTextChangedListener(this); // Add back the listener
+        editText.setSelection(formattedString.length());
     }
 
     private String formatInteger(String str) {
@@ -100,13 +104,9 @@ public class MoneyTextWatcher implements TextWatcher {
     private String getDecimalPattern(String str) {
         int decimalCount = str.length() - str.indexOf(".") - 1;
         StringBuilder decimalPattern = new StringBuilder();
-        for (int i = 0; i < decimalCount && i < MAX_DECIMAL; i++) {
-            decimalPattern.append("#");
+        for (int i = 0; i < Math.min(decimalCount, MAX_DECIMAL); i++) {
+            decimalPattern.append("0");
         }
         return decimalPattern.toString();
-    }
-
-    private void handleSelection(EditText editText) {
-        editText.setSelection(editText.getText().length());
     }
 }
