@@ -69,7 +69,16 @@ public class MoneyTextWatcher implements TextWatcher {
 
         String formattedString;
         if (cleanString.contains(".")) {
-            formattedString = formatDecimal(cleanString);
+            int dotNumber = cleanString.length() - cleanString.replace(".", "").length();
+            if (dotNumber > 1) {
+                StringBuilder builder = new StringBuilder(cleanString);
+                builder.deleteCharAt(builder.lastIndexOf("."));
+                cleanString = builder.toString();
+            }
+            if (!".".equals(cleanString))
+                formattedString = formatDecimal(cleanString);
+            else
+                formattedString = cleanString;
         } else {
             formattedString = formatInteger(cleanString);
         }
@@ -87,14 +96,23 @@ public class MoneyTextWatcher implements TextWatcher {
 
     private String formatDecimal(String str) {
         if (str.equals(".")) {
-            return prefix + ".";
+            return prefix + str;
         }
         BigDecimal parsed = new BigDecimal(str);
-        // example pattern VND #,###.00
-        DecimalFormat formatter = new DecimalFormat(prefix + "#,###." + getDecimalPattern(str),
+        if (parsed.compareTo(BigDecimal.ZERO) == 0) {
+            int decimalCount = str.length() - str.indexOf(".") - 1;
+            if (decimalCount <= MAX_DECIMAL) {
+                return prefix + str;
+            }
+
+            return prefix + str.substring(0, str.length() - 1);
+        }
+        DecimalFormat formatter = new DecimalFormat("#,###." + getDecimalPattern(str),
                 new DecimalFormatSymbols(Locale.getDefault()));
         formatter.setRoundingMode(RoundingMode.DOWN);
-        return formatter.format(parsed);
+        formatter.setMinimumIntegerDigits(1);
+
+        return prefix + formatter.format(parsed);
     }
 
     /**
