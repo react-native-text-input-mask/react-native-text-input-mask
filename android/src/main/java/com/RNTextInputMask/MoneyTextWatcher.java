@@ -16,17 +16,24 @@ public class MoneyTextWatcher implements TextWatcher {
     private final WeakReference<EditText> editText;
     private String previousCleanString;
     private String prefix;
+    private int precision;
 
-    private static final int MAX_DECIMAL = 5;
+    public MoneyTextWatcher(EditText editText, String prefix, int precision) {
+        this.editText = new WeakReference<>(editText);
+        this.prefix = prefix;
+        this.precision = precision;
+    }
 
     public MoneyTextWatcher(EditText editText, String prefix) {
         this.editText = new WeakReference<>(editText);
         this.prefix = prefix;
+        this.precision = 5;
     }
 
     public MoneyTextWatcher(EditText editText) {
         this.editText = new WeakReference<>(editText);
         this.prefix = "";
+        this.precision = 5;
     }
 
     @Override
@@ -101,7 +108,7 @@ public class MoneyTextWatcher implements TextWatcher {
         BigDecimal parsed = new BigDecimal(str);
         if (parsed.compareTo(BigDecimal.ZERO) == 0) {
             int decimalCount = str.length() - str.indexOf(".") - 1;
-            if (decimalCount <= MAX_DECIMAL) {
+            if (decimalCount <= precision) {
                 return prefix + str;
             }
 
@@ -122,7 +129,7 @@ public class MoneyTextWatcher implements TextWatcher {
     private String getDecimalPattern(String str) {
         int decimalCount = str.length() - str.indexOf(".") - 1;
         StringBuilder decimalPattern = new StringBuilder();
-        for (int i = 0; i < Math.min(decimalCount, MAX_DECIMAL); i++) {
+        for (int i = 0; i < Math.min(decimalCount, precision); i++) {
             decimalPattern.append("0");
         }
         return decimalPattern.toString();
