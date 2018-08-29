@@ -97,7 +97,7 @@ public class RNTextInputMaskModule extends ReactContextBaseJavaModule {
                             if (strings.length > 1) {
                                 currency = strings[1];
                             }
-                            MoneyTextWatcher listener = new MoneyTextWatcher(editText, currency. precision);
+                            MoneyTextWatcher listener = new MoneyTextWatcher(editText, currency, precision);
                             editText.setTag(listener);
                             editText.addTextChangedListener(listener);
                         } else {
