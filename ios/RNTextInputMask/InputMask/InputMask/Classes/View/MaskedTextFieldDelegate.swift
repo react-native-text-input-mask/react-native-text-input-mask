@@ -190,30 +190,26 @@ open class MaskedTextFieldDelegate: NSObject, UITextFieldDelegate {
     open func deleteCurrencyText(
         inRange range: NSRange,
         inField field: UITextField,
-        showCurrency show: Bool
+        showCurrency symbol: String,
+        precision: Int
         ) -> (String, Bool) {
         let text: String = self.replaceCharacters(
             inText: field.text,
             range: range,
             withCharacters: ""
         )
-
-        var currencyText = ""
-        if(show == true) {
-            currencyText = text.currencyInputFormatting(showSymbol: true)
-        } else if(show == false) {
-            currencyText = text.currencyInputFormatting(showSymbol: false)
-        }
-
+        
+        let currencyText = text.currencyInputFormatting(showSymbol: symbol, precision: precision)
+        
         field.text = currencyText
         let position: Int =
             currencyText.distance(from: currencyText.startIndex, to: currencyText.endIndex)
-
+        
         self.setCaretPosition(position, inField: field)
-
+        
         return (currencyText, false)
     }
-
+    
     open func deleteMaskedText(
         inRange range: NSRange,
         inField field: UITextField
@@ -223,7 +219,7 @@ open class MaskedTextFieldDelegate: NSObject, UITextFieldDelegate {
             range: range,
             withCharacters: ""
         )
-
+        
         let result: Mask.Result = self.mask.apply(
             toText: CaretString(
                 string: text,
@@ -231,98 +227,93 @@ open class MaskedTextFieldDelegate: NSObject, UITextFieldDelegate {
             ),
             autocomplete: false
         )
-
+        
         field.text = result.formattedText.string
         self.setCaretPosition(range.location, inField: field)
-
+        
         return (result.extractedValue, result.complete)
     }
-
+    
     open func deleteText(
         inRange range: NSRange,
         inField field: UITextField
         ) -> (String, Bool) {
-
-        if("currency" == self.maskFormat) {
-            return deleteCurrencyText(inRange: range, inField: field, showCurrency: false)
-        } else if("currency$" == self.maskFormat) {
-            return deleteCurrencyText(inRange: range, inField: field, showCurrency: true)
-        } else {
+        
+        let strings = self.maskFormat.split(separator: "/").map(String.init)
+        if "currency" == strings[0].lowercased() {
+            let symbol = strings.count > 1 ? strings[1] : ""
+            return deleteCurrencyText(inRange: range, inField: field, showCurrency: symbol, precision: self.mask.precision)
+        }
+        else {
             return deleteMaskedText(inRange: range, inField: field)
         }
     }
-
-
+    
+    
     open func modifyCurrencyText(
         inRange range: NSRange,
         inField field: UITextField,
         withText text: String,
-        showCurrency show: Bool
+        showCurrency symbol: String
         ) -> (String, Bool) {
-
+        
         let updatedText: String = self.replaceCharacters(
             inText: field.text,
             range: range,
             withCharacters: text
         )
-
-        var amountString = ""
-        if(show == true) {
-            amountString = updatedText.currencyInputFormatting(showSymbol: true)
-        } else if(show == false) {
-            amountString = updatedText.currencyInputFormatting(showSymbol: false)
-        }
-
-
+        
+        let amountString = updatedText.currencyInputFormatting(showSymbol: symbol, precision: self.mask.precision)
+        
         field.text = amountString
         let position: Int =
             amountString.distance(from: amountString.startIndex, to: amountString.endIndex)
-
+        
         self.setCaretPosition(position, inField: field)
-
+        
         return (amountString, false)
     }
-
+    
     open func modifyMaskedText(
         inRange range: NSRange,
         inField field: UITextField,
         withText text: String
         ) -> (String, Bool) {
-
+        
         let updatedText: String = self.replaceCharacters(
             inText: field.text,
             range: range,
             withCharacters: text
         )
-
+        
         let result: Mask.Result = self.mask.apply(
             toText: CaretString(
                 string: updatedText,
-                caretPosition: updatedText.index(updatedText.startIndex, offsetBy: self.caretPosition(inField: field) + text.characters.count)
+                caretPosition: updatedText.index(updatedText.startIndex, offsetBy: self.caretPosition(inField: field) + text.count)
             ),
             autocomplete: self.autocomplete
         )
-
+        
         field.text = result.formattedText.string
         let position: Int =
             result.formattedText.string.distance(from: result.formattedText.string.startIndex, to: result.formattedText.caretPosition)
-
+        
         self.setCaretPosition(position, inField: field)
-
+        
         return (result.extractedValue, result.complete)
     }
-
-
+    
+    
     open func modifyText(
         inRange range: NSRange,
         inField field: UITextField,
         withText text: String
         ) -> (String, Bool) {
-
-        if("currency" == self.maskFormat) {
-            return modifyCurrencyText(inRange: range, inField: field, withText: text, showCurrency: false)
-        } else if("currency$" == self.maskFormat) {
-            return modifyCurrencyText(inRange: range, inField: field, withText: text, showCurrency: true)
+        
+        let strings = self.maskFormat.split(separator: "/").map(String.init)
+        if "currency" == strings[0].lowercased() {
+            let symbol = strings.count > 1 ? strings[1] : ""
+            return modifyCurrencyText(inRange: range, inField: field, withText: text, showCurrency: symbol)
         } else {
             return modifyMaskedText(inRange: range, inField: field, withText: text)
         }
@@ -391,7 +382,7 @@ open class MaskedTextFieldDelegate: NSObject, UITextFieldDelegate {
 internal extension MaskedTextFieldDelegate {
     
     func isDeletion(inRange range: NSRange, string: String) -> Bool {
-        return 0 < range.length && 0 == string.characters.count
+        return 0 < range.length && 0 == string.count
     }
     
     func replaceCharacters(inText text: String?, range: NSRange, withCharacters newText: String) -> String {
@@ -414,7 +405,7 @@ internal extension MaskedTextFieldDelegate {
         // Workaround for non-optional `field.beginningOfDocument`, which could actually be nil if field doesn't have focus
         guard field.isFirstResponder
             else {
-                return field.text?.characters.count ?? 0
+                return field.text?.count ?? 0
         }
         
         if let range: UITextRange = field.selectedTextRange {

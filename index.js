@@ -18,26 +18,27 @@ export default class TextInputMask extends Component {
   }
 
   masked = false
+  defaultPrecision = 5
 
   componentDidMount() {
     if (this.props.maskDefaultValue &&
         this.props.mask &&
         (this.props.value || this.props.defaultValue)) {
       const value = this.props.value || this.props.defaultValue;
-      mask(this.props.mask, '' + value, text =>
+      mask(this.props.mask, '' + value, this.props.precision || this.defaultPrecision, text =>
         this.input.setNativeProps({ text }),
       )
     }
 
     if (this.props.mask && !this.masked) {
       this.masked = true
-      setMask(findNodeHandle(this.input), this.props.mask, this.props.precision || 5)
+      setMask(findNodeHandle(this.input), this.props.mask, this.props.precision || this.defaultPrecision)
     }
   }
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.mask && (this.props.value !== nextProps.value)) {
-      mask(this.props.mask, '' + nextProps.value, text =>
+      mask(this.props.mask, '' + nextProps.value, this.props.precision || this.defaultPrecision, text =>
       this.input && this.input.setNativeProps({ text })
       );
     }

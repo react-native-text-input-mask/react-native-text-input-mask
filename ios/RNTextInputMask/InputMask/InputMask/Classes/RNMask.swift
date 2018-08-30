@@ -9,7 +9,13 @@
 import Foundation
 
 open class RNMask : NSObject {
-    public static func maskValue(text: String, format: String) -> String {
+    public static func maskValue(text: String, format: String, precision: Int) -> String {
+        let strings = format.split(separator: "/").map(String.init)
+        if "currency" == strings[0].lowercased() {
+            let symbol = strings.count > 1 ? strings[1] : ""
+            return text.currencyInputFormatting(showSymbol: symbol, precision: precision)
+        }
+        
         let mask : Mask = try! Mask.getOrCreate(withFormat: format)
 
         let result: Mask.Result = mask.apply(
@@ -20,14 +26,7 @@ open class RNMask : NSObject {
             autocomplete: true
         )
 
-        var maskedString = result.formattedText.string;
-                if("currency" == format) {
-                    maskedString = text.currencyInputFormatting(showSymbol: false)
-                } else if("currency$" == format) {
-                    maskedString = text.currencyInputFormatting(showSymbol: true)
-                }
-
-        return maskedString;
+        return result.formattedText.string
     }
     
     public static func unmaskValue(text: String, format: String) -> String {

@@ -1,6 +1,5 @@
 package com.RNTextInputMask;
 
-import android.app.Activity;
 import android.widget.EditText;
 import android.text.TextWatcher;
 
@@ -10,19 +9,14 @@ import com.facebook.react.uimanager.NativeViewHierarchyManager;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
-import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.bridge.Callback;
 
 import com.redmadrobot.inputmask.MaskedTextChangedListener;
-import com.redmadrobot.inputmask.PolyMaskTextChangedListener;
 
 import com.redmadrobot.inputmask.model.CaretString;
 import com.redmadrobot.inputmask.helper.Mask;
 
 import android.support.annotation.NonNull;
-
-import java.text.NumberFormat;
-import java.util.Locale;
 
 public class RNTextInputMaskModule extends ReactContextBaseJavaModule {
     ReactApplicationContext reactContext;
@@ -40,18 +34,31 @@ public class RNTextInputMaskModule extends ReactContextBaseJavaModule {
     @ReactMethod
     public void mask(final String maskString,
                      final String inputValue,
+                     final int precision,
                      final Callback onResult) {
-        final Mask mask = new Mask(maskString);
-        final String input = inputValue;
-        final Mask.Result result = mask.apply(
-                new CaretString(
-                        input,
-                        input.length()
-                ),
-                false
-        );
+        String output;
+        String[] strings = maskString.split("/");
 
-        String output = result.getFormattedText().getString();
+        if ("currency".equalsIgnoreCase(strings[0])) {
+            String prefix = "";
+            if (strings.length > 1) {
+                prefix = strings[1];
+            }
+
+            output = MoneyTextWatcher.Helper.instance.formatCurrency(inputValue, precision, prefix);
+        }
+        else {
+            final Mask mask = new Mask(maskString);
+            final String input = inputValue;
+            final Mask.Result result = mask.apply(
+                    new CaretString(
+                            input,
+                            input.length()
+                    ),
+                    false
+            );
+            output = result.getFormattedText().getString();
+        }
         onResult.invoke(output);
     }
 

@@ -74,64 +74,74 @@ public class MoneyTextWatcher implements TextWatcher {
         }
         previousCleanString = cleanString;
 
-        String formattedString;
-        if (cleanString.contains(".")) {
-            int dotNumber = cleanString.length() - cleanString.replace(".", "").length();
-            if (dotNumber > 1) {
-                StringBuilder builder = new StringBuilder(cleanString);
-                builder.deleteCharAt(builder.lastIndexOf("."));
-                cleanString = builder.toString();
-            }
-            if (!".".equals(cleanString))
-                formattedString = formatDecimal(cleanString);
-            else
-                formattedString = cleanString;
-        } else {
-            formattedString = formatInteger(cleanString);
-        }
+        String formattedString = Helper.instance.formatCurrency(cleanString, precision, prefix);
 
         editText.setText(formattedString);
         editText.setSelection(formattedString.length());
     }
 
-    private String formatInteger(String str) {
-        BigDecimal parsed = new BigDecimal(str);
-        DecimalFormat formatter =
-                new DecimalFormat(prefix + "#,###", new DecimalFormatSymbols(Locale.getDefault()));
-        return formatter.format(parsed);
-    }
+    public static class Helper {
+        public static Helper instance = new Helper();
 
-    private String formatDecimal(String str) {
-        if (str.equals(".")) {
-            return prefix + str;
-        }
-        BigDecimal parsed = new BigDecimal(str);
-        if (parsed.compareTo(BigDecimal.ZERO) == 0) {
-            int decimalCount = str.length() - str.indexOf(".") - 1;
-            if (decimalCount <= precision) {
-                return prefix + str;
+        private Helper() {}
+
+        public String formatCurrency(String str, int precision , String prefix) {
+            String cleanString = str.replace(prefix, "").replaceAll("[,]", "");
+            if (str.contains(".")) {
+                int dotNumber = cleanString.length() - cleanString.replace(".", "").length();
+                if (dotNumber > 1) {
+                    StringBuilder builder = new StringBuilder(cleanString);
+                    builder.deleteCharAt(builder.lastIndexOf("."));
+                    cleanString = builder.toString();
+                }
+                if (!".".equals(str))
+                    return formatDecimal(cleanString, precision, prefix);
+                else
+                    return cleanString;
             }
 
-            return prefix + str.substring(0, str.length() - 1);
+            return formatInteger(cleanString, prefix);
         }
-        DecimalFormat formatter = new DecimalFormat("#,###." + getDecimalPattern(str),
-                new DecimalFormatSymbols(Locale.getDefault()));
-        formatter.setRoundingMode(RoundingMode.DOWN);
-        formatter.setMinimumIntegerDigits(1);
 
-        return prefix + formatter.format(parsed);
-    }
-
-    /**
-     * It will return suitable pattern for format decimal
-     * For example: 10.2 -> return 0 | 10.23 -> return 00, | 10.235 -> return 000
-     */
-    private String getDecimalPattern(String str) {
-        int decimalCount = str.length() - str.indexOf(".") - 1;
-        StringBuilder decimalPattern = new StringBuilder();
-        for (int i = 0; i < Math.min(decimalCount, precision); i++) {
-            decimalPattern.append("0");
+        private String formatInteger(String str, String prefix) {
+            BigDecimal parsed = new BigDecimal(str);
+            DecimalFormat formatter =
+                    new DecimalFormat(prefix + "#,###", new DecimalFormatSymbols(Locale.getDefault()));
+            return formatter.format(parsed);
         }
-        return decimalPattern.toString();
+
+        private String formatDecimal(String str, int precision , String prefix) {
+            if (str.equals(".")) {
+                return prefix + str;
+            }
+            BigDecimal parsed = new BigDecimal(str);
+            if (parsed.compareTo(BigDecimal.ZERO) == 0) {
+                int decimalCount = str.length() - str.indexOf(".") - 1;
+                if (decimalCount <= precision) {
+                    return prefix + str;
+                }
+
+                return prefix + str.substring(0, str.length() - 1);
+            }
+            DecimalFormat formatter = new DecimalFormat("#,###." + getDecimalPattern(str, precision),
+                    new DecimalFormatSymbols(Locale.getDefault()));
+            formatter.setRoundingMode(RoundingMode.DOWN);
+            formatter.setMinimumIntegerDigits(1);
+
+            return prefix + formatter.format(parsed);
+        }
+
+        /**
+         * It will return suitable pattern for format decimal
+         * For example: 10.2 -> return 0 | 10.23 -> return 00, | 10.235 -> return 000
+         */
+        private String getDecimalPattern(String str, int precision) {
+            int decimalCount = str.length() - str.indexOf(".") - 1;
+            StringBuilder decimalPattern = new StringBuilder();
+            for (int i = 0; i < Math.min(decimalCount, precision); i++) {
+                decimalPattern.append("0");
+            }
+            return decimalPattern.toString();
+        }
     }
 }

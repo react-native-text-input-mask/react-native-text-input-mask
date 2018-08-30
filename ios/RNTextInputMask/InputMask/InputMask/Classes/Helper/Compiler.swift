@@ -21,7 +21,7 @@ import Foundation
  brackets, like ```[[000]99]```. Also, ```[…]``` groups may contain only the specified characters ("0", "9", "A", "a", 
  "_" and "-"). Square bracket ```[]``` groups cannot contain mixed types of symbols ("0" and "9" with "A" and "a" or
  "_" and "-").
-
+ 
  ```Compiler``` object is initialized and ```Compiler.compile(formatString:)``` is called during the ```Mask``` instance
  initialization.
  
@@ -93,12 +93,12 @@ public class Compiler {
 }
 
 private extension Compiler {
-
+    
     func compile(_ string: String, valueable: Bool, fixed: Bool) throws -> State {
         guard
-            let char: Character = string.characters.first
-        else {
-            return EOLState()
+            let char: Character = string.first
+            else {
+                return EOLState()
         }
         
         if "[" == char {
@@ -133,7 +133,7 @@ private extension Compiler {
             )
         }
         
-if valueable {
+        if valueable {
             if "0" == char {
                 return ValueState(
                     child: try self.compile(

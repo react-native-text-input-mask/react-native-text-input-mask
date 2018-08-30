@@ -19,13 +19,13 @@ import Foundation
  - seealso: ```Compiler```, ```State``` and ```CaretString``` classes.
  */
 public class Mask: CustomDebugStringConvertible, CustomStringConvertible {
-    
+    private static let defaultPrecision = 5
     /**
      ### Result
      
      The end result of mask application to the user input string.
      */
-public struct Result: CustomDebugStringConvertible, CustomStringConvertible {
+    public struct Result: CustomDebugStringConvertible, CustomStringConvertible {
         
         /**
          Formatted text with updated caret position.
@@ -61,6 +61,7 @@ public struct Result: CustomDebugStringConvertible, CustomStringConvertible {
     }
     
     private let initialState: State
+    let precision: Int
     private static var cache: [String : Mask] = [:]
     
     /**
@@ -72,8 +73,9 @@ public struct Result: CustomDebugStringConvertible, CustomStringConvertible {
      
      - throws: ```CompilerError``` if format string is incorrect.
      */
-    public required init(format: String) throws {
+    public required init(format: String, precision: Int = Mask.defaultPrecision) throws {
         self.initialState = try Compiler().compile(formatString: format)
+        self.precision = precision
     }
     
     /**
@@ -85,11 +87,11 @@ public struct Result: CustomDebugStringConvertible, CustomStringConvertible {
      - returns: Previously cached ```Mask``` object for requested format string. If such it doesn't exist in cache, the
      object is constructed, cached and returned.
      */
-    public static func getOrCreate(withFormat format: String) throws -> Mask {
+    public static func getOrCreate(withFormat format: String, precision: Int = Mask.defaultPrecision) throws -> Mask {
         if let cachedMask: Mask = cache[format] {
             return cachedMask
         } else {
-            let mask: Mask = try Mask(format: format)
+            let mask: Mask = try Mask(format: format, precision: precision)
             cache[format] = mask
             return mask
         }
@@ -260,7 +262,7 @@ private extension Mask {
     
     func appendPlaceholder(withState state: State?, placeholder: String) -> String {
         guard let state: State = state
-        else { return placeholder }
+            else { return placeholder }
         
         if state is EOLState {
             return placeholder
@@ -276,27 +278,27 @@ private extension Mask {
         
         if let state = state as? OptionalValueState {
             switch state.type {
-                case .AlphaNumeric:
-                    return self.appendPlaceholder(withState: state.child, placeholder: placeholder + "-")
+            case .AlphaNumeric:
+                return self.appendPlaceholder(withState: state.child, placeholder: placeholder + "-")
                 
-                case .Literal:
-                    return self.appendPlaceholder(withState: state.child, placeholder: placeholder + "a")
+            case .Literal:
+                return self.appendPlaceholder(withState: state.child, placeholder: placeholder + "a")
                 
-                case .Numeric:
-                    return self.appendPlaceholder(withState: state.child, placeholder: placeholder + "0")
+            case .Numeric:
+                return self.appendPlaceholder(withState: state.child, placeholder: placeholder + "0")
             }
         }
         
         if let state = state as? ValueState {
             switch state.type {
-                case .AlphaNumeric:
-                    return self.appendPlaceholder(withState: state.child, placeholder: placeholder + "-")
-                    
-                case .Literal:
-                    return self.appendPlaceholder(withState: state.child, placeholder: placeholder + "a")
-                    
-                case .Numeric:
-                    return self.appendPlaceholder(withState: state.child, placeholder: placeholder + "0")
+            case .AlphaNumeric:
+                return self.appendPlaceholder(withState: state.child, placeholder: placeholder + "-")
+                
+            case .Literal:
+                return self.appendPlaceholder(withState: state.child, placeholder: placeholder + "a")
+                
+            case .Numeric:
+                return self.appendPlaceholder(withState: state.child, placeholder: placeholder + "0")
             }
         }
         
@@ -307,8 +309,8 @@ private extension Mask {
         if (state is EOLState) {
             return true
         } else if (state is FixedState
-                || state is FreeState
-                || state is ValueState) {
+            || state is FreeState
+            || state is ValueState) {
             return false
         } else {
             return self.noMandatoryCharactersLeftAfterState(state.nextState())
