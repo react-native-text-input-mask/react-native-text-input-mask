@@ -54,7 +54,7 @@ open class MaskedTextFieldDelegate: NSObject, UITextFieldDelegate {
         
         set(newFormat) {
             self._maskFormat = newFormat
-            self.mask        = try! Mask.getOrCreate(withFormat: newFormat)
+            self.mask        = try! Mask.getOrCreate(withFormat: newFormat, precision: self.mask.precision)
         }
     }
     

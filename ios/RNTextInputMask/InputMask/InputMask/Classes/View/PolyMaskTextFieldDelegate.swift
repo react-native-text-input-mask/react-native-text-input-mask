@@ -136,7 +136,7 @@ open class PolyMaskTextFieldDelegate: MaskedTextFieldDelegate {
     open override var debugDescription: String {
         get {
             return self._affineFormats.reduce(self.mask.debugDescription) { (debugDescription: String, affineFormat: String) -> String in
-                return try! debugDescription + "\n" + Mask.getOrCreate(withFormat: affineFormat).debugDescription
+                return try! debugDescription + "\n" + Mask.getOrCreate(withFormat: affineFormat, precision: self.mask.precision).debugDescription
             }
         }
     }
@@ -158,7 +158,7 @@ internal extension PolyMaskTextFieldDelegate {
         )
         
         var masks: [(Mask, Int)] = self.affineFormats.map { (affineFormat: String) -> (Mask, Int) in
-            let mask:     Mask = try! Mask.getOrCreate(withFormat: affineFormat)
+            let mask:     Mask = try! Mask.getOrCreate(withFormat: affineFormat, precision: self.mask.precision)
             let affinity: Int  = self.calculateAffinity(
                 ofMask: mask,
                 forText: text,

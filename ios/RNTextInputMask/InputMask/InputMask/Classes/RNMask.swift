@@ -16,7 +16,7 @@ open class RNMask : NSObject {
             return text.currencyInputFormatting(showSymbol: symbol, precision: precision)
         }
         
-        let mask : Mask = try! Mask.getOrCreate(withFormat: format)
+        let mask : Mask = try! Mask.getOrCreate(withFormat: format, precision: precision)
 
         let result: Mask.Result = mask.apply(
             toText: CaretString(
@@ -30,7 +30,7 @@ open class RNMask : NSObject {
     }
     
     public static func unmaskValue(text: String, format: String) -> String {
-        let mask : Mask = try! Mask.getOrCreate(withFormat: format)
+        let mask : Mask = try! Mask.getOrCreate(withFormat: format, precision: 0)
 
         let result: Mask.Result = mask.apply(
             toText: CaretString(
