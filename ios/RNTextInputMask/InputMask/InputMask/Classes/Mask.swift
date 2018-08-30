@@ -19,7 +19,6 @@ import Foundation
  - seealso: ```Compiler```, ```State``` and ```CaretString``` classes.
  */
 public class Mask: CustomDebugStringConvertible, CustomStringConvertible {
-    @objc static let defaultPrecision = 5
     /**
      ### Result
      
@@ -73,7 +72,7 @@ public class Mask: CustomDebugStringConvertible, CustomStringConvertible {
      
      - throws: ```CompilerError``` if format string is incorrect.
      */
-    public required init(format: String, precision: Int = Mask.defaultPrecision) throws {
+    public required init(format: String, precision: Int) throws {
         self.initialState = try Compiler().compile(formatString: format)
         self.precision = precision
     }
@@ -87,7 +86,7 @@ public class Mask: CustomDebugStringConvertible, CustomStringConvertible {
      - returns: Previously cached ```Mask``` object for requested format string. If such it doesn't exist in cache, the
      object is constructed, cached and returned.
      */
-    public static func getOrCreate(withFormat format: String, precision: Int = Mask.defaultPrecision) throws -> Mask {
+    public static func getOrCreate(withFormat format: String, precision: Int) throws -> Mask {
         if let cachedMask: Mask = cache[format] {
             return cachedMask
         } else {

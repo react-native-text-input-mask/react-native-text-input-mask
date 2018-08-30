@@ -32,18 +32,14 @@ open class PolyMaskTextFieldDelegate: MaskedTextFieldDelegate {
         }
     }
     
-    @objc public convenience init(primaryFormat: String, affineFormats: [String]) {
-        self.init(format: primaryFormat)
+    @objc public convenience init(primaryFormat: String, affineFormats: [String], precision: Int) {
+        self.init(format: primaryFormat, precision: precision)
         self._affineFormats = affineFormats
     }
     
     @objc public override init(format: String, precision: Int) {
         self._affineFormats = []
         super.init(format: format, precision: precision)
-    }
-    
-    @objc public convenience init(format: String) {
-        self.init(format: format, precision: Mask.defaultPrecision)
     }
     
     open override func put(text: String, into field: UITextField) {

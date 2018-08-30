@@ -88,14 +88,6 @@ open class MaskedTextFieldDelegate: NSObject, UITextFieldDelegate {
         super.init()
     }
     
-    @objc public override convenience init() {
-        self.init(format: "")
-    }
-    
-    @objc public convenience init(format: String) {
-        self.init(format: format, precision: Mask.defaultPrecision)
-    }
-    
     open func put(text: String, into field: UITextField) {
         let result: Mask.Result = self.mask.apply(
             toText: CaretString(

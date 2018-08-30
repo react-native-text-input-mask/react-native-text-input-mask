@@ -61,12 +61,13 @@ extension String {
             dividers.removeLast()
         }
         
-        if dividers.count > 1 && floor(double) == double {
-            return showSymbol + amountWithoutPrefix
-        }
-        else if dividers[1].count >= precision {
+        if dividers.count > 1 {
+            let fractionDigitNumber = min(dividers[1].count, precision)
             let fractionPart = dividers[1]
-            amountWithoutPrefix = formatter.string(from: NSNumber(value: round(double)))! + "." + String(fractionPart[..<fractionPart.index(fractionPart.startIndex, offsetBy: precision)])
+            amountWithoutPrefix = formatter.string(from: NSNumber(value: round(double)))! + "."
+            if fractionDigitNumber > 0 {
+                amountWithoutPrefix += String(fractionPart[..<fractionPart.index(fractionPart.startIndex, offsetBy: fractionDigitNumber)])
+            }
             return amountWithoutPrefix
         }
         
