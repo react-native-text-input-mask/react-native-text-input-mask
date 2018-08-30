@@ -19,7 +19,7 @@ import Foundation
  - seealso: ```Compiler```, ```State``` and ```CaretString``` classes.
  */
 public class Mask: CustomDebugStringConvertible, CustomStringConvertible {
-    static let defaultPrecision = 5
+    @objc static let defaultPrecision = 5
     /**
      ### Result
      

@@ -32,17 +32,17 @@ open class PolyMaskTextFieldDelegate: MaskedTextFieldDelegate {
         }
     }
     
-    public convenience init(primaryFormat: String, affineFormats: [String]) {
+    @objc public convenience init(primaryFormat: String, affineFormats: [String]) {
         self.init(format: primaryFormat)
         self._affineFormats = affineFormats
     }
     
-    public override init(format: String, precision: Int = Mask.defaultPrecision) {
+    @objc public override init(format: String, precision: Int) {
         self._affineFormats = []
         super.init(format: format, precision: precision)
     }
     
-    public convenience init(format: String) {
+    @objc public convenience init(format: String) {
         self.init(format: format, precision: Mask.defaultPrecision)
     }
     
