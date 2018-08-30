@@ -28,7 +28,7 @@ RCT_EXPORT_MODULE();
     return self.bridge.uiManager.methodQueue;
 }
 
-RCT_EXPORT_METHOD(mask:(NSString *)maskString inputValue:(NSString *)inputValue precision:(nonnull NSInteger *)precision onResult:(RCTResponseSenderBlock)onResult) {
+RCT_EXPORT_METHOD(mask:(NSString *)maskString inputValue:(NSString *)inputValue precision:(NSInteger)precision onResult:(RCTResponseSenderBlock)onResult) {
     NSString *output = [RNMask maskValueWithText:inputValue format:maskString precision:precision];
     onResult(@[output]);
 }
@@ -38,7 +38,7 @@ RCT_EXPORT_METHOD(unmask:(NSString *)maskString inputValue:(NSString *)inputValu
     onResult(@[output]);
 }
 
-RCT_EXPORT_METHOD(setMask:(nonnull NSNumber *)reactNode mask:(NSString *)mask precision:(nonnull NSInteger *)precision) {
+RCT_EXPORT_METHOD(setMask:(nonnull NSNumber *)reactNode mask:(NSString *)mask precision:(NSInteger)precision) {
     [self.bridge.uiManager addUIBlock:^(RCTUIManager *uiManager, NSDictionary<NSNumber *, RCTSinglelineTextInputView *> *viewRegistry ) {
         dispatch_async(dispatch_get_main_queue(), ^{
             RCTSinglelineTextInputView *view = viewRegistry[reactNode];

@@ -80,7 +80,7 @@ open class MaskedTextFieldDelegate: NSObject, UITextFieldDelegate {
     
     open weak var listener: MaskedTextFieldDelegateListener?
     
-    public init(format: String, precision: Int = Mask.defaultPrecision) {
+    public init(format: String, precision: Int) {
         self._maskFormat = format
         self.mask = try! Mask.getOrCreate(withFormat: format, precision: precision)
         self._autocomplete = false
@@ -90,6 +90,10 @@ open class MaskedTextFieldDelegate: NSObject, UITextFieldDelegate {
     
     public override convenience init() {
         self.init(format: "")
+    }
+    
+    public convenience init(format: String) {
+        self.init(format: format, precision: Mask.defaultPrecision)
     }
     
     open func put(text: String, into field: UITextField) {
