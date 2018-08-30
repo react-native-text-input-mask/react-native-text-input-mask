@@ -26,32 +26,50 @@ extension String {
     
 }
 
+// formatting text for currency textField
 extension String {
-
-    // formatting text for currency textField
-    func currencyInputFormatting(showSymbol: String, precision: Int) -> String {
+    func currencyInputFormatting(showSymbol: String, precision: Int, omittingRedundantCharacters: Bool = false) -> String {
+        if isEmpty { return showSymbol + self }
+        
         var number: NSNumber!
         let formatter = NumberFormatter()
         formatter.numberStyle = .currencyAccounting
         formatter.currencySymbol = showSymbol
-        formatter.maximumFractionDigits = precision
-        formatter.minimumIntegerDigits = 1
         formatter.minimumFractionDigits = 0
-
-        var amountWithPrefix = self
-
-        // remove from String: "$", ".", ","
-        let regex = try! NSRegularExpression(pattern: "[^0-9]", options: .caseInsensitive)
-        amountWithPrefix = regex.stringByReplacingMatches(in: amountWithPrefix, options: NSRegularExpression.MatchingOptions(rawValue: 0), range: NSMakeRange(0, self.count), withTemplate: "")
-
-        let double = (amountWithPrefix as NSString).doubleValue
-        number = NSNumber(value: (double / 100))
-
-        // if first number is 0 or all numbers were deleted
-        guard number != 0 as NSNumber else {
-            return ""
+        formatter.minimumIntegerDigits = 1
+        formatter.maximumFractionDigits = precision
+        formatter.roundingMode = .down
+        
+        var amountWithoutPrefix = self
+        
+        guard let regex = try? NSRegularExpression(pattern: "[^.0-9]", options: .caseInsensitive) else {
+            return showSymbol + self
         }
-
-        return formatter.string(from: number)!
+        
+        amountWithoutPrefix = regex.stringByReplacingMatches(in: amountWithoutPrefix, options: NSRegularExpression.MatchingOptions(rawValue: 0), range: NSMakeRange(0, self.count), withTemplate: "")
+        
+        let double = (amountWithoutPrefix as NSString).doubleValue
+        number = NSNumber(value: double)
+        
+        if omittingRedundantCharacters {
+            return formatter.string(from: number)!
+        }
+        
+        var dividers = amountWithoutPrefix.split(separator: ".", omittingEmptySubsequences: false)
+        if dividers.count > 2 {
+            amountWithoutPrefix.removeLast()
+            dividers.removeLast()
+        }
+        
+        if dividers.count > 1 && floor(double) == double {
+            return showSymbol + amountWithoutPrefix
+        }
+        else if dividers[1].count >= precision {
+            let fractionPart = dividers[1]
+            amountWithoutPrefix = formatter.string(from: NSNumber(value: round(double)))! + "." + String(fractionPart[..<fractionPart.index(fractionPart.startIndex, offsetBy: precision)])
+            return amountWithoutPrefix
+        }
+        
+        return formatter.string(from: number) ?? (showSymbol + amountWithoutPrefix)
     }
 }
