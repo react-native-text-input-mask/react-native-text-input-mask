@@ -17,6 +17,7 @@ export default class TextInputMask extends Component {
     maskDefaultValue: true,
   }
 
+  internalTextValue = ""
   masked = false
   defaultPrecision = 5
 
@@ -37,9 +38,9 @@ export default class TextInputMask extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.mask && (this.props.value !== nextProps.value)) {
+    if (nextProps.mask && (this.props.value !== nextProps.value || (this.internalTextValue !== nextProps.value))) {
       mask(this.props.mask, '' + nextProps.value, this.props.precision || this.defaultPrecision, text =>
-      this.input && this.input.setNativeProps({ text })
+        this.input && this.input.setNativeProps({ text })
       );
     }
 
@@ -60,6 +61,7 @@ export default class TextInputMask extends Component {
       }}
       multiline={this.props.mask && Platform.OS === 'ios' ? false : this.props.multiline}
       onChangeText={masked => {
+        this.internalTextValue = mask
         if (this.props.mask) {
           const _unmasked = unmask(this.props.mask, masked, unmasked => {
             this.props.onChangeText && this.props.onChangeText(masked, unmasked)
