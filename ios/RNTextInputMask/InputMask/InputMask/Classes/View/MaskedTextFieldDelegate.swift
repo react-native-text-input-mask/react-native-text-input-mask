@@ -80,9 +80,9 @@ open class MaskedTextFieldDelegate: NSObject, UITextFieldDelegate {
     
     open weak var listener: MaskedTextFieldDelegateListener?
     
-    public init(format: String) {
+    public init(format: String, precision: Int = Mask.defaultPrecision) {
         self._maskFormat = format
-        self.mask = try! Mask.getOrCreate(withFormat: format)
+        self.mask = try! Mask.getOrCreate(withFormat: format, precision: precision)
         self._autocomplete = false
         self._autocompleteOnFocus = false
         super.init()

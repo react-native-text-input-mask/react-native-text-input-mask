@@ -37,9 +37,9 @@ open class PolyMaskTextFieldDelegate: MaskedTextFieldDelegate {
         super.init(format: primaryFormat)
     }
     
-    public override init(format: String) {
+    public override init(format: String, precision: Int = Mask.defaultPrecision) {
         self._affineFormats = []
-        super.init(format: format)
+        super.init(format: format, precision: precision)
     }
     
     open override func put(text: String, into field: UITextField) {
@@ -113,14 +113,14 @@ open class PolyMaskTextFieldDelegate: MaskedTextFieldDelegate {
         
         let mask: Mask = self.pickMask(
             forText: updatedText,
-            caretPosition: updatedText.index(updatedText.startIndex, offsetBy: self.caretPosition(inField: field) + text.characters.count),
+            caretPosition: updatedText.index(updatedText.startIndex, offsetBy: self.caretPosition(inField: field) + text.count),
             autocomplete: self.autocomplete
         )
         
         let result: Mask.Result = mask.apply(
             toText: CaretString(
                 string: updatedText,
-                caretPosition: updatedText.index(updatedText.startIndex, offsetBy: self.caretPosition(inField: field) + text.characters.count)
+                caretPosition: updatedText.index(updatedText.startIndex, offsetBy: self.caretPosition(inField: field) + text.count)
             ),
             autocomplete: self.autocomplete
         )

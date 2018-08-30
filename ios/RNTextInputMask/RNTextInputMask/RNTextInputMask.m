@@ -29,7 +29,7 @@ RCT_EXPORT_MODULE();
 }
 
 RCT_EXPORT_METHOD(mask:(NSString *)maskString inputValue:(NSString *)inputValue precision:(nonnull NSInteger *)precision onResult:(RCTResponseSenderBlock)onResult) {
-    NSString *output = [RNMask maskValueWithText:inputValue format:maskString];
+    NSString *output = [RNMask maskValueWithText:inputValue format:maskString precision:precision];
     onResult(@[output]);
 }
 
@@ -49,7 +49,7 @@ RCT_EXPORT_METHOD(setMask:(nonnull NSNumber *)reactNode mask:(NSString *)mask pr
             }
             
             NSString *key = [NSString stringWithFormat:@"%@", reactNode];
-            MaskedTextFieldDelegate* maskedDelegate = [[MaskedTextFieldDelegate alloc] initWithFormat:mask];
+            MaskedTextFieldDelegate* maskedDelegate = [[MaskedTextFieldDelegate alloc] initWithFormat:mask precision: precision];
             masks[key] = maskedDelegate;
             [masks[key] setListener:self];
             textView.delegate = masks[key];
