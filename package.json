@@ -1,12 +1,38 @@
 {
-  "name": "react-native-text-input-mask",
-  "version": "0.8.0",
-  "description": "Text input mask for React Native.",
-  "main": "index.js",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/react-native-community/react-native-text-input-mask"
+  "_from": "react-native-text-input-mask",
+  "_id": "react-native-text-input-mask@0.8.0",
+  "_inBundle": false,
+  "_integrity": "sha512-AYsFS0AovXwaWOfSwg6QgtUTlnQ7r5pLi5pfomkaPj8qT56I0FQZL6CBU7Mcvz9SWSW2kF6ydfIZezCjdS2vDg==",
+  "_location": "/react-native-text-input-mask",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "tag",
+    "registry": true,
+    "raw": "react-native-text-input-mask",
+    "name": "react-native-text-input-mask",
+    "escapedName": "react-native-text-input-mask",
+    "rawSpec": "",
+    "saveSpec": null,
+    "fetchSpec": "latest"
   },
+  "_requiredBy": [
+    "#USER",
+    "/"
+  ],
+  "_resolved": "https://registry.npmjs.org/react-native-text-input-mask/-/react-native-text-input-mask-0.8.0.tgz",
+  "_shasum": "30f0de0215644db10719c4b1d29610605fb57262",
+  "_spec": "react-native-text-input-mask",
+  "_where": "/Users/thanh.tran/workspace/trading/bitkoex-mobile",
+  "author": {
+    "name": "Ivan Zotov"
+  },
+  "bugs": {
+    "url": "https://github.com/react-native-community/react-native-text-input-mask/issues"
+  },
+  "bundleDependencies": false,
+  "deprecated": false,
+  "description": "Text input mask for React Native.",
+  "homepage": "https://github.com/react-native-community/react-native-text-input-mask",
   "keywords": [
     "react",
     "native",
@@ -15,9 +41,11 @@
     "android",
     "ios"
   ],
-  "author": "Ivan Zotov",
-  "bugs": {
-    "url": "https://github.com/react-native-community/react-native-text-input-mask/issues"
+  "main": "index.js",
+  "name": "react-native-text-input-mask",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/react-native-community/react-native-text-input-mask.git"
   },
-  "homepage": "https://github.com/react-native-community/react-native-text-input-mask"
+  "version": "0.8.0"
 }
