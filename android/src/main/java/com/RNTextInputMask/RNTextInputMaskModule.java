@@ -1,22 +1,28 @@
 package com.RNTextInputMask;
 
+import android.app.Activity;
+import android.text.Editable;
 import android.widget.EditText;
 import android.text.TextWatcher;
-
 import com.facebook.react.uimanager.UIManagerModule;
 import com.facebook.react.uimanager.UIBlock;
 import com.facebook.react.uimanager.NativeViewHierarchyManager;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
+import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.bridge.Callback;
 
 import com.redmadrobot.inputmask.MaskedTextChangedListener;
+import com.redmadrobot.inputmask.PolyMaskTextChangedListener;
 
 import com.redmadrobot.inputmask.model.CaretString;
 import com.redmadrobot.inputmask.helper.Mask;
-
 import android.support.annotation.NonNull;
+
+
+import java.math.BigDecimal;
+import java.text.NumberFormat;
 
 public class RNTextInputMaskModule extends ReactContextBaseJavaModule {
     ReactApplicationContext reactContext;
@@ -36,47 +42,34 @@ public class RNTextInputMaskModule extends ReactContextBaseJavaModule {
                      final String inputValue,
                      final int precision,
                      final Callback onResult) {
-        String output;
-        String[] strings = maskString.split("/");
-
-        if ("currency".equalsIgnoreCase(strings[0])) {
-            String prefix = "";
-            if (strings.length > 1) {
-                prefix = strings[1];
-            }
-
-            output = MoneyTextWatcher.Helper.instance.formatCurrency(inputValue, precision, prefix);
-        }
-        else {
-            final Mask mask = new Mask(maskString);
-            final String input = inputValue;
-            final Mask.Result result = mask.apply(
-                    new CaretString(
-                            input,
-                            input.length()
-                    ),
-                    false
-            );
-            output = result.getFormattedText().getString();
-        }
-        onResult.invoke(output);
+      final Mask mask = new Mask(maskString);
+      final String input = inputValue;
+      final Mask.Result result = mask.apply(
+          new CaretString(
+              input,
+              input.length()
+          ),
+          true
+      );
+      final String output = format(inputValue, precision);//result.getFormattedText().getString();
+      onResult.invoke(output);
     }
 
     @ReactMethod
     public void unmask(final String maskString,
-                       final String inputValue,
-                       final Callback onResult) {
-        final Mask mask = new Mask(maskString);
-        final String input = inputValue;
-        final Mask.Result result = mask.apply(
-                new CaretString(
-                        input,
-                        input.length()
-                ),
-                true
-        );
-        final String output = result.getExtractedValue();
-        onResult.invoke(output);
+                     final String inputValue,
+                     final Callback onResult) {
+      final Mask mask = new Mask(maskString);
+      final String input = inputValue;
+      final Mask.Result result = mask.apply(
+          new CaretString(
+              input,
+              input.length()
+          ),
+          true
+      );
+      final String output = inputValue.replaceAll(",", "");//result.getExtractedValue();
+      onResult.invoke(output);
     }
 
     @ReactMethod
@@ -93,39 +86,78 @@ public class RNTextInputMaskModule extends ReactContextBaseJavaModule {
                 reactContext.runOnUiQueueThread(new Runnable() {
                     @Override
                     public void run() {
+                        TextWatcher listener = new TextWatcher() {
+                            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                            }
+
+                            @Override
+                            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                            }
+
+                            @Override
+                            public void afterTextChanged(Editable editable) {
+                                String s = editable.toString();
+                                editText.removeTextChangedListener(this);
+
+                                try {
+                                    String formatted = format(s, precision);
+                                    editText.setText(formatted);
+                                    editText.setSelection(formatted.length());
+                                } catch (Exception e) {
+                                    // noop
+                                }
+
+                                editText.addTextChangedListener(this);
+                            }
+                        };
+
                         if (editText.getTag() != null) {
                             editText.removeTextChangedListener((TextWatcher) editText.getTag());
                         }
 
-                        String[] strings = mask.split("/");
-
-                        if ("currency".equalsIgnoreCase(strings[0])) {
-                            String currency = "";
-                            if (strings.length > 1) {
-                                currency = strings[1];
-                            }
-                            MoneyTextWatcher listener = new MoneyTextWatcher(editText, currency, precision);
-                            editText.setTag(listener);
-                            editText.addTextChangedListener(listener);
-                        } else {
-                            MaskedTextChangedListener listener = new MaskedTextChangedListener(
-                                    mask,
-                                    false,
-                                    editText,
-                                    null,
-                                    new MaskedTextChangedListener.ValueListener() {
-                                        @Override
-                                        public void onTextChanged(boolean maskFilled, @NonNull final String extractedValue) {
-
-                                        }
-                                    }
-                            );
-                            editText.setTag(listener);
-                            editText.addTextChangedListener(listener);
-                        }
+                        editText.setTag(listener);
+                        editText.addTextChangedListener(listener);
                     }
                 });
             }
         });
+    }
+
+    public String format(String input, int precision) {
+        String result = input;
+            input = input.replaceAll("[^\\d\\.]", "");
+        String naturalPart = "";
+        String decimalPart = "";
+
+        int dotIndex = input.indexOf(".");
+        if (dotIndex >= 0) {
+          naturalPart = input.substring(0, dotIndex);
+          decimalPart = input.substring(dotIndex + 1);
+          decimalPart = decimalPart.replaceAll("\\.", "");
+          if (decimalPart.length() > precision) {
+            decimalPart = decimalPart.substring(0,  precision);
+          }
+        } else {
+          naturalPart = input;
+          decimalPart = "";
+        }
+
+        try {
+            BigDecimal parsed = new BigDecimal(naturalPart);
+            NumberFormat defaultFormat = null;
+            defaultFormat = NumberFormat.getInstance();
+            defaultFormat.setMaximumFractionDigits(0);
+            // defaultFormat.setMinimumFractionDigits(3);
+            result = defaultFormat.format(parsed);
+            if (!decimalPart.isEmpty()) {
+              result += "." + decimalPart;
+            } else if (precision > 0 && input.endsWith(".")) {
+              result += ".";
+            }
+        } catch (Exception e) {
+            // noop
+        }
+
+        return result;
     }
 }

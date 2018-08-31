@@ -18,33 +18,34 @@ export default class TextInputMask extends Component {
   }
 
   masked = false
-  defaultPrecision = 5
+  precision = 0
 
   componentDidMount() {
+    this.precision = this.props.precision;
     if (this.props.maskDefaultValue &&
         this.props.mask &&
-        (this.props.value || this.props.defaultValue)) {
-      const value = this.props.value || this.props.defaultValue;
-      mask(this.props.mask, '' + value, this.props.precision || this.defaultPrecision, text =>
-        this.input.setNativeProps({ text }),
+        this.props.value) {
+      mask(this.props.mask, '' + this.props.value, this.precision, text =>
+        this.input && this.input.setNativeProps({ text }),
       )
     }
 
     if (this.props.mask && !this.masked) {
       this.masked = true
-      setMask(findNodeHandle(this.input), this.props.mask, this.props.precision || this.defaultPrecision)
+      setMask(findNodeHandle(this.input), this.props.mask, this.precision)
     }
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.mask && (this.props.value !== nextProps.value)) {
-      mask(this.props.mask, '' + nextProps.value, this.props.precision || this.defaultPrecision, text =>
-      this.input && this.input.setNativeProps({ text })
-      );
+    if (nextProps.precision !== undefined) {
+      this.precision = nextProps.precision;
+      setMask(findNodeHandle(this.input), nextProps.mask, this.precision)
     }
 
-    if (this.props.mask !== nextProps.mask || this.props.precision !== nextProps.precision) {
-      setMask(findNodeHandle(this.input), nextProps.mask, nextProps.precision)
+    if (nextProps.mask && (this.props.value !== nextProps.value)) {
+      mask(this.props.mask, '' + nextProps.value, this.precision, text =>
+      this.input && this.input.setNativeProps({ text })
+      );
     }
   }
 
