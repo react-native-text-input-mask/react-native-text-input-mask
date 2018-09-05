@@ -7,9 +7,9 @@ import {
   Platform
 } from 'react-native'
 
-const mask = NativeModules.RNTextInputMask.mask
-const unmask = NativeModules.RNTextInputMask.unmask
-const setMask = NativeModules.RNTextInputMask.setMask
+const mask = !!NativeModules.RNTextInputMask && NativeModules.RNTextInputMask.mask || null
+const unmask = !!NativeModules.RNTextInputMask && NativeModules.RNTextInputMask.unmask || null
+const setMask = !!NativeModules.RNTextInputMask && NativeModules.RNTextInputMask.setMask || null
 export { mask, unmask, setMask }
 
 export default class TextInputMask extends Component {
