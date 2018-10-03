@@ -21,6 +21,50 @@ For iOS you have to drag and drop InputMask framework to Embedded Binaries in Ge
 
 For RN 0.47 use 0.3.2 version – `npm install --save react-native-text-input-mask@0.3.2`
 
+### Manual link
+#### Android
+```gradle
+// file: android/settings.gradle
+...
+
+include ':react-native-text-input-mask'
+project(':react-native-text-input-mask').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-text-input-mask/android')
+```
+
+```gradle
+// file: android/app/build.gradle
+...
+
+dependencies {
+    ...
+    implementation project(':react-native-text-input-mask')
+}
+```
+
+```java
+// file: MainApplication.java
+...
+
+import com.RNTextInputMask.RNTextInputMaskPackage; // Import package
+
+public class MainApplication extends Application implements ReactApplication {
+
+   /**
+   * A list of packages used by the app. If the app uses additional views
+   * or modules besides the default ones, add more packages here.
+   */
+    @Override
+    protected List<ReactPackage> getPackages() {
+      return Arrays.<ReactPackage>asList(
+          new MainReactPackage(),
+            new RNTextInputMaskPackage() // Add package
+      );
+    }
+...
+}
+```
+
+
 ## Usage
 
 ```javascript
