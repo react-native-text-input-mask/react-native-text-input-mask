@@ -51,10 +51,10 @@ RCT_EXPORT_METHOD(setMask:(nonnull NSNumber *)reactNode mask:(NSString *)mask pr
             NSString *key = [NSString stringWithFormat:@"%@", reactNode];
             MaskedTextFieldDelegate* maskedDelegate = [[MaskedTextFieldDelegate alloc] initWithFormat:mask precision: precision];
             masks[key] = maskedDelegate;
-            [masks[key] setListener:self];
-            textView.delegate = masks[key];
-            
-            [self updateTextField:maskedDelegate textView:textView];
+//            [masks[key] setListener:self];
+//            textView.delegate = masks[key];
+
+//            [self updateTextField:maskedDelegate textView:textView];
         });
     }];
 }

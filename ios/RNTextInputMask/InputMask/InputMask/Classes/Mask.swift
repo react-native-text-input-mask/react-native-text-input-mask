@@ -87,11 +87,11 @@ public class Mask: CustomDebugStringConvertible, CustomStringConvertible {
      object is constructed, cached and returned.
      */
     public static func getOrCreate(withFormat format: String, precision: Int) throws -> Mask {
-        if let cachedMask: Mask = cache[format] {
+        if let cachedMask: Mask = cache["\(format)\(precision)"] {
             return cachedMask
         } else {
             let mask: Mask = try Mask(format: format, precision: precision)
-            cache[format] = mask
+            cache["\(format)\(precision)"] = mask
             return mask
         }
     }
