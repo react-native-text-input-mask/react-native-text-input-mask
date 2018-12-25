@@ -26,6 +26,7 @@ import java.text.NumberFormat;
 
 public class RNTextInputMaskModule extends ReactContextBaseJavaModule {
     ReactApplicationContext reactContext;
+    private long maskTime = 0;
 
     public RNTextInputMaskModule(ReactApplicationContext reactContext) {
         super(reactContext);
@@ -76,6 +77,8 @@ public class RNTextInputMaskModule extends ReactContextBaseJavaModule {
     public void setMask(final int tag, final String mask, final int precision) {
         // We need to use prependUIBlock instead of addUIBlock since subsequent UI operations in
         // the queue might be removing the view we're looking to update.
+        final long time = java.lang.System.currentTimeMillis();
+        this.maskTime = time;
         reactContext.getNativeModule(UIManagerModule.class).prependUIBlock(new UIBlock() {
             @Override
             public void execute(NativeViewHierarchyManager nativeViewHierarchyManager) {
@@ -86,6 +89,10 @@ public class RNTextInputMaskModule extends ReactContextBaseJavaModule {
                 reactContext.runOnUiQueueThread(new Runnable() {
                     @Override
                     public void run() {
+                        if (maskTime != time) {
+                          return;
+                        }
+
                         TextWatcher listener = new TextWatcher() {
                             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
                             }
