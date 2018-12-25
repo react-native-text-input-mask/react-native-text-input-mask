@@ -51,11 +51,51 @@ export default class TextInputMask extends Component {
     }
 
     if (nextProps.mask && (this.props.value !== nextProps.value)) {
-      mask(this.props.mask, '' + nextProps.value, this.precision, text => {
+      // mask(this.props.mask, '' + nextProps.value, this.precision, text => {
+        let text = this._formatNumber(nextProps.value, this.precision);
         this.input && this.input.setNativeProps({ text })
         this.setState({ value: text });
-      });
+      // });
     }
+  }
+
+  _formatNumber(value, precision) {
+    if (!value) {
+      return value;
+    }
+    let [natualPart, decimalPart = ''] = value.split('.');
+
+    if (decimalPart.length && precision > 0) {
+      decimalPart = decimalPart.substring(0, precision);
+    }
+
+    let formated = '';
+    while (true) {
+      if (natualPart.length > 3) {
+        let digits = natualPart.substring(natualPart.length - 3);
+        if (formated) {
+          formated = digits + ',' + formated;
+        } else {
+          formated = digits;
+        }
+        natualPart = natualPart.substring(0, natualPart.length - 3);
+      } else {
+        if (formated) {
+          formated = natualPart + ',' + formated;
+        } else {
+          formated = natualPart;
+        }
+        break;
+      }
+    }
+
+    if (precision > 0 && value.includes('.')) {
+      formated += '.';
+      formated += decimalPart;
+    }
+
+    console.log(value, formated);
+    return formated;
   }
 
   render() {
