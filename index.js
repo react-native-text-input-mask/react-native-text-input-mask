@@ -111,7 +111,9 @@ export default class TextInputMask extends Component {
       multiline={this.props.mask && Platform.OS === 'ios' ? false : this.props.multiline}
       onChangeText={masked => {
         if (this.props.mask) {
-          const unmasked = masked.replace(/,/g, '');
+          let unmasked = masked.replace(/,/g, '');
+          unmasked = this._formatNumber(unmasked, this.precision);
+          unmasked = unmasked.replace(/,/g, '');
           this.props.onChangeText && this.props.onChangeText(masked, unmasked)
         } else {
           this.props.onChangeText && this.props.onChangeText(masked)
