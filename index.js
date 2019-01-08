@@ -63,6 +63,11 @@ export default class TextInputMask extends Component {
     if (!value) {
       return value;
     }
+
+    if (value.charAt(value.length - 1) === ',') {
+      value = value.substring(0, value.length -1) + '.';
+    }
+
     let [natualPart, decimalPart = ''] = value.split('.');
 
     if (decimalPart.length && precision > 0) {
@@ -111,6 +116,9 @@ export default class TextInputMask extends Component {
       multiline={this.props.mask && Platform.OS === 'ios' ? false : this.props.multiline}
       onChangeText={masked => {
         if (this.props.mask) {
+          if (masked.length && masked.charAt(masked.length - 1) === ',') {
+            masked = masked.substring(0, masked.length -1) + '.';
+          }
           let unmasked = masked.replace(/,/g, '');
           unmasked = this._formatNumber(unmasked, this.precision);
           unmasked = unmasked.replace(/,/g, '');
