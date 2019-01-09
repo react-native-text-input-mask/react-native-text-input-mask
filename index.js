@@ -99,7 +99,6 @@ export default class TextInputMask extends Component {
       formated += decimalPart;
     }
 
-    console.log(value, formated);
     return formated;
   }
 
