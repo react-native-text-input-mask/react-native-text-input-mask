@@ -32,6 +32,10 @@ export default class TextInputMask extends Component {
       this.masked = true
       setMask(findNodeHandle(this.input), this.props.mask)
     }
+
+    if (this.props.value && !this.props.mask) {
+      this.input && this.input.setNativeProps({ text: this.props.value });
+    }
   }
 
   componentWillReceiveProps(nextProps) {
@@ -49,6 +53,7 @@ export default class TextInputMask extends Component {
   render() {
     return (<TextInput
       {...this.props}
+      value={undefined}
       ref={ref => {
         this.input = ref
         if (typeof this.props.refInput === 'function') {
