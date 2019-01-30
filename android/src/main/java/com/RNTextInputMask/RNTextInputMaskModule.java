@@ -17,7 +17,6 @@ import com.redmadrobot.inputmask.PolyMaskTextChangedListener;
 
 import com.redmadrobot.inputmask.model.CaretString;
 import com.redmadrobot.inputmask.helper.Mask;
-import android.support.annotation.NonNull;
 
 public class RNTextInputMaskModule extends ReactContextBaseJavaModule {
     ReactApplicationContext reactContext;
