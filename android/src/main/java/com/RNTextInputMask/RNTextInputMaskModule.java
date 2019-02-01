@@ -23,6 +23,7 @@ import android.support.annotation.NonNull;
 
 import java.math.BigDecimal;
 import java.text.NumberFormat;
+import java.util.Locale;
 
 public class RNTextInputMaskModule extends ReactContextBaseJavaModule {
     ReactApplicationContext reactContext;
@@ -152,7 +153,7 @@ public class RNTextInputMaskModule extends ReactContextBaseJavaModule {
         try {
             BigDecimal parsed = new BigDecimal(naturalPart);
             NumberFormat defaultFormat = null;
-            defaultFormat = NumberFormat.getInstance();
+            defaultFormat = NumberFormat.getInstance(Locale.US);
             defaultFormat.setMaximumFractionDigits(0);
             // defaultFormat.setMinimumFractionDigits(3);
             result = defaultFormat.format(parsed);
