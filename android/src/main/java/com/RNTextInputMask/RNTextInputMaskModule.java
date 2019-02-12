@@ -28,6 +28,7 @@ import java.util.Locale;
 public class RNTextInputMaskModule extends ReactContextBaseJavaModule {
     ReactApplicationContext reactContext;
     private long maskTime = 0;
+    private int precision = 0;
 
     public RNTextInputMaskModule(ReactApplicationContext reactContext) {
         super(reactContext);
@@ -75,7 +76,8 @@ public class RNTextInputMaskModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
-    public void setMask(final int tag, final String mask, final int precision) {
+    public void setMask(final int tag, final String mask, final int _precision) {
+        this.precision = _precision;
         // We need to use prependUIBlock instead of addUIBlock since subsequent UI operations in
         // the queue might be removing the view we're looking to update.
         final long time = java.lang.System.currentTimeMillis();
