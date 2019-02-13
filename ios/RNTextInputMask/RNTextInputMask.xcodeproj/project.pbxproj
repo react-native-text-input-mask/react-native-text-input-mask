@@ -285,7 +285,7 @@
 		00278A0A1F2F25CE0023E794 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
 				DEVELOPMENT_TEAM = YRYY3MUZEK;
 				HEADER_SEARCH_PATHS = "$(SRCROOT)/../../../react-native/Libraries/Text/**";
 				OTHER_LDFLAGS = "-ObjC";
@@ -297,7 +297,7 @@
 		00278A0B1F2F25CE0023E794 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
 				DEVELOPMENT_TEAM = YRYY3MUZEK;
 				HEADER_SEARCH_PATHS = "$(SRCROOT)/../../../react-native/Libraries/Text/**";
 				OTHER_LDFLAGS = "-ObjC";
