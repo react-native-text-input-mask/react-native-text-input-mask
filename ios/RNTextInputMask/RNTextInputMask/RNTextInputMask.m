@@ -88,8 +88,9 @@ RCT_EXPORT_METHOD(setMask:(nonnull NSNumber *)reactNode mask:(NSString *)mask) {
 
 
 - (void)updateTextField:(MaskedTextFieldDelegate *)maskedDelegate textView:(RCTUITextField *)textView {
-    if(textView.attributedText.string.length> 0){
-        NSString *originalString = textView.attributedText.string;
+    NSString *originalString = textView.attributedText.string.copy;
+    
+    if(originalString.length > 0){
         NSString *croppedText = [originalString substringToIndex:[originalString length] -1];
         
         [textView setAttributedText:[[NSAttributedString alloc] initWithString:croppedText]];
