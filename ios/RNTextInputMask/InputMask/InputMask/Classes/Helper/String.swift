@@ -21,7 +21,7 @@ extension String {
      - throws: EXC_BAD_INSTRUCTION for empty strings.
      */
     func truncateFirst() -> String {
-        return String(self[self.startIndex...])
+        return String(self.dropFirst())
     }
     
 }
