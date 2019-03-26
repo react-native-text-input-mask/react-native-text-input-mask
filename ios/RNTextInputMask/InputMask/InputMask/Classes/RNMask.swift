@@ -8,6 +8,7 @@
 
 import Foundation
 
+@objcMembers
 open class RNMask : NSObject {
     public static func maskValue(text: String, format: String) -> String {
         let mask : Mask = try! Mask.getOrCreate(withFormat: format)
