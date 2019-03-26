@@ -113,14 +113,14 @@ open class PolyMaskTextFieldDelegate: MaskedTextFieldDelegate {
         
         let mask: Mask = self.pickMask(
             forText: updatedText,
-            caretPosition: updatedText.index(updatedText.startIndex, offsetBy: self.caretPosition(inField: field) + text.characters.count),
+            caretPosition: updatedText.index(updatedText.startIndex, offsetBy: self.caretPosition(inField: field) + text.count),
             autocomplete: self.autocomplete
         )
         
         let result: Mask.Result = mask.apply(
             toText: CaretString(
                 string: updatedText,
-                caretPosition: updatedText.index(updatedText.startIndex, offsetBy: self.caretPosition(inField: field) + text.characters.count)
+                caretPosition: updatedText.index(updatedText.startIndex, offsetBy: self.caretPosition(inField: field) + text.count)
             ),
             autocomplete: self.autocomplete
         )

@@ -95,9 +95,10 @@ public class Compiler {
 private extension Compiler {
     
     func compile(_ string: String, valueable: Bool, fixed: Bool) throws -> State {
-        guard
-            let char: Character = string.characters.first
-        else {
+        
+        let char: Character? = string.first ?? nil
+        
+        if char == nil {
             return EOLState()
         }
         
@@ -210,7 +211,7 @@ private extension Compiler {
                     valueable: false,
                     fixed: true
                 ),
-                ownCharacter: char
+                ownCharacter: char!
             )
         }
         
@@ -219,7 +220,7 @@ private extension Compiler {
                 string.truncateFirst(),
                 valueable: false,
                 fixed: false),
-            ownCharacter: char
+            ownCharacter: char!
         )
     }
     
