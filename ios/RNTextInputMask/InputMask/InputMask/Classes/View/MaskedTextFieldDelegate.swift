@@ -78,9 +78,9 @@ open class MaskedTextFieldDelegate: NSObject, UITextFieldDelegate {
         }
     }
     
-    open weak var listener: MaskedTextFieldDelegateListener?
+    @objc open weak var listener: MaskedTextFieldDelegateListener?
     
-    public init(format: String) {
+    @objc public init(format: String) {
         self._maskFormat = format
         self.mask = try! Mask.getOrCreate(withFormat: format)
         self._autocomplete = false
@@ -172,7 +172,7 @@ open class MaskedTextFieldDelegate: NSObject, UITextFieldDelegate {
         if isDeletion(
             inRange: range,
             string: string
-        ) {
+            ) {
             (extractedValue, complete) = self.deleteText(inRange: range, inField: textField)
         } else {
             (extractedValue, complete) = self.modifyText(inRange: range, inField: textField, withText: string)
@@ -190,7 +190,7 @@ open class MaskedTextFieldDelegate: NSObject, UITextFieldDelegate {
     open func deleteText(
         inRange range: NSRange,
         inField field: UITextField
-    ) -> (String, Bool) {
+        ) -> (String, Bool) {
         let text: String = self.replaceCharacters(
             inText: field.text,
             range: range,
@@ -215,7 +215,7 @@ open class MaskedTextFieldDelegate: NSObject, UITextFieldDelegate {
         inRange range: NSRange,
         inField field: UITextField,
         withText text: String
-    ) -> (String, Bool) {
+        ) -> (String, Bool) {
         let updatedText: String = self.replaceCharacters(
             inText: field.text,
             range: range,
@@ -323,8 +323,8 @@ internal extension MaskedTextFieldDelegate {
     func caretPosition(inField field: UITextField) -> Int {
         // Workaround for non-optional `field.beginningOfDocument`, which could actually be nil if field doesn't have focus
         guard field.isFirstResponder
-        else {
-            return field.text?.characters.count ?? 0
+            else {
+                return field.text?.characters.count ?? 0
         }
         
         if let range: UITextRange = field.selectedTextRange {
@@ -338,10 +338,10 @@ internal extension MaskedTextFieldDelegate {
     func setCaretPosition(_ position: Int, inField field: UITextField) {
         // Workaround for non-optional `field.beginningOfDocument`, which could actually be nil if field doesn't have focus
         guard field.isFirstResponder
-        else {
-            return
+            else {
+                return
         }
-
+        
         if position > field.text!.characters.count {
             return
         }
