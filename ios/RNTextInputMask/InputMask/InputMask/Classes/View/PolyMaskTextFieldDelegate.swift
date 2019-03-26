@@ -18,6 +18,7 @@ import UIKit
  Might be used as a decorator, which forwards UITextFieldDelegate calls to its own listener.
  */
 @IBDesignable
+@objcMembers
 open class PolyMaskTextFieldDelegate: MaskedTextFieldDelegate {
     
     fileprivate var _affineFormats: [String]

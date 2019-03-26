@@ -9,7 +9,7 @@
 import Foundation
 
 
-public extension MaskedTextFieldDelegate {
+@objc public extension MaskedTextFieldDelegate {
     
     /**
      Workaround to support Interface Builder delegate outlets.
