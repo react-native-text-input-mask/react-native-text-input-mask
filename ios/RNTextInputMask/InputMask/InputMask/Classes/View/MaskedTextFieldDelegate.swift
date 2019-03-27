@@ -78,9 +78,9 @@ open class MaskedTextFieldDelegate: NSObject, UITextFieldDelegate {
         }
     }
     
-    open weak var listener: MaskedTextFieldDelegateListener?
+    @objc open weak var listener: MaskedTextFieldDelegateListener?
     
-    public init(format: String) {
+    @objc public init(format: String) {
         self._maskFormat = format
         self.mask = try! Mask.getOrCreate(withFormat: format)
         self._autocomplete = false
