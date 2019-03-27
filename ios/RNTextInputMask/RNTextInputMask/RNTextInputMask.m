@@ -39,6 +39,7 @@ RCT_EXPORT_METHOD(unmask:(NSString *)maskString inputValue:(NSString *)inputValu
 }
 
 RCT_EXPORT_METHOD(setMask:(nonnull NSNumber *)reactNode mask:(NSString *)mask) {
+    __weak typeof (self) welf = self;
     [self.bridge.uiManager addUIBlock:^(RCTUIManager *uiManager, NSDictionary<NSNumber *, RCTSinglelineTextInputView *> *viewRegistry ) {
         dispatch_async(dispatch_get_main_queue(), ^{
             RCTSinglelineTextInputView *view = viewRegistry[reactNode];
@@ -51,10 +52,10 @@ RCT_EXPORT_METHOD(setMask:(nonnull NSNumber *)reactNode mask:(NSString *)mask) {
             NSString *key = [NSString stringWithFormat:@"%@", reactNode];
             MaskedTextFieldDelegate* maskedDelegate = [[MaskedTextFieldDelegate alloc] initWithFormat:mask];
             masks[key] = maskedDelegate;
-            [masks[key] setListener:self];
+            [masks[key] setListener:welf];
             textView.delegate = masks[key];
             
-            [self updateTextField:maskedDelegate textView:textView];
+            [welf updateTextField:maskedDelegate textView:textView];
         });
     }];
 }
