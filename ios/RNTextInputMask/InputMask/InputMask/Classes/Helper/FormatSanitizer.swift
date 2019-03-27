@@ -67,7 +67,7 @@ private extension FormatSanitizer {
         var squareBraceOpen: Bool = false
         var curlyBraceOpen:  Bool = false
         
-        for char in string.characters {
+        for char in string {
             if "[" == char {
                 if squareBraceOpen {
                     throw Compiler.CompilerError.WrongFormat
@@ -96,10 +96,10 @@ private extension FormatSanitizer {
         var blocks: [String] = []
         var currentBlock: String = ""
         
-        for char in string.characters {
+        for char in string {
             if "[" == char
             || "{" == char {
-                if 0 < currentBlock.characters.count {
+                if 0 < currentBlock.count {
                     blocks.append(currentBlock)
                 }
                 
@@ -128,7 +128,7 @@ private extension FormatSanitizer {
         for block in blocks {
             if block.hasPrefix("[") {
                 var blockBuffer: String = ""
-                for blockCharacter in block.characters {
+                for blockCharacter in block {
                     if blockCharacter == "[" {
                         blockBuffer += String(blockCharacter)
                         continue
@@ -210,7 +210,7 @@ private extension FormatSanitizer {
                                     .replacingOccurrences(of: "]", with: "")
                                     .replacingOccurrences(of: "_", with: "A")
                                     .replacingOccurrences(of: "-", with: "a")
-                                    .characters.sorted()
+                                    .sorted()
                           )
                         + "]"
                     sortedBlock = sortedBlock
@@ -233,7 +233,7 @@ private extension FormatSanitizer {
             + String(block
                 .replacingOccurrences(of: "[", with: "")
                 .replacingOccurrences(of: "]", with: "")
-                .characters.sorted()
+                .sorted()
             )
             + "]"
     }

@@ -19,7 +19,7 @@ public extension MaskedTextFieldDelegate {
      Consider using ```MaskedTextFieldDelegate.listener``` property from your source code instead of
      ```MaskedTextFieldDelegate.delegate``` outlet.
      */
-    @IBOutlet public var delegate: NSObject? {
+    @IBOutlet var delegate: NSObject? {
         get {
             return self.listener as? NSObject
         }

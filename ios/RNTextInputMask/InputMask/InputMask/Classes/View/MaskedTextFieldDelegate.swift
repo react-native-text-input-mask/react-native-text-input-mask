@@ -225,7 +225,7 @@ open class MaskedTextFieldDelegate: NSObject, UITextFieldDelegate {
         let result: Mask.Result = self.mask.apply(
             toText: CaretString(
                 string: updatedText,
-                caretPosition: updatedText.index(updatedText.startIndex, offsetBy: self.caretPosition(inField: field) + text.characters.count)
+                caretPosition: updatedText.index(updatedText.startIndex, offsetBy: self.caretPosition(inField: field) + text.count)
             ),
             autocomplete: self.autocomplete
         )
@@ -301,7 +301,7 @@ open class MaskedTextFieldDelegate: NSObject, UITextFieldDelegate {
 internal extension MaskedTextFieldDelegate {
     
     func isDeletion(inRange range: NSRange, string: String) -> Bool {
-        return 0 < range.length && 0 == string.characters.count
+        return 0 < range.length && 0 == string.count
     }
     
     func replaceCharacters(inText text: String?, range: NSRange, withCharacters newText: String) -> String {
@@ -324,7 +324,7 @@ internal extension MaskedTextFieldDelegate {
         // Workaround for non-optional `field.beginningOfDocument`, which could actually be nil if field doesn't have focus
         guard field.isFirstResponder
         else {
-            return field.text?.characters.count ?? 0
+            return field.text?.count ?? 0
         }
         
         if let range: UITextRange = field.selectedTextRange {
@@ -342,7 +342,7 @@ internal extension MaskedTextFieldDelegate {
             return
         }
 
-        if position > field.text!.characters.count {
+        if position > field.text!.count {
             return
         }
         
