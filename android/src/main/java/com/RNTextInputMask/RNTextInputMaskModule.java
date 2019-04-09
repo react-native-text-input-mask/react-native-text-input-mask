@@ -1,6 +1,5 @@
 package com.RNTextInputMask;
 
-import android.app.Activity;
 import android.widget.EditText;
 import android.text.TextWatcher;
 import com.facebook.react.uimanager.UIManagerModule;
@@ -9,15 +8,10 @@ import com.facebook.react.uimanager.NativeViewHierarchyManager;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
-import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.bridge.Callback;
-
 import com.redmadrobot.inputmask.MaskedTextChangedListener;
-import com.redmadrobot.inputmask.PolyMaskTextChangedListener;
-
 import com.redmadrobot.inputmask.model.CaretString;
 import com.redmadrobot.inputmask.helper.Mask;
-import android.support.annotation.NonNull;
 
 public class RNTextInputMaskModule extends ReactContextBaseJavaModule {
     ReactApplicationContext reactContext;

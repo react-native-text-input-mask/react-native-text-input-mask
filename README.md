@@ -12,14 +12,35 @@ Text input mask for React Native on iOS and Android.
 npm install --save react-native-text-input-mask
 react-native link react-native-text-input-mask
 ```
-For Android it just works.
 
-For iOS you have to drag and drop InputMask framework to Embedded Binaries in General tab of Target and check ‘Yes’ in ‘Always Embed Swift Standard Libraries’ of Build Settings.
+**iOS only:** you have to drag and drop `InputMask.framework` to `Embedded Binaries` in General tab of Target
 
 ![](https://cdn-images-1.medium.com/max/2000/1*J0TPrRhkAKspVvv-JaZHjA.png)
-![](https://cdn-images-1.medium.com/max/1600/1*j7VdY3g9_Vz6YTki3T17CQ.png)
 
-For RN 0.47 use 0.3.2 version – `npm install --save react-native-text-input-mask@0.3.2`
+### Manual installation
+
+
+#### iOS
+
+1. In XCode, in the project navigator, right click `Libraries` ➜ `Add Files to [your project's name]`
+2. Go to `node_modules` ➜ `react-native-text-input-mask` and add `RNTextInputMask.xcodeproj`
+3. In XCode, in the project navigator, select your project. Add `libRNTextInputMask.a` to your project's `Build Phases` ➜ `Link Binary With Libraries`
+4. Run your project (`Cmd+R`)<
+
+#### Android
+
+1. Open up `android/app/src/main/java/[...]/MainActivity.java`
+  - Add `import com.RNTextInputMask.RNTextInputMaskPackage;` to the imports at the top of the file
+  - Add `new RNTextInputMaskPackage()` to the list returned by the `getPackages()` method
+2. Append the following lines to `android/settings.gradle`:
+  	```
+  	include ':react-native-text-input-mask'
+  	project(':react-native-text-input-mask').projectDir = new File(rootProject.projectDir, 	'../node_modules/react-native-text-input-mask/android')
+  	```
+3. Insert the following lines inside the dependencies block in `android/app/build.gradle`:
+  	```
+      compile project(':react-native-text-input-mask')
+  	```
 
 ## Usage
 
@@ -36,37 +57,6 @@ import TextInputMask from 'react-native-text-input-mask';
 />
 ...
 ```
-
-## Testflight upload error
-
-You might encounter the following error when trying to upload a build to Testflight (see https://github.com/react-native-community/react-native-text-input-mask/issues/22):
-
-```
-ERROR ITMS-90206: "Invalid Bundle. The bundle at 'myapp.app/Frameworks/InputMask.framework' contains disallowed file 'Frameworks'."
-```
-
-To solve this, two steps are necessary:
-  * Disable the "Always Embed Swift Standard Libraries" on bothe the `RNTextInputMask` and its `InputMask` dependecy by:
-    * clicking on them in `Libraries > RNTextInputMask` and `Libraries > RNTextInputMask > Libraries > InputMask` xcodeproj
-    * Choose the `Build settings` tab
-    * `Always Embed Swift Standard Libraries` to `No`
-
-    OR
-    * running `sed -i '' -E 's/ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;/ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;/g' ./node_modules/react-native-text-input-mask/ios/RNTextInputMask/RNTextInputMask.xcodeproj/project.pbxproj && sed -i '' -E 's/ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;/ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;/' ./node_modules/react-native-text-input-mask/ios/RNTextInputMask/InputMask/InputMask.xcodeproj/project.pbxproj`
-
-    Everytime you reinstall your `node_modules`. (Or just add the above script to your `postinstall` command)
-
-  * Add a script phase to delete an extra `Frameworks/` folder
-
-```
-EXTRA_DIR="${CONFIGURATION_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Frameworks/InputMask.framework/Frameworks"
-
-if [[ -d "${EXTRA_DIR}" ]]; then
-  rm -rf "${EXTRA_DIR}"
-fi
-```
-
-Make sure that **This script happens at the end of your build flow (after the *Embed Frameworks* script)**
 
 ## More info
 
