@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		B3E7B58A1CC2AC0600A0062D /* RNTextInputMask.m in Sources */ = {isa = PBXBuildFile; fileRef = B3E7B5891CC2AC0600A0062D /* RNTextInputMask.m */; };
+		E32EF307226092E600C060D6 /* InputMask.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 002CCD7D225CC0B6001CEC49 /* InputMask.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -58,6 +59,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E32EF307226092E600C060D6 /* InputMask.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -89,7 +91,15 @@
 				B3E7B5891CC2AC0600A0062D /* RNTextInputMask.m */,
 				002CCD76225CC0B6001CEC49 /* InputMask.xcodeproj */,
 				134814211AA4EA7D00B7C361 /* Products */,
+				E32EF303226092E600C060D6 /* Frameworks */,
 			);
+			sourceTree = "<group>";
+		};
+		E32EF303226092E600C060D6 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
