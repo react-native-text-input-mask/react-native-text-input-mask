@@ -14,7 +14,7 @@
 #import "RCTUITextField.h"
 #import "RNTextInputMask.h"
 
-@import InputMask;
+@import InputMaskIOS;
 
 @implementation RNTextInputMask {
     NSMutableDictionary *masks;
