@@ -7,7 +7,7 @@
 #
 
 Pod::Spec.new do |s|
-  s.name             = 'react-native-text-input-mask-ios'
+  s.name             = 'react-native-text-input-mask'
   s.version          = '0.8.0'
   s.summary          = 'react community react-native-text-input-mask iOS库'
 
