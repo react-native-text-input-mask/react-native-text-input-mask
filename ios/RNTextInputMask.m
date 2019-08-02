@@ -41,6 +41,9 @@ RCT_EXPORT_METHOD(setMask:(nonnull NSNumber *)reactNode mask:(NSString *)mask) {
 
             NSString *key = [NSString stringWithFormat:@"%@", reactNode];
             MaskedTextFieldDelegate* maskedDelegate = [MaskedTextFieldDelegate new];
+            maskedDelegate.onMaskedTextChangedCallback = ^(UITextField *view, NSString *value, BOOL complete) {
+                [textView.textInputDelegate textInputDidChange];
+            };
             maskedDelegate.primaryMaskFormat = mask;
             maskedDelegate.listener = textView.delegate;
             masks[key] = maskedDelegate;
