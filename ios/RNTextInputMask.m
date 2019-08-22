@@ -1,11 +1,11 @@
 #import <React/RCTBridge.h>
 #import <React/RCTConvert.h>
 #import <React/RCTUIManager.h>
-#import <RCTText/RCTBaseTextInputView.h>
-#import <RCTText/RCTUITextField.h>
+#import <React/RCTBaseTextInputView.h>
+#import <React/RCTUITextField.h>
 #import "RNTextInputMask.h"
 
-@import InputMask;
+#import <RNTextInputMask/RNTextInputMask-Swift.h>
 
 @implementation RNTextInputMask {
     NSMutableDictionary *masks;
