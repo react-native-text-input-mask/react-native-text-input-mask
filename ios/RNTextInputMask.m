@@ -1,8 +1,8 @@
 #import <React/RCTBridge.h>
 #import <React/RCTConvert.h>
 #import <React/RCTUIManager.h>
-#import <RCTText/RCTBaseTextInputView.h>
-#import <RCTText/RCTUITextField.h>
+#import "RCTBaseTextInputView.h"
+#import "RCTUITextField.h"
 #import "RNTextInputMask.h"
 
 @import InputMask;
