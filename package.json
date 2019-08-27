@@ -15,6 +15,9 @@
     "android",
     "ios"
   ],
+  "devDependencies": {
+    "@react-native-community/eslint-config": "0.0.2"
+  },
   "author": "Ivan Zotov",
   "bugs": {
     "url": "https://github.com/react-native-community/react-native-text-input-mask/issues"
