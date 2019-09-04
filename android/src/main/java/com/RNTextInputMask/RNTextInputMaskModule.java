@@ -14,6 +14,11 @@ import com.redmadrobot.inputmask.model.CaretString;
 import com.redmadrobot.inputmask.helper.Mask;
 
 public class RNTextInputMaskModule extends ReactContextBaseJavaModule {
+
+    private static final int TEXT_CHANGE_LISTENER_TAG_KEY = 123456789;
+
+
+
     ReactApplicationContext reactContext;
 
     public RNTextInputMaskModule(ReactApplicationContext reactContext) {
@@ -82,11 +87,11 @@ public class RNTextInputMaskModule extends ReactContextBaseJavaModule {
                                 null
                         );
 
-                        if (editText.getTag() != null) {
-                            editText.removeTextChangedListener((TextWatcher) editText.getTag());
+                        if (editText.getTag(TEXT_CHANGE_LISTENER_TAG_KEY) != null) {
+                            editText.removeTextChangedListener((TextWatcher) editText.getTag(TEXT_CHANGE_LISTENER_TAG_KEY));
                         }
 
-                        editText.setTag(listener);
+                        editText.setTag(TEXT_CHANGE_LISTENER_TAG_KEY, listener);
                         editText.addTextChangedListener(listener);
                     }
                 });
