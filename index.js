@@ -34,16 +34,20 @@ export default class TextInputMask extends Component {
     }
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.mask && (this.props.value !== nextProps.value)) {
-      mask(this.props.mask, '' + nextProps.value, text =>
-      this.input && this.input.setNativeProps({ text })
-      );
+  componentDidUpdate(prevProps, _, snapshot) {
+    if (snapshot.mask && prevProps.value !== snapshot.value) {
+      mask(prevProps.mask, "" + snapshot.value, text => this.input && this.input.setNativeProps({ text }));
     }
 
-    if (this.props.mask !== nextProps.mask) {
-      setMask(findNodeHandle(this.input), nextProps.mask)
+    if (prevProps.mask !== snapshot.mask) {
+      setMask(findNodeHandle(this.input), snapshot.mask);
     }
+  }
+
+  getSnapshotBeforeUpdate() {
+    const { mask: maskValue, value } = this.props;
+
+    return { mask: maskValue, value };
   }
 
   render() {
