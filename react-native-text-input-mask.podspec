@@ -6,18 +6,18 @@
 # To learn more about a Podspec see https://guides.cocoapods.org/syntax/podspec.html
 #
 
+require 'json'
+package = JSON.parse(File.read(File.join(__dir__, 'package.json')))
+
 Pod::Spec.new do |s|
-    s.name             = 'RNTextInputMask'
-    s.version          = '2.0.0'
-    s.summary          = 'react community react-native-text-input-mask iOS库'
-  
-    s.description      = <<-DESC
-    Text input mask for React Native, Android and iOS
-                         DESC
-  
-    s.homepage         = 'https://github.com/react-native-community/react-native-text-input-mask'
+    s.name             = package['name']
+    s.version          = package['version']
+    s.summary          = package['description']
+    s.description      = package['description']
+    s.homepage         = package['homepage']
+    s.license          = package['license']
+    s.author           = package['author']
     s.license          = { :type => 'MIT', :file => 'LICENSE' }
-    s.author           = { 'react-native-community' => 'react-native-text-input-mask' }
     s.source           = { :git => 'https://github.com/react-native-community/react-native-text-input-mask.git', :tag => s.version.to_s }
   
     s.ios.deployment_target = '8.0'
