@@ -10,4 +10,5 @@ Pod::Spec.new do |spec|
   spec.platform         = :ios, "8.0"
   spec.requires_arc     = true
   spec.source_files     = "InputMask/Classes/**/*"
+  spec.swift_version    = "5.0"
 end

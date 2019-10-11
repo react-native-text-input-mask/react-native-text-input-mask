@@ -21,10 +21,31 @@ npm install --save react-native-text-input-mask
 yarn add react-native-text-input-mask
 ```
 
-#Installation
+# Installation
 
 <details>
-  <summary><h4>For RN >= 0.60</h4></summary>
+  <summary><b>For RN >= 0.61</b></summary>
+
+#### iOS
+
+1. Add following lines to your target in `Podfile`
+```
+use_frameworks!
+pod 'RNInputMask', :path => '../node_modules/react-native-text-input-mask/ios/InputMask'
+```
+2. Run following command
+```bash
+cd ios && pod install
+```
+
+#### Android
+
+No need to do anything.
+
+</details>
+
+<details>
+  <summary><b>For RN = 0.60.*</b></summary>
 
 #### iOS
 
@@ -44,7 +65,7 @@ yarn add react-native-text-input-mask
 
 ![Create Swift File](https://i.imgur.com/f2zA0n9.png)
 
-5. Add following line to your `Podfile`
+5. Add following line to your target in `Podfile`
 ```
 pod 'RNInputMask', :path => '../node_modules/react-native-text-input-mask/ios/InputMask'
 ```
@@ -59,7 +80,7 @@ No need to do anything.
 
 </details>
 
-<details><summary><h4>For RN < 0.60</h4></summary>
+<details><summary><b>For RN < 0.60</b></summary>
 
 ### Auto Linking
 ```bash
