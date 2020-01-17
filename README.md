@@ -17,6 +17,73 @@ Text input mask for React Native on iOS and Android.
 
 ```bash
 npm install --save react-native-text-input-mask
+# --- or ---
+yarn add react-native-text-input-mask
+```
+
+# Installation
+
+<details>
+  <summary><b>For RN >= 0.61</b></summary>
+
+#### iOS
+
+1. Add following lines to your target in `Podfile`
+```
+use_frameworks!
+pod 'RNInputMask', :path => '../node_modules/react-native-text-input-mask/ios/InputMask'
+```
+2. Run following command
+```bash
+cd ios && pod install
+```
+
+#### Android
+
+No need to do anything.
+
+</details>
+
+<details>
+  <summary><b>For RN = 0.60.*</b></summary>
+
+#### iOS
+
+1. In XCode, in the project navigator, right click your `[your project's name]` folder, choose ➜ `Add Files to [your project's name]`
+
+![Create Swift File](https://i.imgur.com/00K5UZ1.png)
+
+2. Select `Swift File` ➜ `Next`
+
+![Create Swift File](https://i.imgur.com/Mdc9MLk.png)
+
+3. Specify name for example `Dummy.swift` ➜ `Create`
+
+![Create Swift File](https://i.imgur.com/2HSk7Jp.png)
+
+4. Now a pop up is shown select `Create Bridging Header`
+
+![Create Swift File](https://i.imgur.com/f2zA0n9.png)
+
+5. Add following line to your target in `Podfile`
+```
+pod 'RNInputMask', :path => '../node_modules/react-native-text-input-mask/ios/InputMask'
+```
+6. Run following command
+```bash
+cd ios && pod install
+```
+
+#### Android
+
+No need to do anything.
+
+</details>
+
+<details><summary><b>For RN < 0.60</b></summary>
+
+### Auto Linking
+```bash
 react-native link react-native-text-input-mask
 ```
 
@@ -26,13 +93,12 @@ react-native link react-native-text-input-mask
 
 ### Manual installation
 
-
 #### iOS
 
 1. In XCode, in the project navigator, right click `Libraries` ➜ `Add Files to [your project's name]`
 2. Go to `node_modules` ➜ `react-native-text-input-mask` and add `RNTextInputMask.xcodeproj`
 3. In XCode, in the project navigator, select your project. Add `libRNTextInputMask.a` to your project's `Build Phases` ➜ `Link Binary With Libraries`
-4. Run your project (`Cmd+R`)<
+4. Run your project (`Cmd+R`)
 
 #### Android
 
@@ -48,6 +114,7 @@ react-native link react-native-text-input-mask
   	```
       compile project(':react-native-text-input-mask')
   	```
+</details>
 
 ## Usage
 
