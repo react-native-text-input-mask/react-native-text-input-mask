@@ -69,9 +69,13 @@ class TextInputMask extends Component {
   }
 }
 
-const ForwardedTextInputMask = (props, ref) => (
+const ForwardedTextInputMask = ({ mask, ...props }, ref) => (
   <TextInputMask
+    // Force remount an component, to fix problem with
+    // https://github.com/react-native-community/react-native-text-input-mask/issues/150
+    key={mask}
     {...props}
+    mask={mask}
     refInput={textInputInstance => {
       if (ref) {
         if (typeof ref === "function") {
