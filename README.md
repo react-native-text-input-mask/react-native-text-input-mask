@@ -17,7 +17,9 @@ Text input mask for React Native on iOS and Android.
 
 ```bash
 npm install --save react-native-text-input-mask
+
 # --- or ---
+
 yarn add react-native-text-input-mask
 ```
 
@@ -29,13 +31,16 @@ yarn add react-native-text-input-mask
 #### iOS
 
 1. Add following lines to your target in `Podfile`
+
 ```
 use_frameworks!
 pod 'RNInputMask', :path => '../node_modules/react-native-text-input-mask/ios/InputMask'
 ```
+
 2. Run following command
+
 ```bash
-cd ios && pod install
+npx pod-install
 ```
 
 #### Android
