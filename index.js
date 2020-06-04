@@ -80,7 +80,7 @@ const ForwardedTextInputMask = ({ mask, ...props }, ref) => (
       if (ref) {
         if (typeof ref === "function") {
           ref(textInputInstance);
-        } else if (typeof ref === "object") {
+        } else if (typeof ref === "object" && ref != null) {
           ref.current = textInputInstance;
         }
       }
