@@ -1,71 +1,85 @@
-import React, { Component } from 'react'
-
+import React, { useEffect, useRef, useState } from 'react';
+import PropTypes from 'prop-types';
 import {
   TextInput,
   findNodeHandle,
   NativeModules,
-  Platform
-} from 'react-native'
+  Platform,
+} from 'react-native';
 
-const mask = NativeModules.RNTextInputMask.mask
-const unmask = NativeModules.RNTextInputMask.unmask
-const setMask = NativeModules.RNTextInputMask.setMask
-export { mask, unmask, setMask }
+export const nativeMask = NativeModules.RNTextInputMask.mask;
+export const nativeUnmask = NativeModules.RNTextInputMask.unmask;
+export const nativeSetMask = NativeModules.RNTextInputMask.setMask;
 
-export default class TextInputMask extends Component {
-  static defaultProps = {
-    maskDefaultValue: true,
-  }
+const TextInputMask = ({
+  mask,
+  value,
+  maskDefaultValue,
+  refInput,
+  multiline,
+  onChangeText,
+  ...rest
+}) => {
+  const [masked, setMasked] = useState(false);
+  const input = useRef(null);
 
-  masked = false
-
-  componentDidMount() {
-    if (this.props.maskDefaultValue &&
-        this.props.mask &&
-        this.props.value) {
-      mask(this.props.mask, '' + this.props.value, text =>
-        this.input && this.input.setNativeProps({ text }),
-      )
+  useEffect(() => {
+    if (
+      maskDefaultValue &&
+      mask &&
+      value
+    ) {
+      mask(mask, value, text => input?.setNativeProps({ text }));
     }
 
-    if (this.props.mask && !this.masked) {
-      this.masked = true
-      setMask(findNodeHandle(this.input), this.props.mask)
+    if (mask && !masked) {
+      setMasked(true);
+      nativeSetMask(findNodeHandle(input.current), mask);
     }
-  }
+  }, [mask, masked]);
 
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.mask && (this.props.value !== nextProps.value)) {
-      mask(this.props.mask, '' + nextProps.value, text =>
-      this.input && this.input.setNativeProps({ text })
-      );
+  const handleChangeText = maskedText => {
+    if (mask) {
+      nativeUnmask(mask, maskedText, unmasked => {
+        onChangeText(maskedText, unmasked);
+      });
+    } else {
+      onChangeText(maskedText);
     }
+  };
 
-    if (this.props.mask !== nextProps.mask) {
-      setMask(findNodeHandle(this.input), nextProps.mask)
+  const setRefComponent = componentRef => {
+    input.current = componentRef;
+
+    if (typeof refInput === 'function') {
+      refInput(componentRef);
     }
-  }
+  };
 
-  render() {
-    return (<TextInput
-      {...this.props}
+  return (
+    <TextInput
       value={undefined}
-      ref={ref => {
-        this.input = ref
-        if (typeof this.props.refInput === 'function') {
-          this.props.refInput(ref)
-        }
-      }}
-      multiline={this.props.mask && Platform.OS === 'ios' ? false : this.props.multiline}
-      onChangeText={masked => {
-        if (this.props.mask) {
-          const _unmasked = unmask(this.props.mask, masked, unmasked => {
-            this.props.onChangeText && this.props.onChangeText(masked, unmasked)
-          })
-        } else {
-          this.props.onChangeText && this.props.onChangeText(masked)
-        }
-      }}
-    />);
-  }
+      ref={setRefComponent}
+      multiline={mask && Platform.OS === 'ios' ? false : multiline}
+      onChangeText={handleChangeText}
+      {...rest}
+    />
+  )
 }
+
+TextInputMask.propTypes = {
+  mask: PropTypes.string.isRequired,
+  value: PropTypes.string.isRequired,
+  maskDefaultValue: PropTypes.bool.isRequired,
+  refInput: PropTypes.func,
+  multiline: PropTypes.bool,
+  onChangeText: PropTypes.func.isRequired,
+}
+
+TextInputMask.defaultProps = {
+  maskDefaultValue: true,
+  multiline: false,
+  refInput: () => null,
+}
+
+export default TextInputMask;
