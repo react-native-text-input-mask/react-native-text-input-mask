@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState, forwardRef } from 'react';
 import PropTypes from 'prop-types';
 import {
   TextInput,
@@ -67,19 +67,20 @@ const TextInputMask = ({
   )
 }
 
-TextInputMask.propTypes = {
-  mask: PropTypes.string.isRequired,
-  value: PropTypes.string.isRequired,
-  maskDefaultValue: PropTypes.bool.isRequired,
-  refInput: PropTypes.func,
-  multiline: PropTypes.bool,
-  onChangeText: PropTypes.func.isRequired,
-}
+const ForwardedTextInputMask = ({ mask, ...props }, ref) => (
+  <TextInput 
+    key={mask}
+    ref={refInput => {
+      if (ref) {
+        if (typeof ref === 'function') {
+          ref(refInput)
+        } else if (typeof ref === 'object' && ref !== null) {
+          ref.current = refInput;
+        }
+      }
+    }}
+    {...props}
+  />
+);
 
-TextInputMask.defaultProps = {
-  maskDefaultValue: true,
-  multiline: false,
-  refInput: () => null,
-}
-
-export default TextInputMask;
+export default forwardRef(ForwardedTextInputMask);
