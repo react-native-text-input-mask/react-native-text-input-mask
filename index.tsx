@@ -1,23 +1,23 @@
-import React, { useEffect, useImperativeHandle } from 'react'
+import React, { forwardRef, useEffect, useImperativeHandle, useRef } from 'react'
 
 import { findNodeHandle, NativeModules, Platform, TextInput, TextInputProps } from 'react-native'
+const { RNTextInputMask } = NativeModules as { RNTextInputMask: MaskOperations }
+const { mask, unmask, setMask } = RNTextInputMask
 
-export const { mask, unmask, setMask } = NativeModules.RNTextInputMask as MaskOperations
-
-const TextInputMask = React.forwardRef<Handles, TextInputMaskProps>(({ maskDefaultValue = true, mask: maskProp, value, multiline, onChangeText, ...rest }, ref) => {
-  const input = React.useRef<TextInput>(null)
+const TextInputMask = forwardRef<Handles, TextInputMaskProps>(({ maskDefaultValue = true, mask: inputMask, value, multiline, onChangeText, ...rest }, ref) => {
+  const input = useRef<TextInput>(null)
 
   useEffect(() => {
-    if (maskDefaultValue && maskProp && value) {
-      mask(maskProp, `${value}`, (text) =>
+    if (maskDefaultValue && inputMask && value) {
+      mask(inputMask, `${value}`, (text) =>
           input.current?.setNativeProps({ text }),
       )
     }
     const nodeId = findNodeHandle(input.current)
-    if (maskProp && nodeId) {
-      setMask(nodeId, maskProp)
+    if (inputMask && nodeId) {
+      setMask(nodeId, inputMask)
     }
-  }, [maskDefaultValue, maskProp, value])
+  }, [maskDefaultValue, inputMask, value])
 
   useImperativeHandle(ref, () => ({
     focus: () => {
@@ -33,10 +33,10 @@ const TextInputMask = React.forwardRef<Handles, TextInputMaskProps>(({ maskDefau
         {...rest}
         value={undefined}
         ref={input}
-        multiline={maskProp && Platform.OS === 'ios' ? false : multiline}
+        multiline={inputMask && Platform.OS === 'ios' ? false : multiline}
         onChangeText={masked => {
-          if (maskProp) {
-            unmask(maskProp, masked, (unmasked) => {
+          if (inputMask) {
+            unmask(inputMask, masked, (unmasked) => {
               onChangeText?.(masked, unmasked)
             })
           } else {

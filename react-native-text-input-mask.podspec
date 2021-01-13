@@ -19,10 +19,11 @@ Pod::Spec.new do |s|
     s.author           = package['author']
     s.license          = { :type => 'MIT', :file => 'LICENSE' }
     s.source           = { :git => 'https://github.com/react-native-community/react-native-text-input-mask.git', :tag => s.version.to_s }
-
-    s.ios.deployment_target = '8.0'
-
-    s.source_files  = "ios/**/*.{h,m}"
-    s.dependency 'React'
-    s.dependency 'RNInputMask'
+    s.platform      = :ios, "10.0"
+    s.source_files  = "ios/**/*.{h,m,swift}"
+    s.requires_arc  = true
+    s.swift_version = "5.0"
+    s.dependency 'React-Core'
+    s.dependency 'React-RCTText'
+    s.dependency 'InputMask', '~> 6.0.0'
   end
