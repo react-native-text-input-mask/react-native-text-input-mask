@@ -9,6 +9,8 @@ node_modules/
 npm-debug.log
 yarn-error.log
 
+#typescript
+dist/
 
 # Xcode
 #
