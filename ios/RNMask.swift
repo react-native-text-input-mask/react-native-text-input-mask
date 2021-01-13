@@ -5,8 +5,8 @@
 //  Created by Ivan Zotov on 8/4/17.
 //  Copyright © 2017 Ivan Zotov. All rights reserved.
 //
-
 import Foundation
+import InputMask
 
 @objcMembers
 open class RNMask : NSObject {
@@ -16,9 +16,9 @@ open class RNMask : NSObject {
         let result: Mask.Result = mask.apply(
             toText: CaretString(
                 string: text,
-                caretPosition: text.endIndex
-            ),
-            autocomplete: true
+                caretPosition: text.endIndex,
+                caretGravity: CaretString.CaretGravity.forward(autocomplete: false)
+            )
         )
 
         return result.formattedText.string
@@ -30,9 +30,9 @@ open class RNMask : NSObject {
         let result: Mask.Result = mask.apply(
             toText: CaretString(
                 string: text,
-                caretPosition: text.endIndex
-            ),
-            autocomplete: true
+                caretPosition: text.endIndex,
+                caretGravity: CaretString.CaretGravity.forward(autocomplete: false)
+            )
         )
 
         return result.extractedValue
