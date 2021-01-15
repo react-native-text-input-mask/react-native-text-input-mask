@@ -2,7 +2,7 @@ import React, { forwardRef, useEffect, useImperativeHandle, useRef } from 'react
 
 import { findNodeHandle, NativeModules, Platform, TextInput, TextInputProps } from 'react-native'
 const { RNTextInputMask } = NativeModules as { RNTextInputMask: MaskOperations }
-const { mask, unmask, setMask } = RNTextInputMask
+export const { mask, unmask, setMask } = RNTextInputMask
 
 const TextInputMask = forwardRef<Handles, TextInputMaskProps>(({ maskDefaultValue = true, mask: inputMask, value, multiline, onChangeText, ...rest }, ref) => {
   const input = useRef<TextInput>(null)
