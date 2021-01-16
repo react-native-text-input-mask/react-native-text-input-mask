@@ -40,9 +40,9 @@ public class RNTextInputMaskModule extends ReactContextBaseJavaModule {
       final Mask.Result result = mask.apply(
           new CaretString(
               input,
-              input.length()
-          ),
-          true
+              input.length(),
+              new CaretString.CaretGravity.FORWARD(false)
+          )
       );
       final String output = result.getFormattedText().getString();
       onResult.invoke(output);
@@ -57,9 +57,9 @@ public class RNTextInputMaskModule extends ReactContextBaseJavaModule {
       final Mask.Result result = mask.apply(
           new CaretString(
               input,
-              input.length()
-          ),
-          true
+              input.length(),
+              new CaretString.CaretGravity.FORWARD(false)
+          )
       );
       final String output = result.getExtractedValue();
       onResult.invoke(output);
