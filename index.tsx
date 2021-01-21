@@ -1,23 +1,26 @@
-import React, { forwardRef, useEffect, useImperativeHandle, useRef } from 'react'
+import React, { forwardRef, useEffect, useImperativeHandle, useRef, useState } from 'react'
 
 import { findNodeHandle, NativeModules, Platform, TextInput, TextInputProps } from 'react-native'
 const { RNTextInputMask } = NativeModules as { RNTextInputMask: MaskOperations }
 export const { mask, unmask, setMask } = RNTextInputMask
 
-const TextInputMask = forwardRef<Handles, TextInputMaskProps>(({ maskDefaultValue = true, mask: inputMask, value, multiline, onChangeText, ...rest }, ref) => {
+const TextInputMask = forwardRef<Handles, TextInputMaskProps>(({ maskDefaultValue = true, mask: inputMask, value: defaultValue, multiline, onChangeText, ...rest }, ref) => {
   const input = useRef<TextInput>(null)
+  const [value, setValue] = useState<string>()
 
   useEffect(() => {
-    if (maskDefaultValue && inputMask && value) {
-      mask(inputMask, `${value}`, (text) =>
-          input.current?.setNativeProps({ text }),
+    if (maskDefaultValue && inputMask && defaultValue) {
+      mask(inputMask, `${defaultValue}`, (text) =>
+          setValue(text)
       )
+    } else if (!inputMask) {
+      setValue(defaultValue)
     }
     const nodeId = findNodeHandle(input.current)
     if (inputMask && nodeId) {
       setMask(nodeId, inputMask)
     }
-  }, [maskDefaultValue, inputMask, value])
+  }, [maskDefaultValue, inputMask, defaultValue])
 
   useImperativeHandle(ref, () => ({
     focus: () => {
@@ -31,7 +34,7 @@ const TextInputMask = forwardRef<Handles, TextInputMaskProps>(({ maskDefaultValu
   return (
       <TextInput
         {...rest}
-        value={undefined}
+        value={value}
         ref={input}
         multiline={inputMask && Platform.OS === 'ios' ? false : multiline}
         onChangeText={masked => {
