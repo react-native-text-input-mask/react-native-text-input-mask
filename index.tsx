@@ -10,17 +10,18 @@ const TextInputMask = forwardRef<Handles, TextInputMaskProps>(({ maskDefaultValu
 
   useEffect(() => {
     if (maskDefaultValue && inputMask && defaultValue) {
-      mask(inputMask, `${defaultValue}`, (text) =>
-          setValue(text)
-      )
+      mask(inputMask, `${defaultValue}`, (text) => setValue(text))
     } else if (!inputMask) {
       setValue(defaultValue)
     }
+  }, [])
+
+  useEffect(() => {
     const nodeId = findNodeHandle(input.current)
     if (inputMask && nodeId) {
       setMask(nodeId, inputMask)
     }
-  }, [maskDefaultValue, inputMask, defaultValue])
+  }, [inputMask])
 
   useImperativeHandle(ref, () => ({
     focus: () => {
