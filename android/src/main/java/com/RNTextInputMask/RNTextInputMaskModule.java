@@ -41,7 +41,7 @@ public class RNTextInputMaskModule extends ReactContextBaseJavaModule {
           new CaretString(
               input,
               input.length(),
-              new CaretString.CaretGravity.FORWARD(false)
+              new CaretString.CaretGravity.FORWARD(true)
           )
       );
       final String output = result.getFormattedText().getString();
@@ -58,7 +58,7 @@ public class RNTextInputMaskModule extends ReactContextBaseJavaModule {
           new CaretString(
               input,
               input.length(),
-              new CaretString.CaretGravity.FORWARD(false)
+              new CaretString.CaretGravity.FORWARD(true)
           )
       );
       final String output = result.getExtractedValue();
