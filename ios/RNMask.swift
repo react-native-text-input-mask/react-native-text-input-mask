@@ -17,7 +17,7 @@ open class RNMask : NSObject {
             toText: CaretString(
                 string: text,
                 caretPosition: text.endIndex,
-                caretGravity: CaretString.CaretGravity.forward(autocomplete: false)
+                caretGravity: CaretString.CaretGravity.forward(autocomplete: true)
             )
         )
 
@@ -31,7 +31,7 @@ open class RNMask : NSObject {
             toText: CaretString(
                 string: text,
                 caretPosition: text.endIndex,
-                caretGravity: CaretString.CaretGravity.forward(autocomplete: false)
+                caretGravity: CaretString.CaretGravity.forward(autocomplete: true)
             )
         )
 
