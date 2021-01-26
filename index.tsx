@@ -35,7 +35,7 @@ const TextInputMask = forwardRef<Handles, TextInputMaskProps>(({ maskDefaultValu
   return (
       <TextInput
         {...rest}
-        value={value}
+        defaultValue={value}
         ref={input}
         multiline={inputMask && Platform.OS === 'ios' ? false : multiline}
         onChangeText={masked => {
