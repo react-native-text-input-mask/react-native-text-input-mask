@@ -4,17 +4,31 @@ import { findNodeHandle, NativeModules, Platform, TextInput, TextInputProps } fr
 const { RNTextInputMask } = NativeModules as { RNTextInputMask: MaskOperations }
 export const { mask, unmask, setMask } = RNTextInputMask
 
-const TextInputMask = forwardRef<Handles, TextInputMaskProps>(({ maskDefaultValue = true, mask: inputMask, value: defaultValue, multiline, onChangeText, ...rest }, ref) => {
+const TextInputMask = forwardRef<Handles, TextInputMaskProps>(({ maskDefaultValue = true, mask: inputMask, defaultValue, value, multiline, onChangeText, ...rest }, ref) => {
   const input = useRef<TextInput>(null)
-  const [value, setValue] = useState<string>()
+  const [maskedValue, setMaskedValue] = useState<string>()
+  const [maskedDefaultValue, setMaskedDefaultValue] = useState<string>()
+
+  // hold onto masked value while editing input to prevent useEffect trigger while editing
+  const currentMaskedValue = useRef<string>()
 
   useEffect(() => {
     if (maskDefaultValue && inputMask && defaultValue) {
-      mask(inputMask, `${defaultValue}`, (text) => setValue(text))
+      mask(inputMask, defaultValue, (text) => setMaskedDefaultValue(text))
     } else if (!inputMask) {
-      setValue(defaultValue)
+      setMaskedDefaultValue(defaultValue)
     }
-  }, [])
+  }, [inputMask, defaultValue])
+
+  useEffect(() => {
+    // don't update state value if value is same as current value reference
+    if (value === currentMaskedValue.current) return
+    if (inputMask && value) {
+      mask(inputMask, value, (text) => setMaskedValue(text))
+    } else if (!inputMask) {
+      setMaskedValue(value)
+    }
+  }, [inputMask, value])
 
   useEffect(() => {
     const nodeId = findNodeHandle(input.current)
@@ -34,19 +48,21 @@ const TextInputMask = forwardRef<Handles, TextInputMaskProps>(({ maskDefaultValu
 
   return (
       <TextInput
-        {...rest}
-        defaultValue={value}
-        ref={input}
-        multiline={inputMask && Platform.OS === 'ios' ? false : multiline}
-        onChangeText={masked => {
-          if (inputMask) {
-            unmask(inputMask, masked, (unmasked) => {
-              onChangeText?.(masked, unmasked)
-            })
-          } else {
-            onChangeText?.(masked)
-          }
-        }}
+          {...rest}
+          value={maskedValue}
+          defaultValue={maskedDefaultValue}
+          ref={input}
+          multiline={inputMask && Platform.OS === 'ios' ? false : multiline}
+          onChangeText={masked => {
+            currentMaskedValue.current = masked
+            if (inputMask) {
+              unmask(inputMask, masked, (unmasked) => {
+                onChangeText?.(masked, unmasked)
+              })
+            } else {
+              onChangeText?.(masked)
+            }
+          }}
       />
   )
 })
