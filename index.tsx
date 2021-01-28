@@ -6,7 +6,6 @@ export const { mask, unmask, setMask } = RNTextInputMask
 
 const TextInputMask = forwardRef<Handles, TextInputMaskProps>(({ maskDefaultValue = true, mask: inputMask, defaultValue, value, multiline, onChangeText, ...rest }, ref) => {
   const input = useRef<TextInput>(null)
-  const [maskedValue, setMaskedValue] = useState<string>()
   const [maskedDefaultValue, setMaskedDefaultValue] = useState<string>()
 
   // hold onto masked value while editing input to prevent useEffect trigger while editing
@@ -24,9 +23,11 @@ const TextInputMask = forwardRef<Handles, TextInputMaskProps>(({ maskDefaultValu
     // don't update state value if value is same as current value reference
     if (value === currentMaskedValue.current) return
     if (inputMask && value) {
-      mask(inputMask, value, (text) => setMaskedValue(text))
-    } else if (!inputMask) {
-      setMaskedValue(value)
+      mask(inputMask, value, (text) => {
+        input.current?.setNativeProps({ text })
+      })
+    } else if (!inputMask && value) {
+      input.current?.setNativeProps({ text: value })
     }
   }, [inputMask, value])
 
@@ -49,7 +50,6 @@ const TextInputMask = forwardRef<Handles, TextInputMaskProps>(({ maskDefaultValu
   return (
       <TextInput
           {...rest}
-          value={maskedValue}
           defaultValue={maskedDefaultValue}
           ref={input}
           multiline={inputMask && Platform.OS === 'ios' ? false : multiline}
