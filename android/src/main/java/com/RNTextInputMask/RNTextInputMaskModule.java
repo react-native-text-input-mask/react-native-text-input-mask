@@ -2,6 +2,8 @@ package com.RNTextInputMask;
 
 import android.widget.EditText;
 import android.text.TextWatcher;
+
+import com.facebook.react.bridge.Promise;
 import com.facebook.react.uimanager.UIManagerModule;
 import com.facebook.react.uimanager.UIBlock;
 import com.facebook.react.uimanager.NativeViewHierarchyManager;
@@ -10,8 +12,12 @@ import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.Callback;
 import com.redmadrobot.inputmask.MaskedTextChangedListener;
+import com.redmadrobot.inputmask.helper.AffinityCalculationStrategy;
 import com.redmadrobot.inputmask.model.CaretString;
 import com.redmadrobot.inputmask.helper.Mask;
+import com.redmadrobot.inputmask.model.Notation;
+
+import java.util.Collections;
 
 public class RNTextInputMaskModule extends ReactContextBaseJavaModule {
 
@@ -34,7 +40,7 @@ public class RNTextInputMaskModule extends ReactContextBaseJavaModule {
     @ReactMethod
     public void mask(final String maskString,
                      final String inputValue,
-                     final Callback onResult) {
+                     final Promise promise) {
       final Mask mask = new Mask(maskString);
       final String input = inputValue;
       final Mask.Result result = mask.apply(
@@ -45,13 +51,13 @@ public class RNTextInputMaskModule extends ReactContextBaseJavaModule {
           )
       );
       final String output = result.getFormattedText().getString();
-      onResult.invoke(output);
+      promise.resolve(output);
     }
 
     @ReactMethod
     public void unmask(final String maskString,
-                     final String inputValue,
-                     final Callback onResult) {
+                       final String inputValue,
+                       final Promise promise) {
       final Mask mask = new Mask(maskString);
       final String input = inputValue;
       final Mask.Result result = mask.apply(
@@ -62,11 +68,11 @@ public class RNTextInputMaskModule extends ReactContextBaseJavaModule {
           )
       );
       final String output = result.getExtractedValue();
-      onResult.invoke(output);
+      promise.resolve(output);
     }
 
     @ReactMethod
-    public void setMask(final int tag, final String mask) {
+    public void setMask(final int tag, final String mask, final boolean autocomplete, final boolean autoskip) {
         // We need to use prependUIBlock instead of addUIBlock since subsequent UI operations in
         // the queue might be removing the view we're looking to update.
         reactContext.getNativeModule(UIManagerModule.class).prependUIBlock(new UIBlock() {
@@ -79,20 +85,12 @@ public class RNTextInputMaskModule extends ReactContextBaseJavaModule {
                 reactContext.runOnUiQueueThread(new Runnable() {
                     @Override
                     public void run() {
-                        MaskedTextChangedListener listener = new MaskedTextChangedListener(
-                                mask,
-                                true,
-                                editText,
-                                null,
-                                null
-                        );
-
                         if (editText.getTag(TEXT_CHANGE_LISTENER_TAG_KEY) != null) {
                             editText.removeTextChangedListener((TextWatcher) editText.getTag(TEXT_CHANGE_LISTENER_TAG_KEY));
                         }
 
+                        MaskedTextChangedListener listener = MaskedTextChangedListener.Companion.installOn(editText, mask, Collections.<String>emptyList(), Collections.<Notation>emptyList(), AffinityCalculationStrategy.WHOLE_STRING, autocomplete, autoskip, null, null);
                         editText.setTag(TEXT_CHANGE_LISTENER_TAG_KEY, listener);
-                        editText.addTextChangedListener(listener);
                     }
                 });
             }

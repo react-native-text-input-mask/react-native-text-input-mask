@@ -16,29 +16,27 @@ class TextInputMask: NSObject, RCTBridgeModule, MaskedTextFieldDelegateListener 
     var bridge: RCTBridge!
     var masks: [String: MaskedTextFieldDelegate] = [:]
     
-    @objc(mask:inputValue:onResult:)
-    func mask(mask: String, inputValue: String, onResult: RCTResponseSenderBlock) {
+    @objc(mask:inputValue:resolver:rejecter:)
+    func mask(mask: String, inputValue: String, resolve: RCTPromiseResolveBlock, reject: RCTPromiseRejectBlock) {
         let output = RNMask.maskValue(text: inputValue, format: mask)
-        onResult([output])
+        resolve(output)
     }
     
-    @objc(unmask:inputValue:onResult:)
-    func unmask(mask: String, inputValue: String, onResult: RCTResponseSenderBlock) {
+    @objc(unmask:inputValue:resolver:rejecter:)
+    func unmask(mask: String, inputValue: String, resolve: RCTPromiseResolveBlock, reject: RCTPromiseRejectBlock) {
         let output = RNMask.unmaskValue(text: inputValue, format: mask)
-        onResult([output])
+        resolve(output)
     }
     
-    @objc(setMask:mask:)
-    func setMask(reactNode: NSNumber, mask: String) {
+    @objc(setMask:mask:autocomplete:autoskip:)
+    func setMask(reactNode: NSNumber, mask: String, autocomplete: Bool, autoskip: Bool) {
         self.bridge.uiManager.addUIBlock { (uiManager, viewRegistry) in
             DispatchQueue.main.async {
                 guard let view = viewRegistry?[reactNode] as? RCTBaseTextInputView else { return }
                 let textView = view.backedTextInputView as! RCTUITextField
-                let maskedDelegate = MaskedTextFieldDelegate()
-                maskedDelegate.onMaskedTextChangedCallback = { (view, value, complete) in
+                let maskedDelegate = MaskedTextFieldDelegate(primaryFormat: mask, autocomplete: autocomplete, autoskip: autoskip) { (view, value, complete) in
                     textView.textInputDelegate?.textInputDidChange()
                 }
-                maskedDelegate.primaryMaskFormat = mask
                 maskedDelegate.listener = textView.delegate as? UITextFieldDelegate & MaskedTextFieldDelegateListener
                 let key = reactNode.stringValue
                 self.masks[key] = maskedDelegate
