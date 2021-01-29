@@ -1,6 +1,7 @@
 import React, { forwardRef, useEffect, useImperativeHandle, useRef, useState } from 'react'
 
 import { findNodeHandle, NativeModules, Platform, TextInput, TextInputProps } from 'react-native'
+
 const { RNTextInputMask } = NativeModules as { RNTextInputMask: MaskOperations }
 export const { mask, unmask, setMask } = RNTextInputMask
 
@@ -13,11 +14,13 @@ const TextInputMask = forwardRef<Handles, TextInputMaskProps>(({ maskDefaultValu
 
   useEffect(() => {
     if (maskDefaultValue && inputMask && defaultValue) {
-      mask(inputMask, defaultValue, (text) => setMaskedDefaultValue(text))
+      mask(inputMask, defaultValue, (text) => {
+        setMaskedDefaultValue(text)
+      })
     } else if (!inputMask) {
       setMaskedDefaultValue(defaultValue)
     }
-  }, [inputMask, defaultValue])
+  }, [])
 
   useEffect(() => {
     // don't update state value if value is same as current value reference
@@ -29,7 +32,7 @@ const TextInputMask = forwardRef<Handles, TextInputMaskProps>(({ maskDefaultValu
     } else if (!inputMask && value) {
       input.current?.setNativeProps({ text: value })
     }
-  }, [inputMask, value])
+  }, [value])
 
   useEffect(() => {
     const nodeId = findNodeHandle(input.current)
@@ -53,7 +56,7 @@ const TextInputMask = forwardRef<Handles, TextInputMaskProps>(({ maskDefaultValu
           defaultValue={maskedDefaultValue}
           ref={input}
           multiline={inputMask && Platform.OS === 'ios' ? false : multiline}
-          onChangeText={masked => {
+          onChangeText={(masked) => {
             currentMaskedValue.current = masked
             if (inputMask) {
               unmask(inputMask, masked, (unmasked) => {
