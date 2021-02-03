@@ -3,14 +3,16 @@ import InputMask
 
 @objc(RNTextInputMask)
 class TextInputMask: NSObject, RCTBridgeModule, MaskedTextFieldDelegateListener {
-    static func moduleName() -> String { return "TextInputMask" }
+    static func moduleName() -> String {
+        "TextInputMask"
+    }
     
     @objc static func requiresMainQueueSetup() -> Bool {
         true
     }
     
     var methodQueue: DispatchQueue {
-        return self.bridge.uiManager.methodQueue
+        bridge.uiManager.methodQueue
     }
     
     var bridge: RCTBridge!
@@ -30,12 +32,14 @@ class TextInputMask: NSObject, RCTBridgeModule, MaskedTextFieldDelegateListener 
     
     @objc(setMask:mask:autocomplete:autoskip:)
     func setMask(reactNode: NSNumber, mask: String, autocomplete: Bool, autoskip: Bool) {
-        self.bridge.uiManager.addUIBlock { (uiManager, viewRegistry) in
+        bridge.uiManager.addUIBlock { (uiManager, viewRegistry) in
             DispatchQueue.main.async {
                 guard let view = viewRegistry?[reactNode] as? RCTBaseTextInputView else { return }
                 let textView = view.backedTextInputView as! RCTUITextField
                 let maskedDelegate = MaskedTextFieldDelegate(primaryFormat: mask, autocomplete: autocomplete, autoskip: autoskip) { (view, value, complete) in
-                    textView.textInputDelegate?.textInputDidChange()
+                    if (complete) {
+                        textView.textInputDelegate?.textInputDidChange()
+                    }
                 }
                 maskedDelegate.listener = textView.delegate as? UITextFieldDelegate & MaskedTextFieldDelegateListener
                 let key = reactNode.stringValue
