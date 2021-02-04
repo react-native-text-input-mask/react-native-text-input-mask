@@ -254,7 +254,7 @@ DEPENDENCIES:
   - FBReactNativeSpec (from `../node_modules/react-native/Libraries/FBReactNativeSpec`)
   - Folly (from `../node_modules/react-native/third-party-podspecs/Folly.podspec`)
   - glog (from `../node_modules/react-native/third-party-podspecs/glog.podspec`)
-  - InputMask (~> 6.0.0)
+  - InputMask (from `https://github.com/getstep/input-mask-ios.git`, branch `master`)
   - RCTRequired (from `../node_modules/react-native/Libraries/RCTRequired`)
   - RCTTypeSafety (from `../node_modules/react-native/Libraries/TypeSafety`)
   - React (from `../node_modules/react-native/`)
@@ -282,7 +282,6 @@ DEPENDENCIES:
 SPEC REPOS:
   trunk:
     - boost-for-react-native
-    - InputMask
 
 EXTERNAL SOURCES:
   DoubleConversion:
@@ -295,6 +294,9 @@ EXTERNAL SOURCES:
     :podspec: "../node_modules/react-native/third-party-podspecs/Folly.podspec"
   glog:
     :podspec: "../node_modules/react-native/third-party-podspecs/glog.podspec"
+  InputMask:
+    :branch: master
+    :git: https://github.com/getstep/input-mask-ios.git
   RCTRequired:
     :path: "../node_modules/react-native/Libraries/RCTRequired"
   RCTTypeSafety:
@@ -338,6 +340,11 @@ EXTERNAL SOURCES:
   Yoga:
     :path: "../node_modules/react-native/ReactCommon/yoga"
 
+CHECKOUT OPTIONS:
+  InputMask:
+    :commit: 664c44054b2769f646e87a9c82c751bda7c2f2a9
+    :git: https://github.com/getstep/input-mask-ios.git
+
 SPEC CHECKSUMS:
   boost-for-react-native: 39c7adb57c4e60d6c5479dd8623128eb5b3f0f2c
   DoubleConversion: cde416483dac037923206447da6e1454df403714
@@ -368,6 +375,6 @@ SPEC CHECKSUMS:
   ReactCommon: 73d79c7039f473b76db6ff7c6b159c478acbbb3b
   Yoga: 4bd86afe9883422a7c4028c00e34790f560923d6
 
-PODFILE CHECKSUM: efad47133c0d5ee7d79f8005ba8f2c2d0f22c59a
+PODFILE CHECKSUM: ca8c955e9e2e56197bfd8654db17f4ec45f08293
 
 COCOAPODS: 1.10.1
