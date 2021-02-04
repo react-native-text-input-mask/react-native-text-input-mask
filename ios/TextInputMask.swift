@@ -36,10 +36,13 @@ class TextInputMask: NSObject, RCTBridgeModule, MaskedTextFieldDelegateListener 
             DispatchQueue.main.async {
                 guard let view = viewRegistry?[reactNode] as? RCTBaseTextInputView else { return }
                 let textView = view.backedTextInputView as! RCTUITextField
-                let maskedDelegate = MaskedTextFieldDelegate(primaryFormat: mask, autocomplete: autocomplete, autoskip: autoskip) { (view, value, complete) in
-                    if (complete) {
-                        textView.textInputDelegate?.textInputDidChange()
-                    }
+                let maskedDelegate = MaskedTextFieldDelegate(primaryFormat: mask, autocomplete: autocomplete, autoskip: autoskip) { (_, value, complete) in
+                    // trigger onChange directly to avoid trigger a second evaluation in native code (causes issue with some input masks like [00] {/} [00]
+                    view.onChange?([
+                        "text": RNMask.maskValue(text: value, format: mask),
+                        "target": view.reactTag,
+                        "eventCount": view.nativeEventCount,
+                    ])
                 }
                 maskedDelegate.listener = textView.delegate as? UITextFieldDelegate & MaskedTextFieldDelegateListener
                 let key = reactNode.stringValue
