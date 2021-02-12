@@ -8,34 +8,31 @@ import React, {
 } from 'react'
 
 import { findNodeHandle, NativeModules, Platform, TextInput, TextInputProps } from 'react-native'
+
 const { RNTextInputMask } = NativeModules as { RNTextInputMask: MaskOperations }
 export const { mask, unmask, setMask } = RNTextInputMask
 
-const TextInputMask = forwardRef<Handles, TextInputMaskProps>(({ maskDefaultValue = true, mask: inputMask, defaultValue, value, multiline, onChangeText, autocomplete= true, autoskip = true, ...rest }, ref) => {
+const TextInputMask = forwardRef<Handles, TextInputMaskProps>(({ mask: inputMask, defaultValue, value , multiline, onChangeText, autocomplete= true, autoskip = true, ...rest }, ref) => {
   const input = useRef<TextInput>(null)
-  const [maskedDefaultValue, setMaskedDefaultValue] = useState<string>()
-
-  // hold onto masked value while editing input to prevent useEffect trigger while editing
-  const currentMaskedValue = useRef<string>()
+  const [ maskedValue, setMaskedValue ] = useState<string>()
 
   useEffectAsync(async () => {
-    if (maskDefaultValue && inputMask && defaultValue) {
-      const text = await mask(inputMask, defaultValue)
-      setMaskedDefaultValue(text)
-    } else if (!inputMask) {
-      setMaskedDefaultValue(defaultValue)
+    if (!defaultValue) return
+    if (inputMask) {
+      const masked = await mask(inputMask, defaultValue, false)
+      setMaskedValue(masked)
+    } else {
+      setMaskedValue(defaultValue)
     }
   }, [])
 
   useEffectAsync(async () => {
-    // don't update state value if value is same as current value reference
-    if (value === currentMaskedValue.current) return
+    if (value === maskedValue) return
     if (inputMask && value) {
-      const text = await mask(inputMask, value)
-        input.current?.setNativeProps({ text })
-      input.current?.setNativeProps({ text })
-    } else if (!inputMask && value) {
-      input.current?.setNativeProps({ text: value })
+      const masked = await mask(inputMask, value, false)
+      setMaskedValue(masked)
+    } else {
+      setMaskedValue(value)
     }
   }, [value])
 
@@ -58,14 +55,13 @@ const TextInputMask = forwardRef<Handles, TextInputMaskProps>(({ maskDefaultValu
   return (
       <TextInput
           {...rest}
-          defaultValue={maskedDefaultValue}
           ref={input}
+          value={maskedValue}
           multiline={inputMask && Platform.OS === 'ios' ? false : multiline}
           onChangeText={async (masked) => {
-            currentMaskedValue.current = masked
+            setMaskedValue(masked)
             if (inputMask) {
-              const unmasked = await unmask(inputMask, masked)
-                onChangeText?.(masked, unmasked)
+              const unmasked = await unmask(inputMask, masked, true)
               onChangeText?.(masked, unmasked)
             } else {
               onChangeText?.(masked)
@@ -85,13 +81,12 @@ export const useEffectAsync = (
 }
 
 interface MaskOperations {
-  mask: (mask: string, value: string) => Promise<string>,
-  unmask: (mask: string, value: string) => Promise<string>
+  mask: (mask: string, value: string, autocomplete: boolean) => Promise<string>,
+  unmask: (mask: string, value: string, autocomplete: boolean) => Promise<string>
   setMask: (reactNode: number, mask: string, autocomplete: boolean, autoskip: boolean) => void
 }
 
 export interface TextInputMaskProps extends TextInputProps {
-  maskDefaultValue?: boolean
   mask?: string
   onChangeText?: (formatted: string, extracted?: string) => void
   /**
