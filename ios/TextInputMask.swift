@@ -18,15 +18,15 @@ class TextInputMask: NSObject, RCTBridgeModule, MaskedTextFieldDelegateListener 
     var bridge: RCTBridge!
     var masks: [String: MaskedTextFieldDelegate] = [:]
     
-    @objc(mask:inputValue:resolver:rejecter:)
-    func mask(mask: String, inputValue: String, resolve: RCTPromiseResolveBlock, reject: RCTPromiseRejectBlock) {
-        let output = RNMask.maskValue(text: inputValue, format: mask)
+    @objc(mask:inputValue:autocomplete:resolver:rejecter:)
+    func mask(mask: String, inputValue: String, autocomplete: Bool, resolve: RCTPromiseResolveBlock, reject: RCTPromiseRejectBlock) {
+        let output = RNMask.maskValue(text: inputValue, format: mask, autcomplete: autocomplete)
         resolve(output)
     }
     
-    @objc(unmask:inputValue:resolver:rejecter:)
-    func unmask(mask: String, inputValue: String, resolve: RCTPromiseResolveBlock, reject: RCTPromiseRejectBlock) {
-        let output = RNMask.unmaskValue(text: inputValue, format: mask)
+    @objc(unmask:inputValue:autocomplete:resolver:rejecter:)
+    func unmask(mask: String, inputValue: String, autocomplete: Bool, resolve: RCTPromiseResolveBlock, reject: RCTPromiseRejectBlock) {
+        let output = RNMask.unmaskValue(text: inputValue, format: mask, autocomplete: autocomplete)
         resolve(output)
     }
     
@@ -38,8 +38,9 @@ class TextInputMask: NSObject, RCTBridgeModule, MaskedTextFieldDelegateListener 
                 let textView = view.backedTextInputView as! RCTUITextField
                 let maskedDelegate = MaskedTextFieldDelegate(primaryFormat: mask, autocomplete: autocomplete, autoskip: autoskip) { (_, value, complete) in
                     // trigger onChange directly to avoid trigger a second evaluation in native code (causes issue with some input masks like [00] {/} [00]
+                    let textField = textView as! UITextField
                     view.onChange?([
-                        "text": RNMask.maskValue(text: value, format: mask),
+                        "text": textField.text,
                         "target": view.reactTag,
                         "eventCount": view.nativeEventCount,
                     ])
