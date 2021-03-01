@@ -26,58 +26,17 @@ yarn add react-native-text-input-mask
 # Installation
 
 <details>
-  <summary><b>For RN >= 0.61</b></summary>
+  <summary><b>For RN >= 0.60</b></summary>
 
 #### iOS
 
-1. Add following lines to your target in `Podfile`
+1. Add following lines to your target in `Podfile`. Linking is not required in React Native 0.60 and above.
 
 ```
 use_frameworks!
-pod 'RNInputMask', :path => '../node_modules/react-native-text-input-mask/ios/InputMask'
 ```
 
-2. Run following command
-
-```bash
-npx pod-install
-```
-
-#### Android
-
-No need to do anything.
-
-</details>
-
-<details>
-  <summary><b>For RN = 0.60.*</b></summary>
-
-#### iOS
-
-1. In XCode, in the project navigator, right click your `[your project's name]` folder, choose ➜ `Add Files to [your project's name]`
-
-![Create Swift File](https://i.imgur.com/00K5UZ1.png)
-
-2. Select `Swift File` ➜ `Next`
-
-![Create Swift File](https://i.imgur.com/Mdc9MLk.png)
-
-3. Specify name for example `Dummy.swift` ➜ `Create`
-
-![Create Swift File](https://i.imgur.com/2HSk7Jp.png)
-
-4. Now a pop up is shown select `Create Bridging Header`
-
-![Create Swift File](https://i.imgur.com/f2zA0n9.png)
-
-5. Add following line to your target in `Podfile`
-```
-pod 'RNInputMask', :path => '../node_modules/react-native-text-input-mask/ios/InputMask'
-```
-6. Run following command
-```bash
-cd ios && pod install
-```
+2. Run `pod install` in the `ios` directory.
 
 #### Android
 
@@ -87,7 +46,9 @@ No need to do anything.
 
 <details><summary><b>For RN < 0.60</b></summary>
 
-### Auto Linking
+### WARNING! This is no longer officially supported, these instructions are out of date and may no longer work, we recommend upgrading to a newer version of React Native.
+
+### Link
 ```bash
 react-native link react-native-text-input-mask
 ```
@@ -127,7 +88,6 @@ react-native link react-native-text-input-mask
 import TextInputMask from 'react-native-text-input-mask';
 ...
 <TextInputMask
-  refInput={ref => { this.input = ref }}
   onChangeText={(formatted, extracted) => {
     console.log(formatted) // +1 (123) 456-78-90
     console.log(extracted) // 1234567890
