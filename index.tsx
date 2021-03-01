@@ -10,6 +10,17 @@ import React, {
 import { findNodeHandle, NativeModules, Platform, TextInput, TextInputProps } from 'react-native'
 
 const { RNTextInputMask } = NativeModules as { RNTextInputMask: MaskOperations }
+
+if (!RNTextInputMask) {
+  throw new Error(`NativeModule: RNTextInputMask is null.
+To fix this issue try these steps:
+  • Rebuild and restart the app.
+  • Run the packager with \`--clearCache\` flag.
+  • If happening on iOS, run \`pod install\` in the \`ios\` directory and then rebuild and re-run the app.
+  • If this happens while testing with Jest, make sure to follow instructions in https://github.com/react-native-text-input-mask/react-native-text-input-mask#testing
+`);
+}
+
 export const { mask, unmask, setMask } = RNTextInputMask
 
 const TextInputMask = forwardRef<Handles, TextInputMaskProps>(({ mask: inputMask, defaultValue, value , multiline, onChangeText, autocomplete= true, autoskip = true, ...rest }, ref) => {
