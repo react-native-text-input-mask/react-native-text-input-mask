@@ -24,6 +24,29 @@ yarn add react-native-text-input-mask
 ```
 
 # Installation
+<details>
+  <summary><b>For RN >= 0.61</b></summary>
+
+#### iOS
+
+1. Add following lines to your target in `Podfile`.
+
+```
+use_frameworks!
+pod 'RNInputMask', :path => '../node_modules/react-native-text-input-mask/ios/InputMask'
+```
+
+2. Run following command
+
+```
+npx pod-install
+```
+
+#### Android
+
+No need to do anything.
+
+</details>
 
 <details>
   <summary><b>For RN >= 0.60</b></summary>
