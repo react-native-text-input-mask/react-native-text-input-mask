@@ -28,8 +28,7 @@
     "@types/react": "^16.9.50",
     "@types/react-native": "^0.63.45",
     "react-native": "^0.63.4",
-    "tslib": "^2.1.0",
-    "typescript": "^4.2.2"
+    "tslib": "^2.1.0"
   },
   "peerDependencies": {
     "react-native": ">=0.62.2"
@@ -38,5 +37,8 @@
   "bugs": {
     "url": "https://github.com/react-native-community/react-native-text-input-mask/issues"
   },
-  "homepage": "https://github.com/react-native-community/react-native-text-input-mask"
+  "homepage": "https://github.com/react-native-community/react-native-text-input-mask",
+  "dependencies": {
+    "typescript": "^4.2.2"
+  }
 }
