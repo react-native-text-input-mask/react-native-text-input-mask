@@ -3,7 +3,10 @@
   "version": "3.0.0",
   "description": "Text input mask for React Native.",
   "files": [
-    "dist"
+    "dist",
+    "android",
+    "ios",
+    "react-native-text-input-mask.podspec"
   ],
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
@@ -20,8 +23,7 @@
     "ios"
   ],
   "scripts": {
-    "prepublish": "npx tsc",
-    "postinstall": "npx tsc"
+    "prepublish": "npx tsc"
   },
   "devDependencies": {
     "@react-native-community/eslint-config": "0.0.2",
@@ -34,7 +36,7 @@
   "peerDependencies": {
     "react-native": ">=0.62.2"
   },
-  "author": "Ivan Zotov",
+  "author": "Martin Treurnicht",
   "bugs": {
     "url": "https://github.com/react-native-community/react-native-text-input-mask/issues"
   },
