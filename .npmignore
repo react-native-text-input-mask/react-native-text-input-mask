@@ -1,0 +1,45 @@
+
+# OSX
+#
+.DS_Store
+
+# node.js
+#
+node_modules/
+npm-debug.log
+yarn-error.log
+package
+yarn.lock
+
+# typescript
+tsconfig.tsbuildinfo
+*.js.map
+tsconfig.json
+
+# XCode
+build/
+Pods/
+*.xcodeproj
+*.xcworkspace
+Podfile
+Podfile.lock
+
+# Android/IntelliJ
+#
+build/
+.idea
+.gradle
+local.properties
+*.iml
+gradle/
+gradlew
+gradlew.bat
+
+# BUCK
+buck-out/
+\.buckd/
+*.keystore
+ios/Pods
+
+CHANGELOG.md
+README.md
