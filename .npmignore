@@ -19,7 +19,6 @@ tsconfig.json
 # XCode
 build/
 Pods/
-*.xcodeproj
 *.xcworkspace
 Podfile
 Podfile.lock
