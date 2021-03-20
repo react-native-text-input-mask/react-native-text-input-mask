@@ -11,8 +11,11 @@ import InputMask
 @objcMembers
 open class RNMask : NSObject {
     public static func maskValue(text: String, format: String, autcomplete: Bool) -> String {
-        let mask : Mask = try! Mask.getOrCreate(withFormat: format)
-
+//        let mask : Mask = try! Mask.getOrCreate(withFormat: format)
+        let mask : Mask = try! Mask.getOrCreate(withFormat: "[999] [9999999][*********]", customNotations: [
+            Notation(character: "*", characterSet: CharacterSet(charactersIn: "*"), isOptional: true)
+        ])
+        
         let result: Mask.Result = mask.apply(
             toText: CaretString(
                 string: text,
