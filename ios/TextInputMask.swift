@@ -6,30 +6,32 @@ class TextInputMask: NSObject, RCTBridgeModule, MaskedTextFieldDelegateListener 
     static func moduleName() -> String {
         "TextInputMask"
     }
-    
+
     @objc static func requiresMainQueueSetup() -> Bool {
         true
     }
-    
+
     var methodQueue: DispatchQueue {
         bridge.uiManager.methodQueue
     }
-    
+
     var bridge: RCTBridge!
     var masks: [String: MaskedTextFieldDelegate] = [:]
-    
+
+    var listeners: [String: MaskedTextFieldDelegateListener] = [:]
+
     @objc(mask:inputValue:autocomplete:resolver:rejecter:)
     func mask(mask: String, inputValue: String, autocomplete: Bool, resolve: RCTPromiseResolveBlock, reject: RCTPromiseRejectBlock) {
         let output = RNMask.maskValue(text: inputValue, format: mask, autcomplete: autocomplete)
         resolve(output)
     }
-    
+
     @objc(unmask:inputValue:autocomplete:resolver:rejecter:)
     func unmask(mask: String, inputValue: String, autocomplete: Bool, resolve: RCTPromiseResolveBlock, reject: RCTPromiseRejectBlock) {
         let output = RNMask.unmaskValue(text: inputValue, format: mask, autocomplete: autocomplete)
         resolve(output)
     }
-    
+
     @objc(setMask:mask:autocomplete:autoskip:)
     func setMask(reactNode: NSNumber, mask: String, autocomplete: Bool, autoskip: Bool) {
         bridge.uiManager.addUIBlock { (uiManager, viewRegistry) in
@@ -45,11 +47,15 @@ class TextInputMask: NSObject, RCTBridgeModule, MaskedTextFieldDelegateListener 
                         "eventCount": view.nativeEventCount,
                     ])
                 }
-                maskedDelegate.listener = textView.delegate as? UITextFieldDelegate & MaskedTextFieldDelegateListener
                 let key = reactNode.stringValue
+                self.listeners[key] = MaskedRCTBackedTextFieldDelegateAdapter(textField: textView)
+                maskedDelegate.listener = self.listeners[key]
                 self.masks[key] = maskedDelegate
+
                 textView.delegate = self.masks[key]
             }
         }
     }
 }
+
+class MaskedRCTBackedTextFieldDelegateAdapter : RCTBackedTextFieldDelegateAdapter, MaskedTextFieldDelegateListener {}

@@ -1,6 +1,7 @@
 package com.RNTextInputMask;
 
 import android.text.TextWatcher;
+import android.view.View;
 import android.widget.EditText;
 
 import com.facebook.react.bridge.Promise;
@@ -22,9 +23,6 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Collections;
 
 public class RNTextInputMaskModule extends ReactContextBaseJavaModule {
-
-    private static final int TEXT_CHANGE_LISTENER_TAG_KEY = 123456789;
-    
     ReactApplicationContext reactContext;
 
     public RNTextInputMaskModule(ReactApplicationContext reactContext) {
@@ -87,13 +85,7 @@ public class RNTextInputMaskModule extends ReactContextBaseJavaModule {
                 reactContext.runOnUiQueueThread(new Runnable() {
                     @Override
                     public void run() {
-                        if (editText.getTag(TEXT_CHANGE_LISTENER_TAG_KEY) != null) {
-                            editText.removeTextChangedListener((TextWatcher) editText.getTag(TEXT_CHANGE_LISTENER_TAG_KEY));
-                        }
-                        MaskedTextChangedListener listener = new OnlyChangeIfRequiredMaskedTextChangedListener(mask, autocomplete, autoskip, editText);
-                        editText.addTextChangedListener(listener);
-                        editText.setOnFocusChangeListener(listener);
-                        editText.setTag(TEXT_CHANGE_LISTENER_TAG_KEY, listener);
+                        OnlyChangeIfRequiredMaskedTextChangedListener.install(editText, mask, autocomplete, autoskip);
                     }
                 });
             }
@@ -105,9 +97,13 @@ public class RNTextInputMaskModule extends ReactContextBaseJavaModule {
  * Need to extend MaskedTextChangedListener to ignore re-masking previous text (causes weird input behavior in React Native)
  */
 class OnlyChangeIfRequiredMaskedTextChangedListener extends MaskedTextChangedListener {
+    private static final int TEXT_CHANGE_LISTENER_TAG_KEY = 123456789;
+
     private String previousText;
-    public OnlyChangeIfRequiredMaskedTextChangedListener(@NotNull String primaryFormat, boolean autocomplete, boolean autoskip, @NotNull EditText field) {
+    private View.OnFocusChangeListener focusChangeListener;
+    public OnlyChangeIfRequiredMaskedTextChangedListener(@NotNull String primaryFormat, boolean autocomplete, boolean autoskip, @NotNull EditText field, View.OnFocusChangeListener focusChangeListener) {
         super(primaryFormat, Collections.<String>emptyList(), Collections.<Notation>emptyList(), AffinityCalculationStrategy.WHOLE_STRING, autocomplete, autoskip, field, null, null, false);
+        this.focusChangeListener = focusChangeListener;
     }
 
     @Override
@@ -129,5 +125,21 @@ class OnlyChangeIfRequiredMaskedTextChangedListener extends MaskedTextChangedLis
             return;
         }
         super.onTextChanged(s, start, before, count);
+    }
+
+    @Override
+    public void onFocusChange(@Nullable View view, boolean hasFocus) {
+        super.onFocusChange(view, hasFocus);
+        this.focusChangeListener.onFocusChange(view, hasFocus);
+    }
+
+    public static void install(EditText editText, @NotNull String primaryFormat, boolean autocomplete, boolean autoskip) {
+        if (editText.getTag(TEXT_CHANGE_LISTENER_TAG_KEY) != null) {
+            editText.removeTextChangedListener((TextWatcher) editText.getTag(TEXT_CHANGE_LISTENER_TAG_KEY));
+        }
+        MaskedTextChangedListener listener = new OnlyChangeIfRequiredMaskedTextChangedListener(primaryFormat, autocomplete, autoskip, editText, editText.getOnFocusChangeListener());
+        editText.addTextChangedListener(listener);
+        editText.setOnFocusChangeListener(listener);
+        editText.setTag(TEXT_CHANGE_LISTENER_TAG_KEY, listener);
     }
 }
