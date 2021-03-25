@@ -31,7 +31,7 @@ DerivedData
 *.ipa
 *.xcuserstate
 project.xcworkspace
-
+.watchmanconfig
 
 # Android/IntelliJ
 #

@@ -118,3 +118,6 @@ jest.mock('react-native-text-input-mask', () => ({
 
 This project uses semantic versioning: MAJOR.MINOR.PATCH.
 This means that releases within the same MAJOR version are always backwards compatible. For more info see [semver.org](http://semver.org/).
+
+## Local Development and testing
+To use a local copy with your project, it's highly recommended to use https://github.com/wix/wml
