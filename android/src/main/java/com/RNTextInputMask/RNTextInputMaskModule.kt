@@ -128,9 +128,9 @@ internal class OnlyChangeIfRequiredMaskedTextChangedListener(
     field = field,
     rightToLeft = rightToLeft
 ) {
-    private var previousText: CharSequence? = null
+    private var previousText: String? = null
     override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-        previousText = s
+        previousText = s?.toString()
         super.beforeTextChanged(s, start, count, after)
     }
 
