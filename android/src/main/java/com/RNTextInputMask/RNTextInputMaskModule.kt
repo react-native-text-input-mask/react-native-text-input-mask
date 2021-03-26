@@ -13,6 +13,7 @@ import com.redmadrobot.inputmask.model.CaretString
 import com.redmadrobot.inputmask.model.CaretString.CaretGravity.*
 import com.redmadrobot.inputmask.model.Notation
 import java.lang.IllegalArgumentException
+import java.lang.NullPointerException
 
 class RNTextInputMaskModule(private val context: ReactApplicationContext) : ReactContextBaseJavaModule(context) {
     override fun getName() = "RNTextInputMask"
@@ -60,7 +61,7 @@ class RNTextInputMaskModule(private val context: ReactApplicationContext) : Reac
             val editText = nativeViewHierarchyManager.resolveView(tag) as EditText
             val affineFormats = options.stringList("affineFormats")
             val customNotations = options.list("customNotations") { array, index ->
-                val raw = array.getMap(index)
+                val raw = array.getMap(index) ?: throw IllegalArgumentException("could not parse notation")
                 Notation(
                     character = raw.string("character")?.first()
                         ?: throw IllegalArgumentException("character is required for notation"),
@@ -100,7 +101,7 @@ fun <T> ReadableMap.list(key: String, mapper: (array: ReadableArray, index: Int)
 
 fun ReadableMap.stringList(key: String): List<String>? {
     return this.list(key) { array, index ->
-        array.getString(index)
+        array.getString(index) ?: throw NullPointerException()
     }
 }
 
