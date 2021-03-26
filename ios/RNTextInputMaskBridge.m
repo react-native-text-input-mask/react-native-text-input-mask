@@ -16,7 +16,6 @@ RCT_EXTERN_METHOD(unmask:(NSString *)maskString
 
 RCT_EXTERN_METHOD(setMask:(nonnull NSNumber *)reactNode
                   mask:(NSString *)mask
-                  autocomplete:(BOOL *)autocomplete
-                  autoskip:(BOOL *)autoskip)
+                  options:(NSDictionary *)options)
 
 @end
