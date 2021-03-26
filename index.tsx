@@ -41,12 +41,13 @@ const TextInputMask = forwardRef<Handles, TextInputMaskProps>(({
   const [ maskedValue, setMaskedValue ] = useState<string>()
 
   useEffectAsync(async () => {
-    if (!defaultValue) return
+    const initialValue = value ?? defaultValue
+    if (!initialValue) return
     if (primaryFormat) {
-      const masked = await mask(primaryFormat, defaultValue, false)
+      const masked = await mask(primaryFormat, initialValue, false)
       setMaskedValue(masked)
     } else {
-      setMaskedValue(defaultValue)
+      setMaskedValue(initialValue)
     }
   }, [])
 
