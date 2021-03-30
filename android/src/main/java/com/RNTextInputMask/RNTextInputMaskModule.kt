@@ -135,15 +135,18 @@ internal class OnlyChangeIfRequiredMaskedTextChangedListener(
     }
 
     override fun onTextChanged(text: CharSequence, cursorPosition: Int, before: Int, count: Int) {
-        if (count == 0 && before == 0) {
-            return
-        }
         val newText = text.substring(cursorPosition, cursorPosition + count)
         val oldText = previousText?.substring(cursorPosition, cursorPosition + before)
-        if (count == before && newText == oldText) {
-            return
+        // temporarily disable autocomplete if updated text is same as previous text,
+        // this is to prevent autocomplete when deleting as value is set multiple times from RN
+        val disableAutoComplete = this.autocomplete && count == before && newText == oldText
+        if (disableAutoComplete) {
+            this.autocomplete = false
         }
         super.onTextChanged(text, cursorPosition, before, count)
+        if (disableAutoComplete) {
+            this.autocomplete = true
+        }
     }
 
     override fun onFocusChange(view: View?, hasFocus: Boolean) {
