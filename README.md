@@ -29,12 +29,23 @@ yarn add react-native-text-input-mask
   <summary><b>For RN >= 0.60</b></summary>
 
 #### iOS
+1. Configure pods (static or dynamic linking)
+<details>
+  <summary>Static Library ( Podfile has no use_frameworks! ) </summary>
+Add following lines to your target in `Podfile`. Linking is not required in React Native 0.60 and above.
 
-1. Add following lines to your target in `Podfile`. Linking is not required in React Native 0.60 and above.
+```ruby
+pod 'React-RCTText', :path => '../node_modules/react-native/Libraries/Text', :modular_headers => true
+```
+</details>
+<details>
+  <summary>Dynamic Framework ( Podfile has use_frameworks! ) </summary>
+Add following lines to your target in `Podfile` if it doesnt exist. Linking is not required in React Native 0.60 and above.
 
 ```
 use_frameworks!
 ```
+</details>
 
 2. Run `pod install` in the `ios` directory.
 
