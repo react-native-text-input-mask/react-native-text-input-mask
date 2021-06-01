@@ -68,7 +68,7 @@ class RNTextInputMaskModule(private val context: ReactApplicationContext) : Reac
         }
         val safeMaskString = maskString?.let { it } ?: return
         val notations = customNotations ?: listOf<Notation>()
-        val mask = Mask(maskString!!, notations)
+        val mask = Mask(safeMaskString, notations)
         val result = mask.apply(
             CaretString(
                 inputValue,
