@@ -74,6 +74,12 @@ const TextInputMask = forwardRef<Handles, TextInputMaskProps>(({
     },
     blur: () => {
       input.current?.blur()
+    },
+    clear: () => {
+      input.current?.clear()
+    },
+    isFocused: () => {
+      input.current?.isFocused()
     }
   }))
 
@@ -245,6 +251,8 @@ export interface TextInputMaskProps extends TextInputProps, MaskOptions{
 interface Handles {
   focus: () => void
   blur: () => void
+  clear: () => void
+  isFocused: () => boolean
 }
 
 export default TextInputMask
