@@ -18,7 +18,7 @@ Pod::Spec.new do |s|
     s.license          = package['license']
     s.author           = package['author']
     s.license          = { :type => 'MIT', :file => 'LICENSE' }
-    s.source           = { :git => 'https://github.com/react-native-community/react-native-text-input-mask.git', :tag => s.version.to_s }
+    s.source           = { :git => 'https://github.com/andrewgrinko/react-native-text-input-mask.git', :tag => s.version.to_s }
     s.platform      = :ios, "10.0"
     s.source_files  = "ios/**/*.{h,m,swift}"
     s.requires_arc  = true
