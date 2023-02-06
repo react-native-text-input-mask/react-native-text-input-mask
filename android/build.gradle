@@ -27,7 +27,11 @@ android {
 
 buildscript {
     ext {
-        kotlinVersion = '1.4.31'
+        kotlinVersion = '1.6.21'
+
+        safeExtGet = {prop, fallback ->
+            rootProject.ext.has(prop) ? rootProject.ext.get(prop) : fallback
+        }
     }
     repositories {
         jcenter()
@@ -36,7 +40,7 @@ buildscript {
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:4.1.3'
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:${project.ext.kotlinVersion}"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:${safeExtGet('kotlinVersion', project.ext.kotlinVersion)}"
     }
 }
 
@@ -53,5 +57,5 @@ repositories {
 dependencies {
     implementation 'com.facebook.react:react-native:+'
     implementation 'com.redmadrobot:input-mask-android:6.0.0'
-    implementation "org.jetbrains.kotlin:kotlin-stdlib:${project.ext.kotlinVersion}"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:${safeExtGet('kotlinVersion', project.ext.kotlinVersion)}"
 }
