@@ -30,7 +30,6 @@ buildscript {
         kotlinVersion = '1.6.10'
     }
     repositories {
-        jcenter()
         google()
         mavenCentral()
     }
@@ -41,7 +40,6 @@ buildscript {
 }
 
 repositories {
-    jcenter()
     google()
     mavenCentral()
     maven {
