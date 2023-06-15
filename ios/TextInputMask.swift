@@ -20,15 +20,15 @@ class TextInputMask: NSObject, RCTBridgeModule, MaskedTextFieldDelegateListener 
 
     var listeners: [String: MaskedTextFieldDelegateListener] = [:]
 
-    @objc(mask:inputValue:autocomplete:resolver:rejecter:)
-    func mask(mask: String, inputValue: String, autocomplete: Bool, resolve: RCTPromiseResolveBlock, reject: RCTPromiseRejectBlock) {
-        let output = RNMask.maskValue(text: inputValue, format: mask, autcomplete: autocomplete)
+    @objc(mask:inputValue:autocomplete:options:resolver:rejecter:)
+    func mask(mask: String, inputValue: String, autocomplete: Bool, options: NSDictionary, resolve: RCTPromiseResolveBlock, reject: RCTPromiseRejectBlock) {
+        let output = RNMask.maskValue(text: inputValue, format: mask, autcomplete: autocomplete, options: options)
         resolve(output)
     }
 
-    @objc(unmask:inputValue:autocomplete:resolver:rejecter:)
-    func unmask(mask: String, inputValue: String, autocomplete: Bool, resolve: RCTPromiseResolveBlock, reject: RCTPromiseRejectBlock) {
-        let output = RNMask.unmaskValue(text: inputValue, format: mask, autocomplete: autocomplete)
+    @objc(unmask:inputValue:autocomplete:options:resolver:rejecter:)
+    func unmask(mask: String, inputValue: String, autocomplete: Bool, options: NSDictionary, resolve: RCTPromiseResolveBlock, reject: RCTPromiseRejectBlock) {
+        let output = RNMask.unmaskValue(text: inputValue, format: mask, autocomplete: autocomplete, options:options)
         resolve(output)
     }
 

@@ -22,8 +22,22 @@ class RNTextInputMaskModule(private val context: ReactApplicationContext) : Reac
     fun mask(maskString: String?,
              inputValue: String,
              autocomplete: Boolean,
+             options: ReadableMap,
              promise: Promise) {
-        val mask = Mask(maskString!!)
+        val customNotations = options.list("customNotations") { array, index ->
+            val raw = array.getMap(index) ?: throw IllegalArgumentException("could not parse notation")
+            Notation(
+                character = raw.string("character")?.first()
+                    ?: throw IllegalArgumentException("character is required for notation"),
+                characterSet = raw.string("characterSet")
+                    ?: throw IllegalArgumentException("characterSet is required for notation"),
+                isOptional = raw.boolean("isOptional")
+                    ?: throw IllegalArgumentException("isOptional is required for notation")
+            )
+        }
+        val safeMaskString = maskString?.let { it } ?: return
+        val notations = customNotations ?: listOf<Notation>()
+        val mask = Mask(safeMaskString,notations)
         val result = mask.apply(
             CaretString(
                 inputValue,
@@ -39,8 +53,22 @@ class RNTextInputMaskModule(private val context: ReactApplicationContext) : Reac
     fun unmask(maskString: String?,
                inputValue: String,
                autocomplete: Boolean,
+               options: ReadableMap,
                promise: Promise) {
-        val mask = Mask(maskString!!)
+             val customNotations = options.list("customNotations") { array, index ->
+            val raw = array.getMap(index) ?: throw IllegalArgumentException("could not parse notation")
+            Notation(
+                character = raw.string("character")?.first()
+                    ?: throw IllegalArgumentException("character is required for notation"),
+                characterSet = raw.string("characterSet")
+                    ?: throw IllegalArgumentException("characterSet is required for notation"),
+                isOptional = raw.boolean("isOptional")
+                    ?: throw IllegalArgumentException("isOptional is required for notation")
+            )
+        }
+        val safeMaskString = maskString?.let { it } ?: return
+        val notations = customNotations ?: listOf<Notation>()
+        val mask = Mask(safeMaskString, notations)
         val result = mask.apply(
             CaretString(
                 inputValue,
