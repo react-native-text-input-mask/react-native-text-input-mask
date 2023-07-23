@@ -1,5 +1,5 @@
 {
-  "name": "react-native-text-input-mask",
+  "name": "@nrzky/react-native-text-input-mask",
   "version": "3.1.5",
   "description": "Text input mask for React Native.",
   "main": "dist/index.js",
