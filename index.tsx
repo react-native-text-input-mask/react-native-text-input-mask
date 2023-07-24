@@ -26,7 +26,7 @@ export const { mask, unmask, setMask } = RNTextInputMask
 const TextInputMask = forwardRef<Handles, TextInputMaskProps>(({
     mask: primaryFormat,
     defaultValue,
-    value ,
+    value,
     multiline,
     onChangeText,
     affineFormats,
