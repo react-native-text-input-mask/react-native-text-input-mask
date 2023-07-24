@@ -113,10 +113,9 @@ import TextInputMask from 'react-native-text-input-mask';
 ### Jest
 
 Make sure to [mock](https://jestjs.io/docs/en/manual-mocks#mocking-node-modules) the following to `jest.setup.js`:
+  
 ```javascript
-jest.mock('react-native-text-input-mask', () => ({
-    default: jest.fn(),
-}))
+jest.mock('react-native-text-input-mask', () => () => null)
 ```
 
 ## More info
