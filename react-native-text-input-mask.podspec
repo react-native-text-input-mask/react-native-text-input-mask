@@ -25,5 +25,5 @@ Pod::Spec.new do |s|
     s.swift_version = "5.0"
     s.dependency 'React-Core'
     s.dependency 'React-RCTText'
-    s.dependency 'InputMask', '~> 6.1.0'
+    s.dependency 'InputMask', '~> 6.0.0'
   end
