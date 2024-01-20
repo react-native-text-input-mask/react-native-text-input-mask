@@ -16,7 +16,7 @@ class TextInputMask: NSObject, RCTBridgeModule, MaskedTextFieldDelegateListener 
     }
 
     var bridge: RCTBridge!
-    var masks: [String: MaskedTextFieldDelegate] = [:]
+    var masks: [String: NotifyingMaskedTextFieldDelegate] = [:]
 
     var listeners: [String: MaskedTextFieldDelegateListener] = [:]
 
@@ -45,7 +45,7 @@ class TextInputMask: NSObject, RCTBridgeModule, MaskedTextFieldDelegateListener 
                 let rightToLeft = options["rightToLeft"] as? Bool ?? false
                 var affinityCalculationStrategy = AffinityCalculationStrategy.forString(rawValue: options["affinityCalculationStrategy"] as? String)
                 
-                let maskedDelegate = MaskedTextFieldDelegate(primaryFormat: mask, autocomplete: autocomplete, autoskip: autoskip, affineFormats: affineFormats, customNotations: customNotations) { (_, value, complete) in
+                let maskedDelegate = NotifyingMaskedTextFieldDelegate(primaryFormat: mask, autocomplete: autocomplete, autoskip: autoskip, affineFormats: affineFormats, customNotations: customNotations) { (_, value, complete) in
                     // trigger onChange directly to avoid trigger a second evaluation in native code (causes issue with some input masks like [00] {/} [00]
                     let textField = textView as! UITextField
                     view.onChange?([
@@ -66,6 +66,20 @@ class TextInputMask: NSObject, RCTBridgeModule, MaskedTextFieldDelegateListener 
 }
 
 class MaskedRCTBackedTextFieldDelegateAdapter : RCTBackedTextFieldDelegateAdapter, MaskedTextFieldDelegateListener {}
+
+class NotifyingMaskedTextFieldDelegate: MaskedTextFieldDelegate {
+    override func textField(
+        _ textField: UITextField,
+        shouldChangeCharactersIn range: NSRange,
+        replacementString string: String
+    ) -> Bool {
+        defer {
+            NotificationCenter.default.post(name: UITextField.textDidChangeNotification, object: textField)
+            textField.sendActions(for: .editingChanged)
+        }
+        return super.textField(textField, shouldChangeCharactersIn: range, replacementString: string)
+    }
+}
 
 extension Dictionary where Key == String, Value == Any {
     func toNotation() -> Notation {
