@@ -1,3 +1,5 @@
+# This repo is no longer being maintained, we recommend using [react native advanced input mask](https://github.com/IvanIhnatsiuk/react-native-advanced-input-mask) instead
+
 # react-native-text-input-mask
 Text input mask for React Native on iOS and Android.
 
