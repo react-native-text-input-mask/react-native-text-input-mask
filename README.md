@@ -1,6 +1,7 @@
 # This repo is no longer being maintained, we recommend using [react native advanced input mask](https://github.com/IvanIhnatsiuk/react-native-advanced-input-mask) instead
 
 # react-native-text-input-mask
+
 Text input mask for React Native on iOS and Android.
 
 <a href="https://www.npmjs.org/package/react-native-text-input-mask">
@@ -31,6 +32,7 @@ yarn add react-native-text-input-mask
   <summary><b>For RN >= 0.60</b></summary>
 
 #### iOS
+
 1. Configure pods (static or dynamic linking)
 <details>
   <summary>Static Library ( Podfile has no use_frameworks! ) </summary>
@@ -39,6 +41,7 @@ Add following lines to your target in `Podfile`. Linking is not required in Reac
 ```ruby
 pod 'React-RCTText', :path => '../node_modules/react-native/Libraries/Text', :modular_headers => true
 ```
+
 </details>
 <details>
   <summary>Dynamic Framework ( Podfile has use_frameworks! ) </summary>
@@ -47,6 +50,7 @@ Add following lines to your target in `Podfile` if it doesnt exist. Linking is n
 ```
 use_frameworks!
 ```
+
 </details>
 
 2. Run `pod install` in the `ios` directory.
@@ -62,6 +66,7 @@ No need to do anything.
 ### WARNING! This is no longer officially supported, these instructions are out of date and may no longer work, we recommend upgrading to a newer version of React Native.
 
 ### Link
+
 ```bash
 react-native link react-native-text-input-mask
 ```
@@ -82,22 +87,26 @@ react-native link react-native-text-input-mask
 #### Android
 
 1. Open up `android/app/src/main/java/[...]/MainActivity.java`
-  - Add `import com.RNTextInputMask.RNTextInputMaskPackage;` to the imports at the top of the file
-  - Add `new RNTextInputMaskPackage()` to the list returned by the `getPackages()` method
+
+- Add `import com.RNTextInputMask.RNTextInputMaskPackage;` to the imports at the top of the file
+- Add `new RNTextInputMaskPackage()` to the list returned by the `getPackages()` method
+
 2. Append the following lines to `android/settings.gradle`:
-  	```
-  	include ':react-native-text-input-mask'
-  	project(':react-native-text-input-mask').projectDir = new File(rootProject.projectDir, 	'../node_modules/react-native-text-input-mask/android')
-  	```
+   ```
+   include ':react-native-text-input-mask'
+   project(':react-native-text-input-mask').projectDir = new File(rootProject.projectDir, 	'../node_modules/react-native-text-input-mask/android')
+   ```
 3. Insert the following lines inside the dependencies block in `android/app/build.gradle`:
-  	```
+`
       compile project(':react-native-text-input-mask')
-  	```
+  	`
 </details>
 
 ## Usage
 
-```javascript
+You may use a custom component (default or named export), that wraps around `TextInput` from `react-native`
+
+```ts
 import TextInputMask from 'react-native-text-input-mask';
 ...
 <TextInputMask
@@ -110,15 +119,59 @@ import TextInputMask from 'react-native-text-input-mask';
 ...
 ```
 
+Or you may use a hook provided by the library and use with your implementation of a `TextInput`. The hook returns an object of shate `TextInputProps` expected by react-native's `TextInput`
+
+```ts
+import { useCallback } from 'react';
+import { TextInput } from 'react-native';
+import { useTextInputMask } from 'react-native-text-input-mask';
+
+...
+
+const inputRef = useRef<TextInput>(null);
+
+const [value, setValue] = useState('');
+
+const handleChangeText = useCallback((formatted:string, extracted?:string) => {
+    console.log(formatted) // +1 (123) 456-78-90
+    console.log(extracted) // 1234567890
+
+    setValue(extracted);
+  }, []);
+
+const maskedInputProps = useTextInputMask({
+    mask: "+1 ([000]) [000] [00] [00]",
+    value,
+    onChangeText: handleChangeText,
+    // below are optional props
+    defaultValue,
+    multiline,
+    affineFormats,
+    customNotations,
+    affinityCalculationStrategy,
+    autocomplete,
+    autoskip,
+    rightToLeft,
+    inputRef,
+    ...otherInputProps // spread to the return
+  });
+
+return <TextInput ref={inputRef} {...maskedInputProps} />;
+...
+```
+
+**NB: Make sure you use ref of a RN TextInput passed directly, not via `forwardRef`**
+
 ## Testing
 
 ### Jest
 
 Make sure to [mock](https://jestjs.io/docs/en/manual-mocks#mocking-node-modules) the following to `jest.setup.js`:
+
 ```javascript
-jest.mock('react-native-text-input-mask', () => ({
-    default: jest.fn(),
-}))
+jest.mock("react-native-text-input-mask", () => ({
+  default: jest.fn(),
+}));
 ```
 
 ## More info
@@ -133,4 +186,5 @@ This project uses semantic versioning: MAJOR.MINOR.PATCH.
 This means that releases within the same MAJOR version are always backwards compatible. For more info see [semver.org](http://semver.org/).
 
 ## Local Development and testing
+
 To use a local copy with your project, it's highly recommended to use https://github.com/wix/wml
